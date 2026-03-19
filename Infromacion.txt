@@ -1,1 +1,2 @@
-Dentro de este bloc de notas se establecerán los objetivos cumplidos conforme al proyecto del sistema clase DS
+Dentro de este bloc de notas se establecerán los objetivos cumplidos conforme al proyecto del sistema clase Desarrollo De Software
+
