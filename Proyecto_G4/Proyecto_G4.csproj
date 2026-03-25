@@ -70,6 +70,24 @@
     <Compile Include="Inventario.Designer.cs">
       <DependentUpon>Inventario.cs</DependentUpon>
     </Compile>
+    <Compile Include="NuevoCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NuevoCliente.Designer.cs">
+      <DependentUpon>NuevoCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NuevoProducto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NuevoProducto.Designer.cs">
+      <DependentUpon>NuevoProducto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NuevoProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NuevoProveedor.Designer.cs">
+      <DependentUpon>NuevoProveedor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Productos}.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +119,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Inventario.resx">
       <DependentUpon>Inventario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoCliente.resx">
+      <DependentUpon>NuevoCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoProducto.resx">
+      <DependentUpon>NuevoProducto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NuevoProveedor.resx">
+      <DependentUpon>NuevoProveedor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Productos}.resx">
       <DependentUpon>Productos}.cs</DependentUpon>
