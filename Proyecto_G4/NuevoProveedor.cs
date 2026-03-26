@@ -16,5 +16,10 @@ namespace Proyecto_G4
         {
             InitializeComponent();
         }
+
+        private void NuevoProveedor_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
