@@ -58,11 +58,17 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2.cs">
+    <Compile Include="RecuperarPass.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="RecuperarPass.Designer.cs">
+      <DependentUpon>RecuperarPass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ventas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas.Designer.cs">
+      <DependentUpon>Ventas.cs</DependentUpon>
     </Compile>
     <Compile Include="Inventario.cs">
       <SubType>Form</SubType>
@@ -114,8 +120,11 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="RecuperarPass.resx">
+      <DependentUpon>RecuperarPass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ventas.resx">
+      <DependentUpon>Ventas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventario.resx">
       <DependentUpon>Inventario.cs</DependentUpon>
@@ -140,6 +149,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Proveedores.resx">
       <DependentUpon>Proveedores.cs</DependentUpon>
@@ -159,6 +169,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\salvado.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancelar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
