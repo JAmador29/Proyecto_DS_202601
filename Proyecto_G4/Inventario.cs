@@ -16,5 +16,10 @@ namespace Proyecto_G4
         {
             InitializeComponent();
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

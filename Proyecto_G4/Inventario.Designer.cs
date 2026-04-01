@@ -38,7 +38,24 @@
             this.button3 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id_producto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stock_actual = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stock_min = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ultima_actulizacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id_usuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -50,7 +67,7 @@
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Font = new System.Drawing.Font("Modern No. 20", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(12, 58);
+            this.groupBox1.Location = new System.Drawing.Point(27, 53);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(1073, 101);
             this.groupBox1.TabIndex = 9;
@@ -166,12 +183,146 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "Sistema Lorubo Sublima";
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.button11);
+            this.groupBox2.Controls.Add(this.button10);
+            this.groupBox2.Controls.Add(this.dateTimePicker1);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(14, 230);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(1116, 74);
+            this.groupBox2.TabIndex = 25;
+            this.groupBox2.TabStop = false;
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(998, 20);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(96, 38);
+            this.button11.TabIndex = 11;
+            this.button11.Text = "Limpiar";
+            this.button11.UseVisualStyleBackColor = true;
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(884, 20);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(108, 38);
+            this.button10.TabIndex = 10;
+            this.button10.Text = "Buscar";
+            this.button10.UseVisualStyleBackColor = true;
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(533, 28);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 29);
+            this.dateTimePicker1.TabIndex = 9;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(469, 28);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(58, 22);
+            this.label7.TabIndex = 8;
+            this.label7.Text = "Fecha";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(139, 28);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(126, 29);
+            this.textBox1.TabIndex = 1;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(100, 30);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(33, 22);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "ID";
+            // 
+            // button7
+            // 
+            this.button7.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button7.Location = new System.Drawing.Point(24, 166);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(182, 42);
+            this.button7.TabIndex = 24;
+            this.button7.Text = "+ Nuevo Inventario";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.id,
+            this.id_producto,
+            this.stock_actual,
+            this.stock_min,
+            this.ultima_actulizacion,
+            this.id_usuario});
+            this.dataGridView1.Location = new System.Drawing.Point(11, 324);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(1119, 150);
+            this.dataGridView1.TabIndex = 23;
+            // 
+            // id
+            // 
+            this.id.HeaderText = "ID";
+            this.id.MinimumWidth = 6;
+            this.id.Name = "id";
+            // 
+            // id_producto
+            // 
+            this.id_producto.HeaderText = "ID_Producto";
+            this.id_producto.MinimumWidth = 6;
+            this.id_producto.Name = "id_producto";
+            // 
+            // stock_actual
+            // 
+            this.stock_actual.HeaderText = "Stock_actual";
+            this.stock_actual.MinimumWidth = 6;
+            this.stock_actual.Name = "stock_actual";
+            // 
+            // stock_min
+            // 
+            this.stock_min.HeaderText = "Stock_min\t";
+            this.stock_min.MinimumWidth = 6;
+            this.stock_min.Name = "stock_min";
+            // 
+            // ultima_actulizacion
+            // 
+            this.ultima_actulizacion.HeaderText = "Ultima_actulizacion";
+            this.ultima_actulizacion.MinimumWidth = 6;
+            this.ultima_actulizacion.Name = "ultima_actulizacion";
+            // 
+            // id_usuario
+            // 
+            this.id_usuario.HeaderText = "ID_usuario";
+            this.id_usuario.MinimumWidth = 6;
+            this.id_usuario.Name = "id_usuario";
+            // 
             // Inventario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkTurquoise;
-            this.ClientSize = new System.Drawing.Size(1098, 631);
+            this.ClientSize = new System.Drawing.Size(1140, 640);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.button7);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
@@ -179,6 +330,9 @@
             this.Name = "Inventario";
             this.Text = "Inventario";
             this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,5 +349,20 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id_producto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stock_actual;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stock_min;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ultima_actulizacion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id_usuario;
     }
 }
