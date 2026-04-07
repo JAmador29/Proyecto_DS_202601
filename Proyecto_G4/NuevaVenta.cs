@@ -16,10 +16,5 @@ namespace Proyecto_G4
         {
             InitializeComponent();
         }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
