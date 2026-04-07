@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
     public partial class Form1 : Form
     {
-        // Credenciales hardcodeadas (Considerar DB en el futuro)
-        public static string UsuarioValido = "admin";
-        public static string PasswordValido = "1234";
+        // Cadena de conexión a SQL Server (ajústala si usas autenticación SQL)
+        private const string connectionString = "Server=DESKTOP-RL8BNUQ\\SQLEXPRESS;Database=BD__LAROBU_SUMBLIMA;Integrated Security=True;";
 
         public Form1()
         {
@@ -16,39 +16,64 @@ namespace Proyecto_G4
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            string usuario = txtUser.Text.Trim();
+            string nombreUsuario = txtUser.Text.Trim();
             string password = txtpass.Text;
 
-            // Validación de campos vacíos
-            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(password))
+            // Validar campos vacíos
+            if (string.IsNullOrWhiteSpace(nombreUsuario) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Por favor ingresa usuario y contraseña.",
+                MessageBox.Show("Por favor ingresa el nombre de usuario y la contraseña.",
                                 "Campos vacíos",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
                 return;
             }
 
-            // Verificación de credenciales
-            if (usuario == UsuarioValido && password == PasswordValido)
+            // Verificar credenciales contra la base de datos
+            if (ValidarUsuario(nombreUsuario, password))
             {
-                // Asegúrate de que la clase Ventas exista en tu proyecto
-                Ventas form2 = new Ventas();
+                // Abrir el formulario principal (Ventas) pasando el usuario autenticado
+                Ventas form2 = new Ventas(nombreUsuario);
                 form2.Show();
-
                 this.Hide();
-
-                // Importante: Configura que al cerrar Ventas, se cierre toda la app
                 form2.FormClosed += (s, args) => Application.Exit();
             }
             else
             {
-                MessageBox.Show("Usuario o contraseña incorrectos.",
+                MessageBox.Show("Nombre de usuario o contraseña incorrectos.",
                                 "Error de acceso",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
                 txtpass.Clear();
                 txtpass.Focus();
+            }
+        }
+
+        private bool ValidarUsuario(string nombre, string contrasena)
+        {
+            // Consulta que busca coincidencia exacta en Nombre y Contrasena
+            string query = "SELECT COUNT(1) FROM Usuarios WHERE Nombre = @Nombre AND Contrasena = @Contrasena";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@Nombre", nombre);
+                cmd.Parameters.AddWithValue("@Contrasena", contrasena);
+
+                try
+                {
+                    conn.Open();
+                    int count = (int)cmd.ExecuteScalar();
+                    return count == 1;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al conectar con la base de datos: " + ex.Message,
+                                    "Error de conexión",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                    return false;
+                }
             }
         }
 
@@ -59,11 +84,9 @@ namespace Proyecto_G4
 
         private void linkUppPass_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // Aquí pones lo que quieres que pase
-            MessageBox.Show("Pantalla de recuperación de usuario/contraseña en proceso...");
-
-            RecuperarPass recuperarPass =new RecuperarPass();
-            recuperarPass.Show();
+            // Abre el formulario de recuperación de contraseña
+            RecuperarPass recuperar = new RecuperarPass();
+            recuperar.ShowDialog();
         }
     }
 }

@@ -32,22 +32,22 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnReportes = new System.Windows.Forms.Button();
+            this.btnVentas = new System.Windows.Forms.Button();
+            this.BtnProveedores = new System.Windows.Forms.Button();
+            this.btnInventario = new System.Windows.Forms.Button();
+            this.btnClientes = new System.Windows.Forms.Button();
+            this.btnProductos = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button11 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
+            this.btnLimpiar = new System.Windows.Forms.Button();
+            this.btnBuscar = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtNombre = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtxId = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.button7 = new System.Windows.Forms.Button();
+            this.btnNuevoCliente = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -83,12 +83,12 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button6);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.button5);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button4);
-            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.btnReportes);
+            this.groupBox1.Controls.Add(this.btnVentas);
+            this.groupBox1.Controls.Add(this.BtnProveedores);
+            this.groupBox1.Controls.Add(this.btnInventario);
+            this.groupBox1.Controls.Add(this.btnClientes);
+            this.groupBox1.Controls.Add(this.btnProductos);
             this.groupBox1.Font = new System.Drawing.Font("Modern No. 20", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 44);
             this.groupBox1.Name = "groupBox1";
@@ -96,105 +96,105 @@
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             // 
-            // button6
+            // btnReportes
             // 
-            this.button6.BackColor = System.Drawing.Color.Azure;
-            this.button6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button6.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.button6.FlatAppearance.BorderSize = 2;
-            this.button6.Image = ((System.Drawing.Image)(resources.GetObject("button6.Image")));
-            this.button6.Location = new System.Drawing.Point(909, 11);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(188, 84);
-            this.button6.TabIndex = 7;
-            this.button6.Text = "Reportes";
-            this.button6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button6.UseVisualStyleBackColor = false;
+            this.btnReportes.BackColor = System.Drawing.Color.Azure;
+            this.btnReportes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnReportes.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnReportes.FlatAppearance.BorderSize = 2;
+            this.btnReportes.Image = ((System.Drawing.Image)(resources.GetObject("btnReportes.Image")));
+            this.btnReportes.Location = new System.Drawing.Point(909, 11);
+            this.btnReportes.Name = "btnReportes";
+            this.btnReportes.Size = new System.Drawing.Size(188, 84);
+            this.btnReportes.TabIndex = 7;
+            this.btnReportes.Text = "Reportes";
+            this.btnReportes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnReportes.UseVisualStyleBackColor = false;
             // 
-            // button1
+            // btnVentas
             // 
-            this.button1.BackColor = System.Drawing.Color.Azure;
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.button1.FlatAppearance.BorderSize = 2;
-            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(26, 11);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(178, 84);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Ventas";
-            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnVentas.BackColor = System.Drawing.Color.Azure;
+            this.btnVentas.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnVentas.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnVentas.FlatAppearance.BorderSize = 2;
+            this.btnVentas.Image = ((System.Drawing.Image)(resources.GetObject("btnVentas.Image")));
+            this.btnVentas.Location = new System.Drawing.Point(26, 11);
+            this.btnVentas.Name = "btnVentas";
+            this.btnVentas.Size = new System.Drawing.Size(178, 84);
+            this.btnVentas.TabIndex = 2;
+            this.btnVentas.Text = "Ventas";
+            this.btnVentas.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnVentas.UseVisualStyleBackColor = false;
             // 
-            // button5
+            // BtnProveedores
             // 
-            this.button5.BackColor = System.Drawing.Color.Azure;
-            this.button5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button5.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.button5.FlatAppearance.BorderSize = 2;
-            this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
-            this.button5.Location = new System.Drawing.Point(733, 11);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(178, 84);
-            this.button5.TabIndex = 6;
-            this.button5.Text = "Proveedores";
-            this.button5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button5.UseVisualStyleBackColor = false;
+            this.BtnProveedores.BackColor = System.Drawing.Color.Azure;
+            this.BtnProveedores.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BtnProveedores.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.BtnProveedores.FlatAppearance.BorderSize = 2;
+            this.BtnProveedores.Image = ((System.Drawing.Image)(resources.GetObject("BtnProveedores.Image")));
+            this.BtnProveedores.Location = new System.Drawing.Point(733, 11);
+            this.BtnProveedores.Name = "BtnProveedores";
+            this.BtnProveedores.Size = new System.Drawing.Size(178, 84);
+            this.BtnProveedores.TabIndex = 6;
+            this.BtnProveedores.Text = "Proveedores";
+            this.BtnProveedores.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.BtnProveedores.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // btnInventario
             // 
-            this.button2.BackColor = System.Drawing.Color.Azure;
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.button2.FlatAppearance.BorderSize = 2;
-            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Location = new System.Drawing.Point(202, 11);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(173, 84);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Inventario";
-            this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button2.UseVisualStyleBackColor = false;
+            this.btnInventario.BackColor = System.Drawing.Color.Azure;
+            this.btnInventario.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnInventario.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnInventario.FlatAppearance.BorderSize = 2;
+            this.btnInventario.Image = ((System.Drawing.Image)(resources.GetObject("btnInventario.Image")));
+            this.btnInventario.Location = new System.Drawing.Point(202, 11);
+            this.btnInventario.Name = "btnInventario";
+            this.btnInventario.Size = new System.Drawing.Size(173, 84);
+            this.btnInventario.TabIndex = 3;
+            this.btnInventario.Text = "Inventario";
+            this.btnInventario.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnInventario.UseVisualStyleBackColor = false;
             // 
-            // button4
+            // btnClientes
             // 
-            this.button4.BackColor = System.Drawing.Color.Azure;
-            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button4.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.button4.FlatAppearance.BorderSize = 2;
-            this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
-            this.button4.Location = new System.Drawing.Point(551, 11);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(182, 84);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "Clientes";
-            this.button4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button4.UseVisualStyleBackColor = false;
+            this.btnClientes.BackColor = System.Drawing.Color.Azure;
+            this.btnClientes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClientes.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnClientes.FlatAppearance.BorderSize = 2;
+            this.btnClientes.Image = ((System.Drawing.Image)(resources.GetObject("btnClientes.Image")));
+            this.btnClientes.Location = new System.Drawing.Point(551, 11);
+            this.btnClientes.Name = "btnClientes";
+            this.btnClientes.Size = new System.Drawing.Size(182, 84);
+            this.btnClientes.TabIndex = 5;
+            this.btnClientes.Text = "Clientes";
+            this.btnClientes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnClientes.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btnProductos
             // 
-            this.button3.BackColor = System.Drawing.Color.Azure;
-            this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.button3.FlatAppearance.BorderSize = 2;
-            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
-            this.button3.Location = new System.Drawing.Point(372, 11);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(182, 84);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Productos";
-            this.button3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.button3.UseVisualStyleBackColor = false;
+            this.btnProductos.BackColor = System.Drawing.Color.Azure;
+            this.btnProductos.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnProductos.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnProductos.FlatAppearance.BorderSize = 2;
+            this.btnProductos.Image = ((System.Drawing.Image)(resources.GetObject("btnProductos.Image")));
+            this.btnProductos.Location = new System.Drawing.Point(372, 11);
+            this.btnProductos.Name = "btnProductos";
+            this.btnProductos.Size = new System.Drawing.Size(182, 84);
+            this.btnProductos.TabIndex = 4;
+            this.btnProductos.Text = "Productos";
+            this.btnProductos.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnProductos.UseVisualStyleBackColor = false;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button11);
-            this.groupBox2.Controls.Add(this.button10);
+            this.groupBox2.Controls.Add(this.btnLimpiar);
+            this.groupBox2.Controls.Add(this.btnBuscar);
             this.groupBox2.Controls.Add(this.dateTimePicker1);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.textBox2);
+            this.groupBox2.Controls.Add(this.txtNombre);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.txtxId);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(15, 230);
@@ -203,23 +203,24 @@
             this.groupBox2.TabIndex = 22;
             this.groupBox2.TabStop = false;
             // 
-            // button11
+            // btnLimpiar
             // 
-            this.button11.Location = new System.Drawing.Point(998, 25);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(96, 33);
-            this.button11.TabIndex = 11;
-            this.button11.Text = "Limpiar";
-            this.button11.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Location = new System.Drawing.Point(998, 25);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(96, 33);
+            this.btnLimpiar.TabIndex = 11;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
             // 
-            // button10
+            // btnBuscar
             // 
-            this.button10.Location = new System.Drawing.Point(895, 25);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(97, 33);
-            this.button10.TabIndex = 10;
-            this.button10.Text = "Buscar";
-            this.button10.UseVisualStyleBackColor = true;
+            this.btnBuscar.Location = new System.Drawing.Point(895, 25);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(97, 33);
+            this.btnBuscar.TabIndex = 10;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // dateTimePicker1
             // 
@@ -237,12 +238,12 @@
             this.label7.TabIndex = 8;
             this.label7.Text = "Fecha";
             // 
-            // textBox2
+            // txtNombre
             // 
-            this.textBox2.Location = new System.Drawing.Point(177, 25);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(263, 29);
-            this.textBox2.TabIndex = 3;
+            this.txtNombre.Location = new System.Drawing.Point(177, 25);
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(263, 29);
+            this.txtNombre.TabIndex = 3;
             // 
             // label4
             // 
@@ -253,12 +254,12 @@
             this.label4.TabIndex = 2;
             this.label4.Text = "Nombre";
             // 
-            // textBox1
+            // txtxId
             // 
-            this.textBox1.Location = new System.Drawing.Point(45, 26);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(53, 29);
-            this.textBox1.TabIndex = 1;
+            this.txtxId.Location = new System.Drawing.Point(45, 26);
+            this.txtxId.Name = "txtxId";
+            this.txtxId.Size = new System.Drawing.Size(53, 29);
+            this.txtxId.TabIndex = 1;
             // 
             // label3
             // 
@@ -269,15 +270,15 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "ID";
             // 
-            // button7
+            // btnNuevoCliente
             // 
-            this.button7.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.Location = new System.Drawing.Point(25, 166);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(182, 42);
-            this.button7.TabIndex = 21;
-            this.button7.Text = "+ Nuevo Cliente";
-            this.button7.UseVisualStyleBackColor = true;
+            this.btnNuevoCliente.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNuevoCliente.Location = new System.Drawing.Point(25, 166);
+            this.btnNuevoCliente.Name = "btnNuevoCliente";
+            this.btnNuevoCliente.Size = new System.Drawing.Size(182, 42);
+            this.btnNuevoCliente.TabIndex = 21;
+            this.btnNuevoCliente.Text = "+ Nuevo Cliente";
+            this.btnNuevoCliente.UseVisualStyleBackColor = true;
             // 
             // dataGridView1
             // 
@@ -348,7 +349,7 @@
             this.BackColor = System.Drawing.Color.DarkTurquoise;
             this.ClientSize = new System.Drawing.Size(1154, 702);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.button7);
+            this.Controls.Add(this.btnNuevoCliente);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -369,22 +370,22 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnReportes;
+        private System.Windows.Forms.Button btnVentas;
+        private System.Windows.Forms.Button BtnProveedores;
+        private System.Windows.Forms.Button btnInventario;
+        private System.Windows.Forms.Button btnClientes;
+        private System.Windows.Forms.Button btnProductos;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtxId;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button btnNuevoCliente;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn nombre;
