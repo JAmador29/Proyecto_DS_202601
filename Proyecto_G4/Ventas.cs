@@ -162,5 +162,10 @@ namespace Proyecto_G4
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void label4_Click(object sender, EventArgs e) { }
+
+        private void btnNewVenta_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

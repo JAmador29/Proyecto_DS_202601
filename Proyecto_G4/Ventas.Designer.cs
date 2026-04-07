@@ -283,6 +283,7 @@
             this.btnNewVenta.TabIndex = 21;
             this.btnNewVenta.Text = "+ Nueva Venta";
             this.btnNewVenta.UseVisualStyleBackColor = true;
+            this.btnNewVenta.Click += new System.EventHandler(this.btnNewVenta_Click);
             // 
             // dataGridView1
             // 
