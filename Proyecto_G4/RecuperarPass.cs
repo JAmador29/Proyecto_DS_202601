@@ -6,9 +6,6 @@ namespace Proyecto_G4
 {
     public partial class RecuperarPass : Form
     {
-        // Cadena de conexión a SQL Server (igual que en Form1)
-        private const string connectionString = "Server=DESKTOP-RL8BNUQ\\SQLEXPRESS;Database=BD__LAROBU_SUMBLIMA;Integrated Security=True;";
-
         public RecuperarPass()
         {
             InitializeComponent();
@@ -61,7 +58,7 @@ namespace Proyecto_G4
         private bool UsuarioExiste(string nombre)
         {
             string query = "SELECT COUNT(1) FROM Usuarios WHERE Nombre = @Nombre";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = Conexion.GetConnection())
             using (SqlCommand cmd = new SqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@Nombre", nombre);
@@ -85,7 +82,7 @@ namespace Proyecto_G4
         private bool ActualizarContrasena(string nombre, string nuevaContrasena)
         {
             string query = "UPDATE Usuarios SET Contrasena = @NuevaContrasena WHERE Nombre = @Nombre";
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = Conexion.GetConnection())
             using (SqlCommand cmd = new SqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@Nombre", nombre);
