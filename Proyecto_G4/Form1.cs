@@ -9,6 +9,7 @@ namespace Proyecto_G4
         public Form1()
         {
             InitializeComponent();
+            this.AcceptButton = btnIngresar;
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
@@ -18,53 +19,51 @@ namespace Proyecto_G4
 
             if (string.IsNullOrWhiteSpace(nombreUsuario) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Por favor ingresa el nombre de usuario y la contraseña.",
-                                "Campos vacíos",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor ingresa usuario y contraseña.", "Campos vacíos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (ValidarUsuario(nombreUsuario, password))
+            if (ValidarUsuario(nombreUsuario, password, out int idUsuario))
             {
-                MenuPrincipal menuPrincipal = new MenuPrincipal(); 
+                // Guardar datos del usuario en la sesión global
+                Sesion.IdUsuarioActual = idUsuario;
+                Sesion.NombreUsuario = nombreUsuario;
+
+                MenuPrincipal menuPrincipal = new MenuPrincipal();
                 menuPrincipal.Show();
                 this.Hide();
                 menuPrincipal.FormClosed += (s, args) => Application.Exit();
             }
             else
             {
-                MessageBox.Show("Nombre de usuario o contraseña incorrectos.",
-                                "Error de acceso",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                MessageBox.Show("Usuario o contraseña incorrectos.", "Error de acceso", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtpass.Clear();
                 txtpass.Focus();
             }
         }
 
-        private bool ValidarUsuario(string nombre, string contrasena)
+        private bool ValidarUsuario(string nombre, string contrasena, out int idUsuario)
         {
-            string query = "SELECT COUNT(1) FROM Usuarios WHERE Nombre = @Nombre AND Contrasena = @Contrasena";
+            idUsuario = -1;
+            string query = "SELECT ID_usuario FROM Usuarios WHERE Nombre = @Nombre AND Contrasena = @Contrasena";
 
             using (SqlConnection conn = Conexion.GetConnection())
             using (SqlCommand cmd = new SqlCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@Nombre", nombre);
                 cmd.Parameters.AddWithValue("@Contrasena", contrasena);
-
                 try
                 {
                     conn.Open();
-                    int count = (int)cmd.ExecuteScalar();
-                    return count == 1;
+                    object result = cmd.ExecuteScalar();
+                    if (result != null && int.TryParse(result.ToString(), out idUsuario))
+                        return true;
+                    else
+                        return false;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al conectar con la base de datos: " + ex.Message,
-                                    "Error de conexión",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                    MessageBox.Show("Error al conectar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }

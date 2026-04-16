@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MenuPrincipal));
-            this.btnVentas = new System.Windows.Forms.Button();
+            this.btnVenta = new System.Windows.Forms.Button();
             this.btnInv = new System.Windows.Forms.Button();
             this.btnProductos = new System.Windows.Forms.Button();
             this.btnClientes = new System.Windows.Forms.Button();
@@ -43,18 +43,18 @@
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnVentas
+            // btnVenta
             // 
-            this.btnVentas.BackColor = System.Drawing.Color.Azure;
-            this.btnVentas.Image = ((System.Drawing.Image)(resources.GetObject("btnVentas.Image")));
-            this.btnVentas.Location = new System.Drawing.Point(8, 14);
-            this.btnVentas.Margin = new System.Windows.Forms.Padding(4);
-            this.btnVentas.Name = "btnVentas";
-            this.btnVentas.Size = new System.Drawing.Size(293, 114);
-            this.btnVentas.TabIndex = 0;
-            this.btnVentas.Text = "Ventas";
-            this.btnVentas.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnVentas.UseVisualStyleBackColor = false;
+            this.btnVenta.BackColor = System.Drawing.Color.Azure;
+            this.btnVenta.Image = ((System.Drawing.Image)(resources.GetObject("btnVenta.Image")));
+            this.btnVenta.Location = new System.Drawing.Point(8, 14);
+            this.btnVenta.Margin = new System.Windows.Forms.Padding(4);
+            this.btnVenta.Name = "btnVenta";
+            this.btnVenta.Size = new System.Drawing.Size(293, 114);
+            this.btnVenta.TabIndex = 0;
+            this.btnVenta.Text = "Ventas";
+            this.btnVenta.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnVenta.UseVisualStyleBackColor = false;
             // 
             // btnInv
             // 
@@ -94,7 +94,6 @@
             this.btnClientes.Text = "Clientes";
             this.btnClientes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnClientes.UseVisualStyleBackColor = false;
-            this.btnClientes.Click += new System.EventHandler(this.ButtonClientes_Click);
             // 
             // btnProveedores
             // 
@@ -125,7 +124,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btnClientes);
-            this.groupBox1.Controls.Add(this.btnVentas);
+            this.groupBox1.Controls.Add(this.btnVenta);
             this.groupBox1.Controls.Add(this.btnReporte);
             this.groupBox1.Controls.Add(this.btnInv);
             this.groupBox1.Controls.Add(this.btnProveedores);
@@ -192,7 +191,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnVentas;
+        private System.Windows.Forms.Button btnVenta;
         private System.Windows.Forms.Button btnInv;
         private System.Windows.Forms.Button btnProductos;
         private System.Windows.Forms.Button btnClientes;

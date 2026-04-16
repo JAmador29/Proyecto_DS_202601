@@ -10,6 +10,8 @@ namespace Proyecto_G4
     {
         private const string connectionString = "Server=DESKTOP-RL8BNUQ\\SQLEXPRESS;Database=BD__LAROBU_SUMBLIMA;Integrated Security=True;";
 
+        public int IdUsuario { get; }
+
         // Constructor con parámetro opcional para recibir el usuario autenticado
         public Ventas(string usuario = "")
         {
@@ -27,7 +29,12 @@ namespace Proyecto_G4
             btnReporte.Click += btnReporte_Click;
 
             // Mostrar el usuario logueado en el lblUser (si se proporcionó)
-            lblUser.Text = "Usuario: " + usuario;
+            //lblUser.Text = "Usuario: " + usuario;
+        }
+
+        public Ventas(int idUsuario)
+        {
+            IdUsuario=idUsuario;
         }
 
         private void Ventas_Load(object sender, EventArgs e)
@@ -117,12 +124,12 @@ namespace Proyecto_G4
             CargarVentas();
         }
 
-        /*private void btnNewVenta_Click(object sender, EventArgs e)
+        private void btnNewVenta_Click(object sender, EventArgs e)
         {
             NuevaVenta nueva = new NuevaVenta();
             nueva.ShowDialog();
             CargarVentas(); // Refrescar
-        }*/
+        }
 
         // ================== Navegación ==================
         private void btnVenta_Click(object sender, EventArgs e)
@@ -163,9 +170,9 @@ namespace Proyecto_G4
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void label4_Click(object sender, EventArgs e) { }
 
-        private void btnNewVenta_Click(object sender, EventArgs e)
+        /*private void btnNewVenta_Click(object sender, EventArgs e)
         {
 
-        }
+        }*/
     }
 }

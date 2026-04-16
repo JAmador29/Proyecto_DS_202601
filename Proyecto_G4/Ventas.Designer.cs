@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ventas));
             this.label1 = new System.Windows.Forms.Label();
-            this.lblUser = new System.Windows.Forms.Label();
             this.btnVenta = new System.Windows.Forms.Button();
             this.btnInventario = new System.Windows.Forms.Button();
             this.btnProductos = new System.Windows.Forms.Button();
@@ -49,17 +48,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnNewVenta = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.num_factura = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.categoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id_usuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id_cliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.impuesto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.metodo_pago = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -74,16 +62,6 @@
             this.label1.Size = new System.Drawing.Size(207, 22);
             this.label1.TabIndex = 0;
             this.label1.Text = "Sistema Lorubo Sublima";
-            // 
-            // lblUser
-            // 
-            this.lblUser.AutoSize = true;
-            this.lblUser.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUser.Location = new System.Drawing.Point(863, 13);
-            this.lblUser.Name = "lblUser";
-            this.lblUser.Size = new System.Drawing.Size(78, 22);
-            this.lblUser.TabIndex = 1;
-            this.lblUser.Text = "Usuario:";
             // 
             // btnVenta
             // 
@@ -290,18 +268,6 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.id,
-            this.num_factura,
-            this.categoria,
-            this.id_usuario,
-            this.id_cliente,
-            this.fecha,
-            this.subtotal,
-            this.impuesto,
-            this.total,
-            this.metodo_pago,
-            this.estado});
             this.dataGridView1.Location = new System.Drawing.Point(12, 332);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
@@ -309,72 +275,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(1119, 150);
             this.dataGridView1.TabIndex = 20;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // id
-            // 
-            this.id.HeaderText = "ID";
-            this.id.MinimumWidth = 6;
-            this.id.Name = "id";
-            // 
-            // num_factura
-            // 
-            this.num_factura.HeaderText = "Num_factura";
-            this.num_factura.MinimumWidth = 6;
-            this.num_factura.Name = "num_factura";
-            // 
-            // categoria
-            // 
-            this.categoria.HeaderText = "Categoria";
-            this.categoria.MinimumWidth = 6;
-            this.categoria.Name = "categoria";
-            // 
-            // id_usuario
-            // 
-            this.id_usuario.HeaderText = "ID_Usuario";
-            this.id_usuario.MinimumWidth = 6;
-            this.id_usuario.Name = "id_usuario";
-            // 
-            // id_cliente
-            // 
-            this.id_cliente.HeaderText = "ID_Cliente\t";
-            this.id_cliente.MinimumWidth = 6;
-            this.id_cliente.Name = "id_cliente";
-            // 
-            // fecha
-            // 
-            this.fecha.HeaderText = "Fecha";
-            this.fecha.MinimumWidth = 6;
-            this.fecha.Name = "fecha";
-            // 
-            // subtotal
-            // 
-            this.subtotal.HeaderText = "Subtotal";
-            this.subtotal.MinimumWidth = 6;
-            this.subtotal.Name = "subtotal";
-            // 
-            // impuesto
-            // 
-            this.impuesto.HeaderText = "Impuesto";
-            this.impuesto.MinimumWidth = 6;
-            this.impuesto.Name = "impuesto";
-            // 
-            // total
-            // 
-            this.total.HeaderText = "Total";
-            this.total.MinimumWidth = 6;
-            this.total.Name = "total";
-            // 
-            // metodo_pago
-            // 
-            this.metodo_pago.HeaderText = "Metodo_Pago";
-            this.metodo_pago.MinimumWidth = 6;
-            this.metodo_pago.Name = "metodo_pago";
-            // 
-            // estado
-            // 
-            this.estado.HeaderText = "Estado";
-            this.estado.MinimumWidth = 6;
-            this.estado.Name = "estado";
             // 
             // Ventas
             // 
@@ -386,7 +286,6 @@
             this.Controls.Add(this.btnNewVenta);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.lblUser);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Ventas";
@@ -403,7 +302,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblUser;
         private System.Windows.Forms.Button btnVenta;
         private System.Windows.Forms.Button btnInventario;
         private System.Windows.Forms.Button btnProductos;
@@ -422,16 +320,5 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnNewVenta;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn num_factura;
-        private System.Windows.Forms.DataGridViewTextBoxColumn categoria;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id_usuario;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id_cliente;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fecha;
-        private System.Windows.Forms.DataGridViewTextBoxColumn subtotal;
-        private System.Windows.Forms.DataGridViewTextBoxColumn impuesto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn metodo_pago;
-        private System.Windows.Forms.DataGridViewTextBoxColumn estado;
     }
 }

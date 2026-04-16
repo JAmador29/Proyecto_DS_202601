@@ -7,19 +7,16 @@ namespace Proyecto_G4
 {
     public partial class NuevaVenta : Form
     {
-        private int idUsuarioLogueado;
         private DataTable detalleVenta;
         private decimal subtotal = 0, impuesto = 0, total = 0;
 
-        // Controles dinámicos
         private TextBox txtCodigoProducto;
         private TextBox txtCantidad;
         private Button btnGuardar;
 
-        public NuevaVenta(int idUsuario)
+        public NuevaVenta()
         {
             InitializeComponent();
-            idUsuarioLogueado = idUsuario;
             InicializarDetalle();
             CargarCombos();
             CrearControlesDinamicos();
@@ -37,13 +34,11 @@ namespace Proyecto_G4
             detalleVenta.Columns.Add("Total", typeof(decimal));
             dataGridView1.DataSource = detalleVenta;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            // Ocultar columna ID_Producto
             dataGridView1.Columns["ID_Producto"].Visible = false;
         }
 
         private void CargarCombos()
         {
-            // Cargar clientes
             using (SqlConnection conn = Conexion.GetConnection())
             {
                 string query = "SELECT ID_cliente, Nombre FROM Clientes ORDER BY Nombre";
@@ -55,7 +50,6 @@ namespace Proyecto_G4
                 comboBox1.DataSource = dt;
             }
 
-            // Métodos de pago (fijos)
             comboBox2.Items.Clear();
             comboBox2.Items.Add(new { Text = "Efectivo", Value = 1 });
             comboBox2.Items.Add(new { Text = "Tarjeta Débito/Crédito", Value = 2 });
@@ -64,7 +58,6 @@ namespace Proyecto_G4
             comboBox2.ValueMember = "Value";
             comboBox2.SelectedIndex = 0;
 
-            // Estados (fijos)
             comboBox3.Items.Clear();
             comboBox3.Items.Add(new { Text = "Pagado", Value = 1 });
             comboBox3.Items.Add(new { Text = "Pago Parcial", Value = 2 });
@@ -77,7 +70,6 @@ namespace Proyecto_G4
 
         private void CrearControlesDinamicos()
         {
-            // Label y TextBox para código de producto
             Label lblCodigo = new Label();
             lblCodigo.Text = "Código Producto:";
             lblCodigo.Location = new System.Drawing.Point(22, 280);
@@ -89,7 +81,6 @@ namespace Proyecto_G4
             txtCodigoProducto.Size = new System.Drawing.Size(120, 29);
             this.Controls.Add(txtCodigoProducto);
 
-            // Label y TextBox para cantidad
             Label lblCantidad = new Label();
             lblCantidad.Text = "Cantidad:";
             lblCantidad.Location = new System.Drawing.Point(22, 320);
@@ -102,7 +93,6 @@ namespace Proyecto_G4
             txtCantidad.Size = new System.Drawing.Size(120, 29);
             this.Controls.Add(txtCantidad);
 
-            // Botón Guardar (fuera del groupBox1)
             btnGuardar = new Button();
             btnGuardar.Text = "Guardar Venta";
             btnGuardar.BackColor = System.Drawing.Color.Azure;
@@ -111,7 +101,6 @@ namespace Proyecto_G4
             btnGuardar.Click += BtnGuardarVenta_Click;
             this.Controls.Add(btnGuardar);
 
-            // Asignar eventos a los botones existentes
             button1.Click += BtnAgregarProducto_Click;
             button2.Click += BtnEliminarProducto_Click;
             button3.Click += BtnLimpiar_Click;
@@ -141,44 +130,45 @@ namespace Proyecto_G4
             {
                 cmd.Parameters.AddWithValue("@id", idProducto);
                 conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.Read())
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    string nombre = reader["Nombre"].ToString();
-                    decimal precio = Convert.ToDecimal(reader["Precio_Venta"]);
-                    int stock = Convert.ToInt32(reader["Stock_actual"]);
-
-                    if (cantidad > stock)
+                    if (reader.Read())
                     {
-                        MessageBox.Show($"Stock insuficiente. Solo hay {stock} unidades.", "Sin stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
+                        string nombre = reader["Nombre"].ToString();
+                        decimal precio = Convert.ToDecimal(reader["Precio_Venta"]);
+                        int stock = Convert.ToInt32(reader["Stock_actual"]);
 
-                    // Verificar si ya existe en el detalle
-                    DataRow[] rows = detalleVenta.Select($"ID_Producto = {idProducto}");
-                    if (rows.Length > 0)
-                    {
-                        int nuevaCant = Convert.ToInt32(rows[0]["Cantidad"]) + cantidad;
-                        if (nuevaCant > stock)
+                        if (cantidad > stock)
                         {
-                            MessageBox.Show($"No se puede agregar más. Stock máximo: {stock}.", "Límite", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show($"Stock insuficiente. Solo hay {stock} unidades.", "Sin stock", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
-                        rows[0]["Cantidad"] = nuevaCant;
-                        rows[0]["Total"] = nuevaCant * precio;
+
+                        DataRow[] rows = detalleVenta.Select($"ID_Producto = {idProducto}");
+                        if (rows.Length > 0)
+                        {
+                            int nuevaCant = Convert.ToInt32(rows[0]["Cantidad"]) + cantidad;
+                            if (nuevaCant > stock)
+                            {
+                                MessageBox.Show($"No se puede agregar más. Stock máximo: {stock}.", "Límite", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
+                            rows[0]["Cantidad"] = nuevaCant;
+                            rows[0]["Total"] = nuevaCant * precio;
+                        }
+                        else
+                        {
+                            detalleVenta.Rows.Add(idProducto, nombre, cantidad, precio, 0, cantidad * precio);
+                        }
+                        CalcularTotales();
+                        txtCodigoProducto.Clear();
+                        txtCantidad.Text = "1";
+                        txtCodigoProducto.Focus();
                     }
                     else
                     {
-                        detalleVenta.Rows.Add(idProducto, nombre, cantidad, precio, 0, cantidad * precio);
+                        MessageBox.Show("Producto no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    CalcularTotales();
-                    txtCodigoProducto.Clear();
-                    txtCantidad.Text = "1";
-                    txtCodigoProducto.Focus();
-                }
-                else
-                {
-                    MessageBox.Show("Producto no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -198,9 +188,12 @@ namespace Proyecto_G4
 
         private void BtnEliminarProducto_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow != null)
+            if (dataGridView1.CurrentRow == null) return;
+
+            DataRowView drv = dataGridView1.CurrentRow.DataBoundItem as DataRowView;
+            if (drv != null)
             {
-                detalleVenta.Rows.Remove(dataGridView1.CurrentRow.DataBoundItem as DataRow);
+                detalleVenta.Rows.Remove(drv.Row);
                 CalcularTotales();
             }
         }
@@ -231,6 +224,14 @@ namespace Proyecto_G4
                 return;
             }
 
+            // Validar que el usuario esté autenticado (sesión activa)
+            if (Sesion.IdUsuarioActual <= 0)
+            {
+                MessageBox.Show("No se ha identificado al usuario. Por favor, cierre sesión y vuelva a iniciar.",
+                                "Error de sesión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             int idCliente = (int)comboBox1.SelectedValue;
             int metodoPago = (int)((dynamic)comboBox2.SelectedItem).Value;
             int estado = (int)((dynamic)comboBox3.SelectedItem).Value;
@@ -242,14 +243,14 @@ namespace Proyecto_G4
                 SqlTransaction trans = conn.BeginTransaction();
                 try
                 {
-                    // Insertar cabecera
+                    // INSERT incluyendo ID_Usuario
                     string sqlVenta = @"
-                        INSERT INTO Ventas (Num_factura, ID_Usuario, ID_Cliente, Fecha, Subtotal, Impuesto, Total, Metodo_pago, Estado)
-                        VALUES (@num, @idUser, @idCli, @fecha, @sub, @imp, @tot, @met, @est);
-                        SELECT SCOPE_IDENTITY();";
+                INSERT INTO Ventas (Num_factura, ID_Cliente, Fecha, Subtotal, Impuesto, Total, Metodo_pago, Estado, ID_Usuario)
+                VALUES (@num, @idCli, @fecha, @sub, @imp, @tot, @met, @est, @idUser);
+                SELECT SCOPE_IDENTITY();";
+
                     SqlCommand cmd = new SqlCommand(sqlVenta, conn, trans);
                     cmd.Parameters.AddWithValue("@num", numFactura);
-                    cmd.Parameters.AddWithValue("@idUser", idUsuarioLogueado);
                     cmd.Parameters.AddWithValue("@idCli", idCliente);
                     cmd.Parameters.AddWithValue("@fecha", fecha);
                     cmd.Parameters.AddWithValue("@sub", subtotal);
@@ -257,9 +258,10 @@ namespace Proyecto_G4
                     cmd.Parameters.AddWithValue("@tot", total);
                     cmd.Parameters.AddWithValue("@met", metodoPago);
                     cmd.Parameters.AddWithValue("@est", estado);
-                    int idVenta = Convert.ToInt32(cmd.ExecuteScalar());
+                    cmd.Parameters.AddWithValue("@idUser", Sesion.IdUsuarioActual);  // ← NUEVO
 
-                    // Insertar detalle y actualizar stock
+                    int nuevoIdVenta = Convert.ToInt32(cmd.ExecuteScalar());
+
                     foreach (DataRow row in detalleVenta.Rows)
                     {
                         int idProd = Convert.ToInt32(row["ID_Producto"]);
@@ -268,10 +270,10 @@ namespace Proyecto_G4
                         decimal totalDet = Convert.ToDecimal(row["Total"]);
 
                         string sqlDet = @"
-                            INSERT INTO Detalle_Venta (ID_Venta, ID_Producto, Cantidad, Precio_unitario, Total)
-                            VALUES (@idVen, @idProd, @cant, @prec, @tot)";
+                    INSERT INTO Detalle_Venta (ID_Venta, ID_Producto, Cantidad, Precio_unitario, Total)
+                    VALUES (@idVen, @idProd, @cant, @prec, @tot)";
                         SqlCommand cmdDet = new SqlCommand(sqlDet, conn, trans);
-                        cmdDet.Parameters.AddWithValue("@idVen", idVenta);
+                        cmdDet.Parameters.AddWithValue("@idVen", nuevoIdVenta);
                         cmdDet.Parameters.AddWithValue("@idProd", idProd);
                         cmdDet.Parameters.AddWithValue("@cant", cant);
                         cmdDet.Parameters.AddWithValue("@prec", precioUnit);
@@ -293,7 +295,7 @@ namespace Proyecto_G4
                 {
                     trans.Rollback();
                     if (ex.Number == 2627)
-                        MessageBox.Show("Número de factura ya existe. Use otro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Número de factura ya existe.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
                         MessageBox.Show("Error SQL: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -305,9 +307,6 @@ namespace Proyecto_G4
             }
         }
 
-        private void NuevaVenta_Load(object sender, EventArgs e)
-        {
-            // Ajustes adicionales si son necesarios
-        }
+        private void NuevaVenta_Load(object sender, EventArgs e) { }
     }
 }

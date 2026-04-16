@@ -14,7 +14,7 @@ namespace Proyecto_G4
             this.Load += async (s, e) => await CargarDetalleVentasAsync();
             button10.Click += async (s, e) => await BtnBuscar_Click(s, e);
             button11.Click += async (s, e) => await BtnLimpiar_Click(s, e);
-            button7.Click += BtnNuevoReporte_Click;
+            //button7.Click += BtnNuevoReporte_Click;
 
             button1.Click += BtnVentas_Click;
             button2.Click += BtnInventario_Click;
@@ -79,16 +79,16 @@ namespace Proyecto_G4
             await CargarDetalleVentasAsync();
         }
 
-        private void BtnNuevoReporte_Click(object sender, EventArgs e)
+        /*private void BtnNuevoReporte_Click(object sender, EventArgs e)
         {
             NuevoReporte nuevo = new NuevoReporte();
             nuevo.ShowDialog();
-        }
+        }*/
 
         // Navegación
         private void BtnVentas_Click(object sender, EventArgs e)
         {
-            NuevaVenta nv = new NuevaVenta();
+            Ventas nv = new Ventas();
             nv.Show();
             this.Hide();
         }

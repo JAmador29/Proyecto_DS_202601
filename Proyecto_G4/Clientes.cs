@@ -142,5 +142,10 @@ namespace Proyecto_G4
             reportes.Show();
             this.Hide();
         }
+
+        private void Clientes_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

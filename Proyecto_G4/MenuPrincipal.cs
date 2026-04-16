@@ -7,63 +7,60 @@ namespace Proyecto_G4
     {
         public MenuPrincipal()
         {
+            // ¡No borres esta línea! Es la que crea los botones físicamente
             InitializeComponent();
-            // Asignar eventos a los botones (si no están enlazados desde el diseñador)
-            btnVentas.Click += ButtonVentas_Click;
-            btnInv.Click += ButtonInventario_Click;
-            btnProductos.Click += ButtonProductos_Click;
-            btnProveedores.Click += ButtonProveedores_Click;
-            btnReporte.Click += ButtonReportes_Click;
-            button8.Click += ButtonSalir_Click;
-            // Opcional: button7 podría mostrar información del usuario
-            
+
+            // --- ENLACE DE EVENTOS MANUAL ---
+            // Los agregamos aquí para que el programa sepa qué hacer al dar clic
+            this.btnVenta.Click += new System.EventHandler(this.ButtonVentas_Click);
+            this.btnInv.Click += new System.EventHandler(this.ButtonInventario_Click);
+            this.btnProductos.Click += new System.EventHandler(this.ButtonProductos_Click);
+            this.btnClientes.Click += new System.EventHandler(this.ButtonClientes_Click);
+            this.btnProveedores.Click += new System.EventHandler(this.ButtonProveedores_Click);
+            this.btnReporte.Click += new System.EventHandler(this.ButtonReportes_Click);
+            this.button8.Click += new System.EventHandler(this.ButtonSalir_Click);
         }
+
+        // --- MÉTODOS DE ACCIÓN ---
 
         private void ButtonVentas_Click(object sender, EventArgs e)
         {
-            // Abrir formulario para crear una nueva venta
-            NuevaVenta nuevaVenta = new NuevaVenta();
-            nuevaVenta.ShowDialog(); // Modal
+            NuevaVenta frm = new NuevaVenta();
+            frm.ShowDialog();
         }
 
         private void ButtonInventario_Click(object sender, EventArgs e)
         {
-            // Abrir formulario de listado de inventario
             Inventario inventario = new Inventario();
             inventario.ShowDialog();
         }
 
         private void ButtonProductos_Click(object sender, EventArgs e)
         {
-            // Abrir formulario para crear un nuevo producto
             NuevoProducto nuevoProducto = new NuevoProducto();
             nuevoProducto.ShowDialog();
         }
 
         private void ButtonClientes_Click(object sender, EventArgs e)
         {
-            // Abrir formulario para crear un nuevo cliente
             NuevoCliente nuevoCliente = new NuevoCliente();
             nuevoCliente.ShowDialog();
         }
 
         private void ButtonProveedores_Click(object sender, EventArgs e)
         {
-            // Abrir formulario para crear un nuevo proveedor
             NuevoProveedor nuevoProveedor = new NuevoProveedor();
             nuevoProveedor.ShowDialog();
         }
 
         private void ButtonReportes_Click(object sender, EventArgs e)
         {
-            // Abrir formulario de reportes de ventas
             Reportes reportes = new Reportes();
             reportes.ShowDialog();
         }
 
         private void ButtonSalir_Click(object sender, EventArgs e)
         {
-            // Cerrar la aplicación
             Application.Exit();
         }
     }
