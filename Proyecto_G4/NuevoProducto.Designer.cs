@@ -195,6 +195,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "NuevoProducto";
             this.Text = "NuevoProducto";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
             this.PerformLayout();
 

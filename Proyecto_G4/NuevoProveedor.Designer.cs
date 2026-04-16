@@ -183,6 +183,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "NuevoProveedor";
             this.Text = "NuevoProveedor";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.NuevoProveedor_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

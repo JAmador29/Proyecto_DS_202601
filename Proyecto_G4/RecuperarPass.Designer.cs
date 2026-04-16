@@ -117,6 +117,7 @@
             this.Name = "RecuperarPass";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Seguridad";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -287,6 +287,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Clientes";
             this.Text = "Clientes";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Clientes_Load_1);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);

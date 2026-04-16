@@ -35,22 +35,15 @@ namespace Proyecto_G4
 
         private void BtnGuardar_Click(object sender, EventArgs e)
         {
-            // Validar campos obligatorios (ID, Nombre, RTN, Teléfono, Dirección, Email)
-            if (string.IsNullOrWhiteSpace(textBox1.Text) ||
-                string.IsNullOrWhiteSpace(textBox2.Text) ||
+            // Validar campos obligatorios (sin ID)
+            if (string.IsNullOrWhiteSpace(textBox2.Text) ||
                 string.IsNullOrWhiteSpace(textBox5.Text) ||
                 string.IsNullOrWhiteSpace(textBox9.Text) ||
                 string.IsNullOrWhiteSpace(textBox6.Text) ||
                 string.IsNullOrWhiteSpace(textBox12.Text))
             {
-                MessageBox.Show("Todos los campos son obligatorios.", "Datos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Validar que el ID sea numérico
-            if (!int.TryParse(textBox1.Text.Trim(), out int idCliente))
-            {
-                MessageBox.Show("El ID debe ser un número entero.", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Complete todos los campos: Nombre, RTN, Teléfono, Dirección y Correo.",
+                                "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -59,16 +52,13 @@ namespace Proyecto_G4
             string telefono = textBox9.Text.Trim();
             string direccion = textBox6.Text.Trim();
             string email = textBox12.Text.Trim();
-            DateTime fecha = dateTimePicker1.Value;
 
-            string query = @"
-                INSERT INTO Clientes (ID_cliente, Nombre, RTN_DNI, Telefono, Direccion, Correo)
-                VALUES (@id, @nombre, @rtn, @telefono, @direccion, @correo)";
+            string query = @"INSERT INTO Clientes (Nombre, RTN_DNI, Telefono, Direccion, Correo)
+                     VALUES (@nombre, @rtn, @telefono, @direccion, @correo)";
 
             using (SqlConnection conn = Conexion.GetConnection())
             using (SqlCommand cmd = new SqlCommand(query, conn))
             {
-                cmd.Parameters.AddWithValue("@id", idCliente);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
                 cmd.Parameters.AddWithValue("@rtn", rtn);
                 cmd.Parameters.AddWithValue("@telefono", telefono);
@@ -78,16 +68,23 @@ namespace Proyecto_G4
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Cliente guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
+                    int filas = cmd.ExecuteNonQuery();
+                    if (filas > 0)
+                    {
+                        MessageBox.Show("Cliente guardado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo guardar el cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 catch (SqlException ex)
                 {
-                    if (ex.Number == 2627) // Violación de PK
-                        MessageBox.Show("Ya existe un cliente con ese ID. Use otro ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    else
-                        MessageBox.Show("Error al guardar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    string mensaje = "Error de SQL:\n" + ex.Message;
+                    if (ex.Number == 2627)
+                        mensaje += "\nPosible duplicado (RTN o Correo ya existe).";
+                    MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {

@@ -263,6 +263,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "NuevaVenta";
             this.Text = "nuevaVentas";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);

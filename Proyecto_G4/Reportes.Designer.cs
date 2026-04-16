@@ -254,6 +254,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Reportes";
             this.Text = "Reportes";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();

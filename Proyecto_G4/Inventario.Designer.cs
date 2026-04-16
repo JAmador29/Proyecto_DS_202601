@@ -254,6 +254,7 @@
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Name = "Inventario";
             this.Text = "Inventario";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
