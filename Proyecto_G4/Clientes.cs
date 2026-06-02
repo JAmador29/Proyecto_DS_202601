@@ -77,9 +77,6 @@ namespace Proyecto_G4
                 where += $"Nombre LIKE '%{nombre.Replace("'", "''")}%'";
             }
 
-            // Nota: El campo fecha no existe en la tabla Clientes, por lo que no se filtra por fecha.
-            // Si deseas filtrar por fecha de creación, necesitarías agregar una columna FechaRegistro en la tabla.
-
             if (string.IsNullOrWhiteSpace(where))
                 CargarClientes();
             else
@@ -97,7 +94,7 @@ namespace Proyecto_G4
         {
             NuevoCliente nuevo = new NuevoCliente();
             nuevo.ShowDialog();
-            CargarClientes(); // Refrescar después de cerrar
+            CargarClientes(); 
         }
 
         // ================== Navegación ==================
@@ -117,7 +114,6 @@ namespace Proyecto_G4
 
         private void btnProductos_Click(object sender, EventArgs e)
         {
-            // Asegúrate de que la clase se llame "Productos" (si es "Productos}" cámbialo)
             Productos productos = new Productos();
             productos.Show();
             this.Hide();
@@ -125,7 +121,7 @@ namespace Proyecto_G4
 
         private void btnClientes_Click(object sender, EventArgs e)
         {
-            // Ya estás en Clientes, solo refresca la lista
+            // solo refresca la lista
             CargarClientes();
         }
 

@@ -37,7 +37,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.groupBox1.BackColor = System.Drawing.Color.DarkTurquoise;
             this.groupBox1.Controls.Add(this.linkUppPass);
             this.groupBox1.Controls.Add(this.txtpass);
@@ -55,6 +55,7 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Iniciar Sesión";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // linkUppPass
             // 
@@ -69,6 +70,7 @@
             // 
             // txtpass
             // 
+            this.txtpass.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtpass.Location = new System.Drawing.Point(113, 233);
             this.txtpass.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtpass.Name = "txtpass";
@@ -78,6 +80,7 @@
             // 
             // txtUser
             // 
+            this.txtUser.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtUser.Location = new System.Drawing.Point(113, 114);
             this.txtUser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtUser.Name = "txtUser";
@@ -86,6 +89,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(213, 188);
             this.label2.Name = "label2";
@@ -95,15 +99,18 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(227, 69);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 22);
             this.label1.TabIndex = 1;
             this.label1.Text = "Usuario";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // btnIngresar
             // 
+            this.btnIngresar.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnIngresar.BackColor = System.Drawing.Color.Azure;
             this.btnIngresar.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnIngresar.Location = new System.Drawing.Point(184, 304);

@@ -139,9 +139,8 @@
             this.label12.Location = new System.Drawing.Point(38, 644);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(60, 22);
+            this.label12.Size = new System.Drawing.Size(0, 22);
             this.label12.TabIndex = 23;
-            this.label12.Text = "Email";
             // 
             // label15
             // 
@@ -165,7 +164,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkTurquoise;
-            this.ClientSize = new System.Drawing.Size(816, 319);
+            this.ClientSize = new System.Drawing.Size(1216, 717);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label12);

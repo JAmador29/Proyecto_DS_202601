@@ -79,5 +79,15 @@ namespace Proyecto_G4
             RecuperarPass recuperar = new RecuperarPass();
             recuperar.ShowDialog();
         }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

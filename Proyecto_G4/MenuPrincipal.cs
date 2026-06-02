@@ -7,8 +7,8 @@ namespace Proyecto_G4
     {
         public MenuPrincipal()
         {
-            // ¡No borres esta línea! Es la que crea los botones físicamente
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
 
             // --- ENLACE DE EVENTOS MANUAL ---
             // Los agregamos aquí para que el programa sepa qué hacer al dar clic
