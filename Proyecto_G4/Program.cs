@@ -1,25 +1,21 @@
-﻿using System;
+﻿using Proyecto_G4;
+using System;
 using System.Windows.Forms;
 
-namespace Proyecto_G4
+namespace CapaPresentacion
 {
     static class Program
     {
+        /// <summary>
+        /// Punto de entrada principal para la aplicación.
+        /// </summary>
         [STAThread]
         static void Main()
         {
-            // Corrige el escalado DPI para que el diseño se vea igual en ejecución
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-PE");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            // Agrega esta línea para DPI alto (Windows 10/11)
-            if (Environment.OSVersion.Version.Major >= 6)
-                SetProcessDPIAware();
-
-            Application.Run(new Form1());
+            Application.Run(new Capa_Presentacion.Login());
         }
-
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern bool SetProcessDPIAware();
     }
 }

@@ -94,7 +94,7 @@ namespace Proyecto_G4
         {
             NuevoCliente nuevo = new NuevoCliente();
             nuevo.ShowDialog();
-            CargarClientes(); 
+            CargarClientes();
         }
 
         // ================== Navegación ==================

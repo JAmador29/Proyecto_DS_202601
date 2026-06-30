@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection.Emit;
 using System.Windows.Forms;
 
 namespace Proyecto_G4

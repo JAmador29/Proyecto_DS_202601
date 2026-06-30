@@ -100,9 +100,9 @@ namespace Proyecto_G4
         // ================== Navegación ==================
         private void BtnVentas_Click(object sender, EventArgs e)
         {
-           Ventas nv = new Ventas();
-           nv.Show();
-           this.Hide();
+            Ventas nv = new Ventas();
+            nv.Show();
+            this.Hide();
         }
 
         private void BtnInventario_Click(object sender, EventArgs e)
