@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
-    public partial class RecuperarPass : Form
+    /*public partial class RecuperarPass : Form
     {
         public RecuperarPass()
         {
@@ -108,5 +108,5 @@ namespace Proyecto_G4
         {
             this.Close();
         }
-    }
+    }*/
 }

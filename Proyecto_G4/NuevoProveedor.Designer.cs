@@ -1,6 +1,8 @@
-﻿namespace Proyecto_G4
+﻿using System.Windows.Forms;
+
+namespace Proyecto_G4
 {
-    partial class NuevoProveedor
+    partial class NuevoProveedor : Form
     {
         /// <summary>
         /// Required designer variable.
@@ -183,7 +185,7 @@
             this.Name = "NuevoProveedor";
             this.Text = "NuevoProveedor";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.NuevoProveedor_Load);
+            //this.Load += new System.EventHandler(this.NuevoProveedor_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

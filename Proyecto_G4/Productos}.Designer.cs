@@ -1,6 +1,8 @@
-﻿namespace Proyecto_G4
+﻿using System.Windows.Forms;
+
+namespace Proyecto_G4
 {
-    partial class Productos
+    partial class Productos : Form
     {
         /// <summary>
         /// Required designer variable.

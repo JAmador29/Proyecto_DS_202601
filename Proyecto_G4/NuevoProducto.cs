@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
-    public partial class NuevoProducto : Form
+    /*public partial class NuevoProducto : Form
     {
         private Button btnGuardar;
         private Button btnCancelar;
@@ -142,5 +142,5 @@ namespace Proyecto_G4
                 }
             }
         }
-    }
+    }*/
 }

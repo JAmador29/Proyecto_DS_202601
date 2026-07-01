@@ -1,8 +1,18 @@
 ﻿using System;
-using System.Data.SqlClient;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CapaPresentacion
+using Capa_Entidad;
+using Capa_Negocio;
+
+
+namespace Proyecto_G4
 {
     public partial class Login : Form
     {
@@ -12,66 +22,21 @@ namespace CapaPresentacion
             this.AcceptButton = btnIngresar;
         }
 
-        private void btnIngresar_Click(object sender, EventArgs e)
+        private void Login_Load(object sender, EventArgs e)
         {
-            string nombreUsuario = txtDocumento.Text.Trim();
-            string password = txtPassword.Text;
-
-            if (string.IsNullOrWhiteSpace(nombreUsuario) || string.IsNullOrWhiteSpace(password))
-            {
-                MessageBox.Show("Por favor ingresa usuario y contraseña.", "Campos vacíos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (ValidarUsuario(nombreUsuario, password, out int idUsuario))
-            {
-                /*// Guardar datos del usuario en la sesión global
-                Sesion.IdUsuarioActual = idUsuario;
-                Sesion.NombreUsuario = nombreUsuario;
-                */
-                Proyecto_G4.MenuPrincipal menuPrincipal = new Proyecto_G4.MenuPrincipal();
-                menuPrincipal.Show();
-                this.Hide();
-                menuPrincipal.FormClosed += (s, args) => Application.Exit();
-            }
-            else
-            {
-                MessageBox.Show("Usuario o contraseña incorrectos.", "Error de acceso", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtPassword.Clear();
-                txtPassword.Focus();
-            }
+            txtDocument.Focus();
+            CentrarGroupBox();
         }
 
-        private bool ValidarUsuario(string nombre, string contrasena, out int idUsuario)
+        private void Login_Resize(object sender, EventArgs e)
         {
-            idUsuario = -1;
-            string query = "SELECT ID_usuario FROM Usuarios WHERE Nombre = @Nombre AND Contrasena = @Contrasena";
-
-            using (SqlConnection conn = Conexion.GetConnection())
-            using (SqlCommand cmd = new SqlCommand(query, conn))
-            {
-                cmd.Parameters.AddWithValue("@Nombre", nombre);
-                cmd.Parameters.AddWithValue("@Contrasena", contrasena);
-                try
-                {
-                    conn.Open();
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && int.TryParse(result.ToString(), out idUsuario))
-                        return true;
-                    else
-                        return false;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al conectar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            }
+            CentrarGroupBox();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void CentrarGroupBox()
         {
-            txtDocumento.Focus();
+            groupBox1.Left = (this.ClientSize.Width - groupBox1.Width) / 2;
+            groupBox1.Top = (this.ClientSize.Height - groupBox1.Height) / 2;
         }
 
         /*private void linkUppPass_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -80,29 +45,48 @@ namespace CapaPresentacion
             recuperar.ShowDialog();
         }*/
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btncancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+                    
+        }
+
+        private void btnIngresar_Click(object sender, EventArgs e)
+        {
+            List<Usuario> listaUsuarios = new CN_Usuario().Listar();
+
+            Usuario ousuario = listaUsuarios
+                .Where(u => u.Documento == txtDocument.Text.Trim() && u.Clave == txtPassword.Text)
+                .FirstOrDefault();
+
+            if (ousuario != null)
+            {
+                MenuPrincipal menuprincipal = new MenuPrincipal();
+                menuprincipal.Show();
+                this.Hide();
+                menuprincipal.FormClosing += frm_closing;
+            }
+            else
+            {
+                MessageBox.Show("No se encontró el usuario", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                txtDocument.Clear();
+                txtPassword.Clear();
+            }
+        }
+
+        //Evento creado para que al cerrar el menu principal se muestre nuevamente el login    
+        private void frm_closing(object sender, FormClosingEventArgs e)
+        {
+            txtDocument.Clear();
+            txtPassword.Clear();
+            this.Show();
+        }
+        private void txtDocument_KeyPress(object sender, KeyPressEventArgs e)
+        {
         }
     }
 }

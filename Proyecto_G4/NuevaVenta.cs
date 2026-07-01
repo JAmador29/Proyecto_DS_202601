@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
-    public partial class NuevaVenta : Form
+    /*public partial class NuevaVenta : Form
     {
         private DataTable detalleVenta;
         private decimal subtotal = 0, impuesto = 0, total = 0;
@@ -224,7 +224,7 @@ namespace Proyecto_G4
                 return;
             }
 
-            // Validar que el usuario esté autenticado (sesión activa)
+            //// Validar que el usuario esté autenticado (sesión activa)
             if (Sesion.IdUsuarioActual <= 0)
             {
                 MessageBox.Show("No se ha identificado al usuario. Por favor, cierre sesión y vuelva a iniciar.",
@@ -258,7 +258,7 @@ namespace Proyecto_G4
                     cmd.Parameters.AddWithValue("@tot", total);
                     cmd.Parameters.AddWithValue("@met", metodoPago);
                     cmd.Parameters.AddWithValue("@est", estado);
-                    cmd.Parameters.AddWithValue("@idUser", Sesion.IdUsuarioActual);  // ← NUEVO
+                    //cmd.Parameters.AddWithValue("@idUser", Sesion.IdUsuarioActual);  // ← NUEVO
 
                     int nuevoIdVenta = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -308,5 +308,5 @@ namespace Proyecto_G4
         }
 
         private void NuevaVenta_Load(object sender, EventArgs e) { }
-    }
+    }*/
 }

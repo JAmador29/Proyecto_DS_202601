@@ -94,7 +94,6 @@
     <Compile Include="Clientes.Designer.cs">
       <DependentUpon>Clientes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Conexion.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,9 +106,7 @@
     <Compile Include="MenuPrincipal.Designer.cs">
       <DependentUpon>MenuPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="NuevaVenta.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="NuevaVenta.cs" />
     <Compile Include="NuevaVenta.Designer.cs">
       <DependentUpon>NuevaVenta.cs</DependentUpon>
     </Compile>
@@ -119,9 +116,7 @@
     <Compile Include="NuevoIventario.Designer.cs">
       <DependentUpon>NuevoIventario.cs</DependentUpon>
     </Compile>
-    <Compile Include="RecuperarPass.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="RecuperarPass.cs" />
     <Compile Include="RecuperarPass.Designer.cs">
       <DependentUpon>RecuperarPass.cs</DependentUpon>
     </Compile>
@@ -138,41 +133,29 @@
     <Compile Include="Inventario.Designer.cs">
       <DependentUpon>Inventario.cs</DependentUpon>
     </Compile>
-    <Compile Include="NuevoCliente.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="NuevoCliente.cs" />
     <Compile Include="NuevoCliente.Designer.cs">
       <DependentUpon>NuevoCliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="NuevoProducto.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="NuevoProducto.cs" />
     <Compile Include="NuevoProducto.Designer.cs">
       <DependentUpon>NuevoProducto.cs</DependentUpon>
     </Compile>
-    <Compile Include="NuevoProveedor.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="NuevoProveedor.cs" />
     <Compile Include="NuevoProveedor.Designer.cs">
       <DependentUpon>NuevoProveedor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Productos}.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Productos}.cs" />
     <Compile Include="Productos}.Designer.cs">
       <DependentUpon>Productos}.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proveedores.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Proveedores.cs" />
     <Compile Include="Proveedores.Designer.cs">
       <DependentUpon>Proveedores.cs</DependentUpon>
     </Compile>
-    <Compile Include="Reportes.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Reportes.cs" />
     <Compile Include="Reportes.Designer.cs">
       <DependentUpon>Reportes.cs</DependentUpon>
     </Compile>
@@ -260,6 +243,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Capa_Entidad\Capa_Entidad.csproj">
+      <Project>{445a975f-15fb-4c16-811e-f7ad8ee3e431}</Project>
+      <Name>Capa_Entidad</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Capa_Negocio\Capa_Negocio.csproj">
+      <Project>{ba4999b2-dd81-45cc-8504-3bc0b0c02d04}</Project>
+      <Name>Capa_Negocio</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

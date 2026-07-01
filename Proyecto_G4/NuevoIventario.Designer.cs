@@ -1,6 +1,8 @@
-﻿namespace Proyecto_G4
+﻿using System.Windows.Forms;
+
+namespace Proyecto_G4
 {
-    partial class NuevoInventario
+    partial class NuevoInventario :Form 
     {
         private System.ComponentModel.IContainer components = null;
         protected override void Dispose(bool disposing)
@@ -136,7 +138,7 @@
             this.btnGuardar.TabIndex = 12;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = false;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
+            //this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnCancelar
             // 
@@ -147,7 +149,7 @@
             this.btnCancelar.TabIndex = 13;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
-            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            ///this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // NuevoInventario
             // 

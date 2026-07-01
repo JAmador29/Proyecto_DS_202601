@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using FontAwesome.Sharp;
+using System.Drawing;
 
 namespace Proyecto_G4
 {

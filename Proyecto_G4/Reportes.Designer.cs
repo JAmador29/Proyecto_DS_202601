@@ -1,6 +1,8 @@
-﻿namespace Proyecto_G4
+﻿using System.Windows.Forms;
+
+namespace Proyecto_G4
 {
-    partial class Reportes
+    partial class Reportes :Form
     {
         /// <summary>
         /// Required designer variable.

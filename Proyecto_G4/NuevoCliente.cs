@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
-    public partial class NuevoCliente : Form
+    /*public partial class NuevoCliente : Form
     {
         public NuevoCliente()
         {
@@ -92,5 +92,5 @@ namespace Proyecto_G4
                 }
             }
         }
-    }
+    }*/
 }

@@ -6,7 +6,7 @@ namespace Proyecto_G4
 {
     public partial class NuevoInventario : Form
     {
-        public NuevoInventario()
+       /* public NuevoInventario()
         {
             InitializeComponent();
         }
@@ -79,6 +79,6 @@ namespace Proyecto_G4
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
+        }*/
     }
 }

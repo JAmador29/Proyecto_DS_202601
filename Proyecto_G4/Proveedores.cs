@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
-    public partial class Proveedores : Form
+    /*public partial class Proveedores : Form
     {
         public Proveedores()
         {
@@ -136,5 +136,5 @@ namespace Proyecto_G4
             rep.Show();
             this.Hide();
         }
-    }
+    }*/
 }

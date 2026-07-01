@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
-    public partial class Reportes : Form
+    /*public partial class Reportes : Form
     {
         public Reportes()
         {
@@ -83,7 +83,7 @@ namespace Proyecto_G4
         {
             NuevoReporte nuevo = new NuevoReporte();
             nuevo.ShowDialog();
-        }*/
+        }
 
         // Navegación
         private void BtnVentas_Click(object sender, EventArgs e)
@@ -126,5 +126,5 @@ namespace Proyecto_G4
             // Recargar
             _ = CargarDetalleVentasAsync();
         }
-    }
+    }*/
 }

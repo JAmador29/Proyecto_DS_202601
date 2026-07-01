@@ -8,7 +8,7 @@ namespace Proyecto_G4
 {
     public partial class Inventario : Form
     {
-        public Inventario()
+        /*public Inventario()
         {
             InitializeComponent();
             // Asignar eventos manualmente (para evitar errores del diseñador)
@@ -127,6 +127,6 @@ namespace Proyecto_G4
             Reportes rep = new Reportes();
             rep.Show();
             this.Hide();
-        }
+        }*/
     }
 }

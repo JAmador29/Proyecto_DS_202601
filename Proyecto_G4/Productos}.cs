@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
-    public partial class Productos : Form
+    /*public partial class Productos : Form
     {
         public Productos()
         {
@@ -138,5 +138,5 @@ namespace Proyecto_G4
             rep.Show();
             this.Hide();
         }
-    }
+    }*/
 }

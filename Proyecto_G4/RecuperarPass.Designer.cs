@@ -1,6 +1,8 @@
-﻿namespace Proyecto_G4
+﻿using System.Windows.Forms;
+
+namespace Proyecto_G4
 {
-    partial class RecuperarPass
+    partial class RecuperarPass : Form 
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -55,7 +57,7 @@
             this.btnEnviar.TabIndex = 2;
             this.btnEnviar.Text = "Enviar";
             this.btnEnviar.UseVisualStyleBackColor = false;
-            this.btnEnviar.Click += new System.EventHandler(this.btnEnviar_Click);
+           // this.btnEnviar.Click += new System.EventHandler(this.btnEnviar_Click);
             // 
             // btnCancelar
             // 
@@ -68,7 +70,7 @@
             this.btnCancelar.TabIndex = 3;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
-            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            //this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // label2
             // 
