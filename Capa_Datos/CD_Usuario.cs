@@ -36,19 +36,14 @@ namespace Capa_Datos
                                 Correo = dr["Correo"].ToString(),
                                 Clave = dr["Clave"].ToString(),
                                 Estado = Convert.ToBoolean(dr["Estado"]),
-
-                                // ¡NUEVO! Mapeo del objeto Rol relacionado (Ajustar según tus entidades)
                                 oRol = new Rol() { IdRol = Convert.ToInt32(dr["IdRol"]) }
                             });
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    // Devolvemos una lista vacía pero relanzamos el error para que puedas 
-                    // ver en la consola de depuración exactamente qué falló (ej. problemas de Azure)
                     lista = new List<Usuario>();
-                    throw ex;
                 }
             }
             return lista;

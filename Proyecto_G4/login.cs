@@ -26,6 +26,7 @@ namespace Proyecto_G4
         {
             txtDocument.Focus();
             CentrarGroupBox();
+
         }
 
         private void Login_Resize(object sender, EventArgs e)
@@ -57,24 +58,38 @@ namespace Proyecto_G4
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            List<Usuario> listaUsuarios = new CN_Usuario().Listar();
+            string documento = txtDocument.Text.Trim();
+            string clave = txtPassword.Text;
 
-            Usuario ousuario = listaUsuarios
-                .Where(u => u.Documento == txtDocument.Text.Trim() && u.Clave == txtPassword.Text)
+            // Validación de campos vacíos
+            if (string.IsNullOrWhiteSpace(documento) || string.IsNullOrWhiteSpace(clave))
+            {
+                MessageBox.Show("Por favor ingrese documento y contraseña.", "Campos vacíos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Buscamos el usuario SOLO por documento (la clave se verifica aparte con BCrypt)
+            Usuario ousuario = new CN_Usuario().Listar()
+                .Where(u => u.Documento.Trim() == documento)
                 .FirstOrDefault();
 
-            if (ousuario != null)
+            // Verificamos la clave usando BCrypt (compara el texto escrito contra el hash guardado)
+            bool claveCorrecta = ousuario != null && BCrypt.Net.BCrypt.Verify(clave, ousuario.Clave);
+
+            if (claveCorrecta)
             {
-                MenuPrincipal menuprincipal = new MenuPrincipal();
-                menuprincipal.Show();
+                MenuPrincipal form = new MenuPrincipal(ousuario);
+
+                form.Show();
                 this.Hide();
-                menuprincipal.FormClosing += frm_closing;
+
+                form.FormClosing += frm_closing;
             }
             else
             {
-                MessageBox.Show("No se encontró el usuario", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                txtDocument.Clear();
+                MessageBox.Show("Usuario o contraseña incorrectos.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txtPassword.Clear();
+                txtPassword.Focus();
             }
         }
 
@@ -87,6 +102,11 @@ namespace Proyecto_G4
         }
         private void txtDocument_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Permitir solo números y retroceso
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true; // Bloquea la entrada
+            }
         }
     }
 }
