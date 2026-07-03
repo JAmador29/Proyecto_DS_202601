@@ -21,6 +21,7 @@ namespace Capa_Datos
             using (SqlConnection oconexion = new SqlConnection(Conexion.cadena))
             {
 
+                
                 try
                 {
                     StringBuilder query = new StringBuilder();
