@@ -53,7 +53,7 @@ namespace Proyecto_G4
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
         {
-                    
+
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
@@ -69,7 +69,9 @@ namespace Proyecto_G4
             }
 
             // Buscamos el usuario SOLO por documento (la clave se verifica aparte con BCrypt)
-            Usuario ousuario = new CN_Usuario().Listar()
+            List<Usuario> listaUsuarios = new CN_Usuario().Listar();
+
+            Usuario ousuario = listaUsuarios
                 .Where(u => u.Documento.Trim() == documento)
                 .FirstOrDefault();
 

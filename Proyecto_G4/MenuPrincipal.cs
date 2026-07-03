@@ -29,9 +29,9 @@ namespace Proyecto_G4
         {
             if(menuActivo != null)
             {
-                menuActivo.BackColor = Color.White;
+                menuActivo.BackColor = Color.FromArgb(64,64,64);
             }
-            menu.BackColor = Color.Silver;
+            menu.BackColor = Color.FromArgb(45,45,45);
             menuActivo = menu;
 
             if(FormularioActivo != null)
@@ -66,8 +66,9 @@ namespace Proyecto_G4
 
             }
 
-            //lblUsuario.Text = usuarioActual.NombreCompleto;
+            lblUsuario.Text = usuarioActual.NombreCompleto;
         }
+        //MenuStrip con botones para aperturar formularios
         //Formulario de Usuarios
         private void menuusuario_Click(object sender, EventArgs e)
         {

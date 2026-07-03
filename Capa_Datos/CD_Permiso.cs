@@ -1,4 +1,6 @@
-﻿using Capa_Entidad;
+﻿using Capa_Datos;
+using Capa_Entidad;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,17 +9,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Capa_Datos
 {
     public class CD_Permiso
     {
+
         public List<Permiso> Listar(int idusuario)
         {
             List<Permiso> lista = new List<Permiso>();
 
             using (SqlConnection oconexion = new SqlConnection(Conexion.cadena))
             {
+
                 try
                 {
                     StringBuilder query = new StringBuilder();
@@ -41,9 +44,6 @@ namespace Capa_Datos
 
                             lista.Add(new Permiso()
                             {
-                                //OROl es un objeto de la clase Rol, y se está inicializando con un nuevo objeto Rol que tiene su
-                                //propiedad IdRol establecida a partir del valor obtenido del DataReader (dr["IdRol"]).
-                                //Esto permite asociar el permiso con un rol específico.
                                 oROl = new Rol() { IdRol = Convert.ToInt32(dr["IdRol"]) },
                                 NombreMenu = dr["NombreMenu"].ToString(),
                             });
@@ -51,14 +51,18 @@ namespace Capa_Datos
                         }
 
                     }
+
+
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
                     lista = new List<Permiso>();
                 }
             }
+
             return lista;
+
         }
 
     }

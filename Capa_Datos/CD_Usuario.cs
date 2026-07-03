@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 using Capa_Entidad;
+
 
 namespace Capa_Datos
 {
@@ -41,8 +43,9 @@ namespace Capa_Datos
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    MessageBox.Show("ERROR REAL: " + ex.Message);
                     lista = new List<Usuario>();
                 }
             }
