@@ -111,7 +111,7 @@ namespace Proyecto_G4
             this.subMenuCategory.IconColor = System.Drawing.Color.Black;
             this.subMenuCategory.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.subMenuCategory.Name = "subMenuCategory";
-            this.subMenuCategory.Size = new System.Drawing.Size(158, 26);
+            this.subMenuCategory.Size = new System.Drawing.Size(184, 26);
             this.subMenuCategory.Text = "Categoria";
             this.subMenuCategory.Click += new System.EventHandler(this.subMenuCategory_Click);
             // 
@@ -121,7 +121,7 @@ namespace Proyecto_G4
             this.SubMenuProducts.IconColor = System.Drawing.Color.Black;
             this.SubMenuProducts.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuProducts.Name = "SubMenuProducts";
-            this.SubMenuProducts.Size = new System.Drawing.Size(158, 26);
+            this.SubMenuProducts.Size = new System.Drawing.Size(184, 26);
             this.SubMenuProducts.Text = "Productos";
             this.SubMenuProducts.Click += new System.EventHandler(this.SubMenuProducts_Click);
             // 
@@ -148,7 +148,7 @@ namespace Proyecto_G4
             this.SubMenuRegistrar.IconColor = System.Drawing.Color.Black;
             this.SubMenuRegistrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuRegistrar.Name = "SubMenuRegistrar";
-            this.SubMenuRegistrar.Size = new System.Drawing.Size(181, 26);
+            this.SubMenuRegistrar.Size = new System.Drawing.Size(184, 26);
             this.SubMenuRegistrar.Text = "Registrar";
             this.SubMenuRegistrar.Click += new System.EventHandler(this.SubMenuRegistrar_Click);
             // 
@@ -158,7 +158,7 @@ namespace Proyecto_G4
             this.SubMenuDV.IconColor = System.Drawing.Color.Black;
             this.SubMenuDV.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuDV.Name = "SubMenuDV";
-            this.SubMenuDV.Size = new System.Drawing.Size(181, 26);
+            this.SubMenuDV.Size = new System.Drawing.Size(184, 26);
             this.SubMenuDV.Text = "Detalle Venta";
             this.SubMenuDV.Click += new System.EventHandler(this.SubMenuDV_Click);
             // 
@@ -185,7 +185,7 @@ namespace Proyecto_G4
             this.SubmenuRegistrarC.IconColor = System.Drawing.Color.Black;
             this.SubmenuRegistrarC.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubmenuRegistrarC.Name = "SubmenuRegistrarC";
-            this.SubmenuRegistrarC.Size = new System.Drawing.Size(197, 26);
+            this.SubmenuRegistrarC.Size = new System.Drawing.Size(184, 26);
             this.SubmenuRegistrarC.Text = "Registar ";
             this.SubmenuRegistrarC.Click += new System.EventHandler(this.SubmenuRegistrarC_Click);
             // 
@@ -195,7 +195,7 @@ namespace Proyecto_G4
             this.SubMenuDC.IconColor = System.Drawing.Color.Black;
             this.SubMenuDC.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuDC.Name = "SubMenuDC";
-            this.SubMenuDC.Size = new System.Drawing.Size(197, 26);
+            this.SubMenuDC.Size = new System.Drawing.Size(184, 26);
             this.SubMenuDC.Text = "Detalle Compra";
             this.SubMenuDC.Click += new System.EventHandler(this.SubMenuDC_Click);
             // 
@@ -278,7 +278,7 @@ namespace Proyecto_G4
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(12, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(312, 48);
+            this.label1.Size = new System.Drawing.Size(248, 38);
             this.label1.TabIndex = 2;
             this.label1.Text = "Loboru Sublima";
             // 
@@ -299,7 +299,7 @@ namespace Proyecto_G4
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(949, 39);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 22);
+            this.label2.Size = new System.Drawing.Size(62, 18);
             this.label2.TabIndex = 4;
             this.label2.Text = "Usuario:";
             // 
@@ -310,13 +310,13 @@ namespace Proyecto_G4
             this.lblUsuario.ForeColor = System.Drawing.Color.White;
             this.lblUsuario.Location = new System.Drawing.Point(1027, 39);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(94, 22);
+            this.lblUsuario.Size = new System.Drawing.Size(76, 18);
             this.lblUsuario.TabIndex = 5;
             this.lblUsuario.Text = "lblUsuario";
             // 
             // MenuPrincipal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1158, 644);
