@@ -74,15 +74,40 @@ namespace Proyecto_G4
 
         private void btnguardar_Click(object sender, EventArgs e)
         {
-           /* dgvdata.Rows.Add(new object[] {"",Text,txtdocumento.Text,txtnombrecompleto.Text,txtcorreo.Text,txtclave.Text,
-               ((OpcionCombo)cmbrol.SelectedItem).Valor.ToString(),
-               ((OpcionCombo)cmbrol.SelectedItem).Texto.ToString(),
-               ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString(),
-               ((OpcionCombo)cmbestado.SelectedItem).Texto.ToString(),
+            string mensaje = string.Empty;
 
-            });
+            Usuario objusuario = new Usuario()
+            {
+                IdUsuario = Convert.ToInt32(txtid.Text),
+                Documento = txtdocumento.Text,
+                NombreCompleto = txtnombrecompleto.Text,
+                Correo = txtcorreo.Text,
+                Clave = txtclave.Text,
+                oRol = new Rol() { IdRol = Convert.ToInt32(((OpcionCombo)cmbrol.SelectedItem).Valor) },
+                Estado = Convert.ToInt32(((OpcionCombo)cmbestado.SelectedItem).Valor) == 1 ? true : false
+            };
 
-            Limpiar();*/
+            int idusuariogenerado = new CN_Usuario().Registrar(objusuario, out mensaje);
+
+            if(idusuariogenerado != 0)
+            {
+
+                dgvdata.Rows.Add(new object[] {"",idusuariogenerado,txtdocumento.Text,txtnombrecompleto.Text,txtcorreo.Text,txtclave.Text,
+                   ((OpcionCombo)cmbrol.SelectedItem).Valor.ToString(),
+                   ((OpcionCombo)cmbrol.SelectedItem).Texto.ToString(),
+                   ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString(),
+                   ((OpcionCombo)cmbestado.SelectedItem).Texto.ToString(),
+
+                });
+
+                Limpiar();
+            }
+            else
+            {
+                MessageBox.Show(mensaje);
+            }
+
+           
 
         }
 
