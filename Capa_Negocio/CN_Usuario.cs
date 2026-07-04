@@ -43,10 +43,11 @@ namespace Capa_Negocio
             }
             else
             {
+                // Hasheamos la clave en texto plano ANTES de enviarla a la capa de datos
+                obj.Clave = BCrypt.Net.BCrypt.HashPassword(obj.Clave);
+
                 return objCd_usuario.Registrar(obj, out Mensaje);
             }
-
-           
         }
 
         public bool Editar(Usuario obj, out string Mensaje)
@@ -74,9 +75,19 @@ namespace Capa_Negocio
             }
             else
             {
+                // Solo re-hashear si la clave no es ya un hash BCrypt válido
+                // (los hashes BCrypt siempre empiezan con $2a$, $2b$ o $2y$)
+                bool yaEsHashBCrypt = obj.Clave.StartsWith("$2a$")
+                                   || obj.Clave.StartsWith("$2b$")
+                                   || obj.Clave.StartsWith("$2y$");
+
+                if (!yaEsHashBCrypt)
+                {
+                    obj.Clave = BCrypt.Net.BCrypt.HashPassword(obj.Clave);
+                }
+
                 return objCd_usuario.Editar(obj, out Mensaje);
             }
-
         }
 
         public bool Eliminar(Usuario obj, out string Mensaje)
