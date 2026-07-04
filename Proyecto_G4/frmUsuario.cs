@@ -125,7 +125,7 @@ namespace Proyecto_G4
             cmbestado.SelectedIndex = 0;
         }
 
-        private void dgvdata_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        /*private void dgvdata_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex < 0)
                 return;
@@ -144,7 +144,7 @@ namespace Proyecto_G4
             }
 
 
-        }
+        }*/
 
         private void dgvdata_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
