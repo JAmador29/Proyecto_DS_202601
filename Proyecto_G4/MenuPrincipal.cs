@@ -70,7 +70,7 @@ namespace Proyecto_G4
         }
         //MenuStrip con botones para aperturar formularios
         //Formulario de Usuarios
-        private void menuusuario_Click(object sender, EventArgs e)
+        private void menuusuarios_Click(object sender, EventArgs e)
         {
             AbrirFormulario((IconMenuItem)sender,new frmUsuario());
         }
