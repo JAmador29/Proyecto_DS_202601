@@ -87,12 +87,14 @@ namespace Proyecto_G4
                 Estado = Convert.ToInt32(((OpcionCombo)cmbestado.SelectedItem).Valor) == 1 ? true : false
             };
 
-            int idusuariogenerado = new CN_Usuario().Registrar(objusuario, out mensaje);
-
-            if(idusuariogenerado != 0)
+            if (objusuario.IdUsuario == 0)
             {
+                int idusuariogenerado = new CN_Usuario().Registrar(objusuario, out mensaje);
 
-                dgvdata.Rows.Add(new object[] {"",idusuariogenerado,txtdocumento.Text,txtnombrecompleto.Text,txtcorreo.Text,txtclave.Text,
+                if (idusuariogenerado != 0)
+                {
+
+                    dgvdata.Rows.Add(new object[] {"",idusuariogenerado,txtdocumento.Text,txtnombrecompleto.Text,txtcorreo.Text,txtclave.Text,
                    ((OpcionCombo)cmbrol.SelectedItem).Valor.ToString(),
                    ((OpcionCombo)cmbrol.SelectedItem).Texto.ToString(),
                    ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString(),
@@ -100,15 +102,36 @@ namespace Proyecto_G4
 
                 });
 
-                Limpiar();
+                    Limpiar();
+                }
+                else
+                {
+                    MessageBox.Show(mensaje);
+                }
             }
             else
             {
-                MessageBox.Show(mensaje);
+                bool resultado = new CN_Usuario().Editar(objusuario, out mensaje);
+
+                if (resultado)
+                {
+                    DataGridViewRow row = dgvdata.Rows[Convert.ToInt32(txtIndice.Text)];
+                    row.Cells["Id"].Value = txtid.Text;
+                    row.Cells["Documento"].Value = txtdocumento.Text;
+                    row.Cells["NombreCompleto"].Value = txtnombrecompleto.Text;
+                    row.Cells["Correo"].Value = txtcorreo.Text;
+                    row.Cells["Clave"].Value = txtclave.Text;
+                    row.Cells["IdRol"].Value = ((OpcionCombo)cmbrol.SelectedItem).Valor.ToString();
+                    row.Cells["Rol"].Value = ((OpcionCombo)cmbrol.SelectedItem).Texto.ToString();
+                    row.Cells["EstadoValor"].Value = ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString();
+                    row.Cells["Estado"].Value = ((OpcionCombo)cmbestado.SelectedItem).Texto.ToString();
+                    Limpiar();
+                }
+                else
+                {
+                    MessageBox.Show(mensaje);
+                }
             }
-
-           
-
         }
 
         private void Limpiar()
@@ -123,6 +146,8 @@ namespace Proyecto_G4
             txtconfirmarclave.Text = "";
             cmbrol.SelectedIndex = 0;
             cmbestado.SelectedIndex = 0;
+
+            txtdocumento.Select();
         }
 
         /*private void dgvdata_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -186,9 +211,36 @@ namespace Proyecto_G4
                         }
                     }
                 }
-
-
             }
+        }
+
+        private void btnbuscar_Click(object sender, EventArgs e)
+        {
+            string columnaFiltro = ((OpcionCombo)cmbbusqueda.SelectedItem).Valor.ToString();
+            if (dgvdata.Rows.Count > 0)
+            {
+                foreach (DataGridViewRow row in dgvdata.Rows)
+                {
+                    if (row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(txtbusqueda.Text.Trim().ToUpper()))
+                        row.Visible = true;
+                    else
+                        row.Visible = false;
+                }
+            }
+        }
+
+        private void btnlimpiarbuscador_Click(object sender, EventArgs e)
+        {
+            txtbusqueda.Text = "";
+            foreach (DataGridViewRow row in dgvdata.Rows)
+            {
+                row.Visible = true;
+            }
+        }
+
+        private void btnlimpiar_Click(object sender, EventArgs e)
+        {
+            Limpiar();
         }
     }
 }
