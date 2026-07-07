@@ -115,9 +115,14 @@ namespace Proyecto_G4
             AbrirFormulario((IconMenuItem)sender, new frmClientes());
         }
         //Formulario de Reportes
-        private void iconMenuItem1_Click(object sender, EventArgs e)
+        private void menureportes_click(object sender, EventArgs e)
         {
             AbrirFormulario((IconMenuItem)sender, new frmReportes());
+        }
+
+        private void menuacercade_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((IconMenuItem)sender, new frmAcercade());
         }
     }
 }

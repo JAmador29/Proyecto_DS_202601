@@ -44,8 +44,8 @@ namespace Proyecto_G4
             this.SubMenuDC = new FontAwesome.Sharp.IconMenuItem();
             this.menuproveedores = new FontAwesome.Sharp.IconMenuItem();
             this.menuclientes = new FontAwesome.Sharp.IconMenuItem();
-            this.iconMenuItem1 = new FontAwesome.Sharp.IconMenuItem();
             this.menureportes = new FontAwesome.Sharp.IconMenuItem();
+            this.menuacercade = new FontAwesome.Sharp.IconMenuItem();
             this.menutitulo = new System.Windows.Forms.MenuStrip();
             this.label1 = new System.Windows.Forms.Label();
             this.contenedor = new System.Windows.Forms.Panel();
@@ -65,8 +65,8 @@ namespace Proyecto_G4
             this.menucompras,
             this.menuproveedores,
             this.menuclientes,
-            this.iconMenuItem1,
-            this.menureportes});
+            this.menureportes,
+            this.menuacercade});
             this.menu.Location = new System.Drawing.Point(0, 87);
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(1158, 78);
@@ -185,7 +185,7 @@ namespace Proyecto_G4
             this.SubmenuRegistrarC.IconColor = System.Drawing.Color.Black;
             this.SubmenuRegistrarC.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubmenuRegistrarC.Name = "SubmenuRegistrarC";
-            this.SubmenuRegistrarC.Size = new System.Drawing.Size(197, 26);
+            this.SubmenuRegistrarC.Size = new System.Drawing.Size(224, 26);
             this.SubmenuRegistrarC.Text = "Registar ";
             this.SubmenuRegistrarC.Click += new System.EventHandler(this.SubmenuRegistrarC_Click);
             // 
@@ -195,7 +195,7 @@ namespace Proyecto_G4
             this.SubMenuDC.IconColor = System.Drawing.Color.Black;
             this.SubMenuDC.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuDC.Name = "SubMenuDC";
-            this.SubMenuDC.Size = new System.Drawing.Size(197, 26);
+            this.SubMenuDC.Size = new System.Drawing.Size(224, 26);
             this.SubMenuDC.Text = "Detalle Compra";
             this.SubMenuDC.Click += new System.EventHandler(this.SubMenuDC_Click);
             // 
@@ -229,34 +229,35 @@ namespace Proyecto_G4
             this.menuclientes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.menuclientes.Click += new System.EventHandler(this.menuclientes_Click);
             // 
-            // iconMenuItem1
-            // 
-            this.iconMenuItem1.AutoSize = false;
-            this.iconMenuItem1.ForeColor = System.Drawing.Color.MediumPurple;
-            this.iconMenuItem1.IconChar = FontAwesome.Sharp.IconChar.ClipboardList;
-            this.iconMenuItem1.IconColor = System.Drawing.Color.MediumPurple;
-            this.iconMenuItem1.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconMenuItem1.IconSize = 55;
-            this.iconMenuItem1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.iconMenuItem1.Name = "iconMenuItem1";
-            this.iconMenuItem1.Size = new System.Drawing.Size(90, 74);
-            this.iconMenuItem1.Text = "Reportes";
-            this.iconMenuItem1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.iconMenuItem1.Click += new System.EventHandler(this.iconMenuItem1_Click);
-            // 
             // menureportes
             // 
             this.menureportes.AutoSize = false;
             this.menureportes.ForeColor = System.Drawing.Color.MediumPurple;
-            this.menureportes.IconChar = FontAwesome.Sharp.IconChar.Info;
+            this.menureportes.IconChar = FontAwesome.Sharp.IconChar.ClipboardList;
             this.menureportes.IconColor = System.Drawing.Color.MediumPurple;
             this.menureportes.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.menureportes.IconSize = 55;
             this.menureportes.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menureportes.Name = "menureportes";
             this.menureportes.Size = new System.Drawing.Size(90, 74);
-            this.menureportes.Text = "Acerca de ";
+            this.menureportes.Text = "Reportes";
             this.menureportes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.menureportes.Click += new System.EventHandler(this.menureportes_click);
+            // 
+            // menuacercade
+            // 
+            this.menuacercade.AutoSize = false;
+            this.menuacercade.ForeColor = System.Drawing.Color.MediumPurple;
+            this.menuacercade.IconChar = FontAwesome.Sharp.IconChar.Info;
+            this.menuacercade.IconColor = System.Drawing.Color.MediumPurple;
+            this.menuacercade.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.menuacercade.IconSize = 55;
+            this.menuacercade.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.menuacercade.Name = "menuacercade";
+            this.menuacercade.Size = new System.Drawing.Size(90, 74);
+            this.menuacercade.Text = "Acerca de ";
+            this.menuacercade.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.menuacercade.Click += new System.EventHandler(this.menuacercade_Click);
             // 
             // menutitulo
             // 
@@ -347,7 +348,7 @@ namespace Proyecto_G4
         private MenuStrip menu;
         private MenuStrip menutitulo;
         private Label label1;
-        private FontAwesome.Sharp.IconMenuItem menureportes;
+        private FontAwesome.Sharp.IconMenuItem menuacercade;
         private FontAwesome.Sharp.IconMenuItem menuusuarios;
         private FontAwesome.Sharp.IconMenuItem menugestor;
         private FontAwesome.Sharp.IconMenuItem menuventas;
@@ -355,7 +356,7 @@ namespace Proyecto_G4
         private FontAwesome.Sharp.IconMenuItem menuproveedores;
         private FontAwesome.Sharp.IconMenuItem menuclientes;
         private Panel contenedor;
-        private FontAwesome.Sharp.IconMenuItem iconMenuItem1;
+        private FontAwesome.Sharp.IconMenuItem menureportes;
         private Label label2;
         private Label lblUsuario;
         private FontAwesome.Sharp.IconMenuItem subMenuCategory;
