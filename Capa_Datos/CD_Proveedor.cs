@@ -20,9 +20,8 @@ namespace Capa_Datos
             {
                 try
                 {
-                    // Agregamos un query limpio
                     StringBuilder query = new StringBuilder();
-                    query.AppendLine("select IdProveedor,RTN, RazonSocial,Correo,Telefono from PROVEEDOR");
+                    query.AppendLine("select IdProveedor,RTN, RazonSocial,Correo,Telefono,Estado from PROVEEDOR");
 
                     SqlCommand cmd = new SqlCommand(query.ToString(), oconexion);
                     cmd.CommandType = CommandType.Text;
@@ -78,14 +77,13 @@ namespace Capa_Datos
                     cmd.ExecuteNonQuery();
 
                     idProveedorgenerado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
-                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                    Mensaje = cmd.Parameters["Mensaje"].Value?.ToString() ?? string.Empty;
                 }
             }
             catch (Exception ex)
             {
                 idProveedorgenerado = 0;
                 Mensaje = ex.Message;
-
             }
             return idProveedorgenerado;
         }
@@ -101,13 +99,13 @@ namespace Capa_Datos
                 {
                     SqlCommand cmd = new SqlCommand("sp_ModificarProveedor", oconexion);
                     cmd.Parameters.AddWithValue("IdProveedor", obj.IdProveedor);
+                    cmd.Parameters.AddWithValue("RTN", obj.RTN);
                     cmd.Parameters.AddWithValue("RazonSocial", obj.RazonSocial);
                     cmd.Parameters.AddWithValue("Correo", obj.Correo);
                     cmd.Parameters.AddWithValue("Telefono", obj.Telefono);
                     cmd.Parameters.AddWithValue("Estado", obj.Estado);
                     cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar).Direction = ParameterDirection.Output;
-
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
 
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -116,14 +114,13 @@ namespace Capa_Datos
                     cmd.ExecuteNonQuery();
 
                     respuesta = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
-                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                    Mensaje = cmd.Parameters["Mensaje"].Value?.ToString() ?? string.Empty;
                 }
             }
             catch (Exception ex)
             {
                 respuesta = false;
                 Mensaje = ex.Message;
-
             }
             return respuesta;
         }
@@ -140,8 +137,7 @@ namespace Capa_Datos
                     SqlCommand cmd = new SqlCommand("sp_EliminarProveedor", oconexion);
                     cmd.Parameters.AddWithValue("IdProveedor", obj.IdProveedor);
                     cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar).Direction = ParameterDirection.Output;
-
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
 
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -150,16 +146,15 @@ namespace Capa_Datos
                     cmd.ExecuteNonQuery();
 
                     respuesta = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
-                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                    Mensaje = cmd.Parameters["Mensaje"].Value?.ToString() ?? string.Empty;
                 }
             }
             catch (Exception ex)
             {
                 respuesta = false;
                 Mensaje = ex.Message;
-
             }
             return respuesta;
-        } 
+        }
     }
 }

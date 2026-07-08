@@ -89,10 +89,5 @@ namespace Capa_Negocio
                 return objCd_usuario.Editar(obj, out Mensaje);
             }
         }
-
-        public bool Eliminar(Usuario obj, out string Mensaje)
-        {
-            return objCd_usuario.Eliminar(obj, out Mensaje);
-        }
     }
 }

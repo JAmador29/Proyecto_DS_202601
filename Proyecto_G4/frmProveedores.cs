@@ -40,8 +40,6 @@ namespace Proyecto_G4
             cmbbusqueda.ValueMember = "Valor";
             cmbbusqueda.SelectedIndex = 0;
 
-
-            //MOSTRAR TODOS LOS USUARIOS
             List<Proveedor> lista = new CN_Proveedor().Listar();
 
             foreach (Proveedor item in lista)
@@ -73,7 +71,6 @@ namespace Proyecto_G4
 
                 if (idgenerado != 0)
                 {
-
                     dgvdata.Rows.Add(new object[] {"",idgenerado,txtdocumento.Text,txtrazonsocial.Text,txtcorreo.Text,txttelefono.Text,
                         ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString(),
                         ((OpcionCombo)cmbestado.SelectedItem).Texto.ToString(),
@@ -95,7 +92,7 @@ namespace Proyecto_G4
                     DataGridViewRow row = dgvdata.Rows[Convert.ToInt32(txtIndice.Text)];
                     row.Cells["Id"].Value = txtid.Text;
                     row.Cells["Documento"].Value = txtdocumento.Text;
-                    row.Cells["NombreCompleto"].Value = txtrazonsocial.Text;
+                    row.Cells["RazonSocial"].Value = txtrazonsocial.Text;
                     row.Cells["Correo"].Value = txtcorreo.Text;
                     row.Cells["Telefono"].Value = txttelefono.Text;
                     row.Cells["EstadoValor"].Value = ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString();
@@ -125,12 +122,10 @@ namespace Proyecto_G4
         {
             if (dgvdata.Columns[e.ColumnIndex].Name == "btnSeleccionar")
             {
-
                 int indice = e.RowIndex;
 
                 if (indice >= 0)
                 {
-
                     txtIndice.Text = indice.ToString();
                     txtid.Text = dgvdata.Rows[indice].Cells["Id"].Value.ToString();
                     txtdocumento.Text = dgvdata.Rows[indice].Cells["Documento"].Value.ToString();
@@ -145,7 +140,6 @@ namespace Proyecto_G4
                             int indice_combo = cmbestado.Items.IndexOf(oc);
                             cmbestado.SelectedIndex = indice_combo;
                             break;
-
                         }
                     }
                 }

@@ -22,7 +22,7 @@ namespace Capa_Datos
                 {
                     StringBuilder query = new StringBuilder();
                     query.AppendLine("select IdCliente,Documento,NombreCompleto,Correo,Telefono,Estado from CLIENTE");
-   
+
                     SqlCommand cmd = new SqlCommand(query.ToString(), oconexion);
                     cmd.CommandType = CommandType.Text;
 
@@ -51,7 +51,6 @@ namespace Capa_Datos
             return lista;
         }
 
-
         public int Registrar(Cliente obj, out string Mensaje)
         {
             int idClientegenerado = 0;
@@ -75,20 +74,17 @@ namespace Capa_Datos
 
                     cmd.ExecuteNonQuery();
 
-                    idClientegenerado = Convert.ToInt32(cmd.Parameters["IdClienteResultado"].Value);
-                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                    idClientegenerado = Convert.ToInt32(cmd.Parameters["Resultado"].Value);
+                    Mensaje = cmd.Parameters["Mensaje"].Value?.ToString() ?? string.Empty;
                 }
             }
             catch (Exception ex)
             {
                 idClientegenerado = 0;
                 Mensaje = ex.Message;
-
             }
             return idClientegenerado;
         }
-
-
 
         public bool Editar(Cliente obj, out string Mensaje)
         {
@@ -100,14 +96,14 @@ namespace Capa_Datos
                 using (SqlConnection oconexion = new SqlConnection(Conexion.cadena))
                 {
                     SqlCommand cmd = new SqlCommand("sp_ModificarCliente", oconexion);
+                    cmd.Parameters.AddWithValue("IdCliente", obj.IdCliente);
                     cmd.Parameters.AddWithValue("Documento", obj.Documento);
                     cmd.Parameters.AddWithValue("NombreCompleto", obj.NombreCompleto);
                     cmd.Parameters.AddWithValue("Correo", obj.Correo);
                     cmd.Parameters.AddWithValue("Telefono", obj.Telefono);
                     cmd.Parameters.AddWithValue("Estado", obj.Estado);
                     cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar).Direction = ParameterDirection.Output;
-
+                    cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
 
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -116,14 +112,13 @@ namespace Capa_Datos
                     cmd.ExecuteNonQuery();
 
                     respuesta = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
-                    Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
+                    Mensaje = cmd.Parameters["Mensaje"].Value?.ToString() ?? string.Empty;
                 }
             }
             catch (Exception ex)
             {
                 respuesta = false;
                 Mensaje = ex.Message;
-
             }
             return respuesta;
         }
@@ -148,7 +143,6 @@ namespace Capa_Datos
             {
                 respuesta = false;
                 Mensaje = ex.Message;
-
             }
             return respuesta;
         }
