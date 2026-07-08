@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -49,14 +49,6 @@
             this.btnlimpiar = new FontAwesome.Sharp.IconButton();
             this.label9 = new System.Windows.Forms.Label();
             this.dgvdata = new System.Windows.Forms.DataGridView();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtid = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.cmbbusqueda = new System.Windows.Forms.ComboBox();
-            this.btnlimpiarbuscador = new FontAwesome.Sharp.IconButton();
-            this.btnbuscar = new FontAwesome.Sharp.IconButton();
-            this.txtbusqueda = new System.Windows.Forms.TextBox();
-            this.txtIndice = new System.Windows.Forms.TextBox();
             this.btnSeleccionar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Documento = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,6 +59,14 @@
             this.Rol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EstadoValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtid = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cmbbusqueda = new System.Windows.Forms.ComboBox();
+            this.btnlimpiarbuscador = new FontAwesome.Sharp.IconButton();
+            this.btnbuscar = new FontAwesome.Sharp.IconButton();
+            this.txtbusqueda = new System.Windows.Forms.TextBox();
+            this.txtIndice = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvdata)).BeginInit();
             this.SuspendLayout();
             // 
@@ -85,7 +85,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(31, 65);
+            this.label2.Location = new System.Drawing.Point(28, 81);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 16);
@@ -96,7 +96,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label3.Location = new System.Drawing.Point(31, 123);
+            this.label3.Location = new System.Drawing.Point(28, 139);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(120, 16);
@@ -107,7 +107,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label4.Location = new System.Drawing.Point(31, 182);
+            this.label4.Location = new System.Drawing.Point(28, 198);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(51, 16);
@@ -116,32 +116,32 @@
             // 
             // txtdocumento
             // 
-            this.txtdocumento.Location = new System.Drawing.Point(35, 85);
-            this.txtdocumento.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtdocumento.Location = new System.Drawing.Point(32, 101);
+            this.txtdocumento.Margin = new System.Windows.Forms.Padding(4);
             this.txtdocumento.Name = "txtdocumento";
             this.txtdocumento.Size = new System.Drawing.Size(204, 22);
             this.txtdocumento.TabIndex = 4;
             // 
             // txtnombrecompleto
             // 
-            this.txtnombrecompleto.Location = new System.Drawing.Point(35, 142);
-            this.txtnombrecompleto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtnombrecompleto.Location = new System.Drawing.Point(32, 158);
+            this.txtnombrecompleto.Margin = new System.Windows.Forms.Padding(4);
             this.txtnombrecompleto.Name = "txtnombrecompleto";
             this.txtnombrecompleto.Size = new System.Drawing.Size(204, 22);
             this.txtnombrecompleto.TabIndex = 5;
             // 
             // txtcorreo
             // 
-            this.txtcorreo.Location = new System.Drawing.Point(35, 201);
-            this.txtcorreo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtcorreo.Location = new System.Drawing.Point(32, 217);
+            this.txtcorreo.Margin = new System.Windows.Forms.Padding(4);
             this.txtcorreo.Name = "txtcorreo";
             this.txtcorreo.Size = new System.Drawing.Size(204, 22);
             this.txtcorreo.TabIndex = 6;
             // 
             // txtclave
             // 
-            this.txtclave.Location = new System.Drawing.Point(35, 258);
-            this.txtclave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtclave.Location = new System.Drawing.Point(32, 274);
+            this.txtclave.Margin = new System.Windows.Forms.Padding(4);
             this.txtclave.Name = "txtclave";
             this.txtclave.PasswordChar = '*';
             this.txtclave.Size = new System.Drawing.Size(204, 22);
@@ -151,7 +151,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label5.Location = new System.Drawing.Point(31, 238);
+            this.label5.Location = new System.Drawing.Point(28, 254);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(79, 16);
@@ -161,7 +161,7 @@
             // txtconfirmarclave
             // 
             this.txtconfirmarclave.Location = new System.Drawing.Point(35, 320);
-            this.txtconfirmarclave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtconfirmarclave.Margin = new System.Windows.Forms.Padding(4);
             this.txtconfirmarclave.Name = "txtconfirmarclave";
             this.txtconfirmarclave.PasswordChar = '*';
             this.txtconfirmarclave.Size = new System.Drawing.Size(204, 22);
@@ -193,7 +193,7 @@
             // 
             this.cmbrol.FormattingEnabled = true;
             this.cmbrol.Location = new System.Drawing.Point(35, 385);
-            this.cmbrol.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbrol.Margin = new System.Windows.Forms.Padding(4);
             this.cmbrol.Name = "cmbrol";
             this.cmbrol.Size = new System.Drawing.Size(204, 24);
             this.cmbrol.TabIndex = 12;
@@ -202,7 +202,7 @@
             // 
             this.cmbestado.FormattingEnabled = true;
             this.cmbestado.Location = new System.Drawing.Point(35, 448);
-            this.cmbestado.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbestado.Margin = new System.Windows.Forms.Padding(4);
             this.cmbestado.Name = "cmbestado";
             this.cmbestado.Size = new System.Drawing.Size(204, 24);
             this.cmbestado.TabIndex = 14;
@@ -230,7 +230,7 @@
             this.btnguardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnguardar.IconSize = 16;
             this.btnguardar.Location = new System.Drawing.Point(35, 498);
-            this.btnguardar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnguardar.Margin = new System.Windows.Forms.Padding(4);
             this.btnguardar.Name = "btnguardar";
             this.btnguardar.Size = new System.Drawing.Size(104, 28);
             this.btnguardar.TabIndex = 15;
@@ -252,7 +252,7 @@
             this.btnlimpiar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnlimpiar.IconSize = 16;
             this.btnlimpiar.Location = new System.Drawing.Point(159, 498);
-            this.btnlimpiar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnlimpiar.Margin = new System.Windows.Forms.Padding(4);
             this.btnlimpiar.Name = "btnlimpiar";
             this.btnlimpiar.Size = new System.Drawing.Size(104, 28);
             this.btnlimpiar.TabIndex = 16;
@@ -267,7 +267,7 @@
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(31, 11);
+            this.label9.Location = new System.Drawing.Point(28, 27);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(215, 31);
@@ -278,15 +278,15 @@
             // 
             this.dgvdata.AllowUserToAddRows = false;
             this.dgvdata.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(2);
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvdata.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(2);
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvdata.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvdata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvdata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.btnSeleccionar,
@@ -300,118 +300,18 @@
             this.EstadoValor,
             this.Estado});
             this.dgvdata.Location = new System.Drawing.Point(345, 100);
-            this.dgvdata.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvdata.Margin = new System.Windows.Forms.Padding(4);
             this.dgvdata.MultiSelect = false;
             this.dgvdata.Name = "dgvdata";
             this.dgvdata.ReadOnly = true;
             this.dgvdata.RowHeadersWidth = 51;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
-            this.dgvdata.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgvdata.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvdata.RowTemplate.Height = 28;
             this.dgvdata.Size = new System.Drawing.Size(1025, 427);
             this.dgvdata.TabIndex = 19;
             this.dgvdata.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvdata_CellContentClick);
-            // 
-            // label10
-            // 
-            this.label10.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(347, 37);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(1023, 49);
-            this.label10.TabIndex = 20;
-            this.label10.Text = "Lista de Usuarios:";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtid
-            // 
-            this.txtid.Location = new System.Drawing.Point(212, 56);
-            this.txtid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtid.Name = "txtid";
-            this.txtid.Size = new System.Drawing.Size(27, 22);
-            this.txtid.TabIndex = 21;
-            this.txtid.Text = "0";
-            this.txtid.Visible = false;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label11.Location = new System.Drawing.Point(841, 53);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(75, 16);
-            this.label11.TabIndex = 22;
-            this.label11.Text = "Buscar por:";
-            // 
-            // cmbbusqueda
-            // 
-            this.cmbbusqueda.FormattingEnabled = true;
-            this.cmbbusqueda.Location = new System.Drawing.Point(924, 49);
-            this.cmbbusqueda.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.cmbbusqueda.Name = "cmbbusqueda";
-            this.cmbbusqueda.Size = new System.Drawing.Size(167, 24);
-            this.cmbbusqueda.TabIndex = 23;
-            // 
-            // btnlimpiarbuscador
-            // 
-            this.btnlimpiarbuscador.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnlimpiarbuscador.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnlimpiarbuscador.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnlimpiarbuscador.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnlimpiarbuscador.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnlimpiarbuscador.IconChar = FontAwesome.Sharp.IconChar.Brush;
-            this.btnlimpiarbuscador.IconColor = System.Drawing.Color.Black;
-            this.btnlimpiarbuscador.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnlimpiarbuscador.IconSize = 16;
-            this.btnlimpiarbuscador.Location = new System.Drawing.Point(1310, 49);
-            this.btnlimpiarbuscador.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnlimpiarbuscador.Name = "btnlimpiarbuscador";
-            this.btnlimpiarbuscador.Size = new System.Drawing.Size(48, 28);
-            this.btnlimpiarbuscador.TabIndex = 26;
-            this.btnlimpiarbuscador.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnlimpiarbuscador.UseVisualStyleBackColor = false;
-            this.btnlimpiarbuscador.Click += new System.EventHandler(this.btnlimpiarbuscador_Click);
-            // 
-            // btnbuscar
-            // 
-            this.btnbuscar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnbuscar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnbuscar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnbuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnbuscar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnbuscar.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlass;
-            this.btnbuscar.IconColor = System.Drawing.Color.Black;
-            this.btnbuscar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnbuscar.IconSize = 16;
-            this.btnbuscar.Location = new System.Drawing.Point(1248, 49);
-            this.btnbuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnbuscar.Name = "btnbuscar";
-            this.btnbuscar.Size = new System.Drawing.Size(55, 28);
-            this.btnbuscar.TabIndex = 25;
-            this.btnbuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnbuscar.UseVisualStyleBackColor = false;
-            this.btnbuscar.Click += new System.EventHandler(this.btnbuscar_Click);
-            // 
-            // txtbusqueda
-            // 
-            this.txtbusqueda.Location = new System.Drawing.Point(1097, 50);
-            this.txtbusqueda.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtbusqueda.Name = "txtbusqueda";
-            this.txtbusqueda.Size = new System.Drawing.Size(141, 22);
-            this.txtbusqueda.TabIndex = 27;
-            // 
-            // txtIndice
-            // 
-            this.txtIndice.Location = new System.Drawing.Point(176, 56);
-            this.txtIndice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtIndice.Name = "txtIndice";
-            this.txtIndice.Size = new System.Drawing.Size(27, 22);
-            this.txtIndice.TabIndex = 28;
-            this.txtIndice.Text = "-1";
-            this.txtIndice.Visible = false;
             // 
             // btnSeleccionar
             // 
@@ -493,6 +393,106 @@
             this.Estado.Name = "Estado";
             this.Estado.ReadOnly = true;
             // 
+            // label10
+            // 
+            this.label10.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(347, 37);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(1023, 49);
+            this.label10.TabIndex = 20;
+            this.label10.Text = "Lista de Usuarios:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtid
+            // 
+            this.txtid.Location = new System.Drawing.Point(209, 72);
+            this.txtid.Margin = new System.Windows.Forms.Padding(4);
+            this.txtid.Name = "txtid";
+            this.txtid.Size = new System.Drawing.Size(27, 22);
+            this.txtid.TabIndex = 21;
+            this.txtid.Text = "0";
+            this.txtid.Visible = false;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label11.Location = new System.Drawing.Point(841, 53);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(75, 16);
+            this.label11.TabIndex = 22;
+            this.label11.Text = "Buscar por:";
+            // 
+            // cmbbusqueda
+            // 
+            this.cmbbusqueda.FormattingEnabled = true;
+            this.cmbbusqueda.Location = new System.Drawing.Point(924, 49);
+            this.cmbbusqueda.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbbusqueda.Name = "cmbbusqueda";
+            this.cmbbusqueda.Size = new System.Drawing.Size(167, 24);
+            this.cmbbusqueda.TabIndex = 23;
+            // 
+            // btnlimpiarbuscador
+            // 
+            this.btnlimpiarbuscador.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnlimpiarbuscador.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnlimpiarbuscador.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnlimpiarbuscador.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnlimpiarbuscador.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnlimpiarbuscador.IconChar = FontAwesome.Sharp.IconChar.Brush;
+            this.btnlimpiarbuscador.IconColor = System.Drawing.Color.Black;
+            this.btnlimpiarbuscador.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnlimpiarbuscador.IconSize = 16;
+            this.btnlimpiarbuscador.Location = new System.Drawing.Point(1310, 49);
+            this.btnlimpiarbuscador.Margin = new System.Windows.Forms.Padding(4);
+            this.btnlimpiarbuscador.Name = "btnlimpiarbuscador";
+            this.btnlimpiarbuscador.Size = new System.Drawing.Size(48, 28);
+            this.btnlimpiarbuscador.TabIndex = 26;
+            this.btnlimpiarbuscador.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnlimpiarbuscador.UseVisualStyleBackColor = false;
+            this.btnlimpiarbuscador.Click += new System.EventHandler(this.btnlimpiarbuscador_Click);
+            // 
+            // btnbuscar
+            // 
+            this.btnbuscar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnbuscar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnbuscar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnbuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnbuscar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnbuscar.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlass;
+            this.btnbuscar.IconColor = System.Drawing.Color.Black;
+            this.btnbuscar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnbuscar.IconSize = 16;
+            this.btnbuscar.Location = new System.Drawing.Point(1248, 49);
+            this.btnbuscar.Margin = new System.Windows.Forms.Padding(4);
+            this.btnbuscar.Name = "btnbuscar";
+            this.btnbuscar.Size = new System.Drawing.Size(55, 28);
+            this.btnbuscar.TabIndex = 25;
+            this.btnbuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnbuscar.UseVisualStyleBackColor = false;
+            this.btnbuscar.Click += new System.EventHandler(this.btnbuscar_Click);
+            // 
+            // txtbusqueda
+            // 
+            this.txtbusqueda.Location = new System.Drawing.Point(1097, 50);
+            this.txtbusqueda.Margin = new System.Windows.Forms.Padding(4);
+            this.txtbusqueda.Name = "txtbusqueda";
+            this.txtbusqueda.Size = new System.Drawing.Size(141, 22);
+            this.txtbusqueda.TabIndex = 27;
+            // 
+            // txtIndice
+            // 
+            this.txtIndice.Location = new System.Drawing.Point(173, 72);
+            this.txtIndice.Margin = new System.Windows.Forms.Padding(4);
+            this.txtIndice.Name = "txtIndice";
+            this.txtIndice.Size = new System.Drawing.Size(27, 22);
+            this.txtIndice.TabIndex = 28;
+            this.txtIndice.Text = "-1";
+            this.txtIndice.Visible = false;
+            // 
             // frmUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -526,7 +526,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmUsuario";
             this.Text = "frmUsuario";
             this.Load += new System.EventHandler(this.frmUsuario_Load);

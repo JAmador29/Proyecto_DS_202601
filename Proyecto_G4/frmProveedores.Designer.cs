@@ -28,27 +28,476 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btnlimpiar = new FontAwesome.Sharp.IconButton();
+            this.btnguardar = new FontAwesome.Sharp.IconButton();
+            this.cmbestado = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtcorreo = new System.Windows.Forms.TextBox();
+            this.txtrazonsocial = new System.Windows.Forms.TextBox();
+            this.txtdocumento = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnlimpiarbuscador = new FontAwesome.Sharp.IconButton();
+            this.btnbuscar = new FontAwesome.Sharp.IconButton();
+            this.cmbbusqueda = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtid = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtIndice = new System.Windows.Forms.TextBox();
+            this.dgvdata = new System.Windows.Forms.DataGridView();
+            this.btnSeleccionar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Documento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RazonSocial = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Correo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EstadoValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtbusqueda = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txttelefono = new System.Windows.Forms.TextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvdata)).BeginInit();
             this.SuspendLayout();
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(48, 30);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(248, 31);
+            this.label9.TabIndex = 69;
+            this.label9.Text = "Detalle Proveedor";
+            // 
+            // btnlimpiar
+            // 
+            this.btnlimpiar.BackColor = System.Drawing.SystemColors.Highlight;
+            this.btnlimpiar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnlimpiar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnlimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnlimpiar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnlimpiar.IconChar = FontAwesome.Sharp.IconChar.Broom;
+            this.btnlimpiar.IconColor = System.Drawing.Color.White;
+            this.btnlimpiar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnlimpiar.IconSize = 16;
+            this.btnlimpiar.Location = new System.Drawing.Point(170, 499);
+            this.btnlimpiar.Margin = new System.Windows.Forms.Padding(4);
+            this.btnlimpiar.Name = "btnlimpiar";
+            this.btnlimpiar.Size = new System.Drawing.Size(104, 28);
+            this.btnlimpiar.TabIndex = 68;
+            this.btnlimpiar.Text = "Limpiar";
+            this.btnlimpiar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnlimpiar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnlimpiar.UseVisualStyleBackColor = false;
+            this.btnlimpiar.Click += new System.EventHandler(this.btnlimpiar_Click);
+            // 
+            // btnguardar
+            // 
+            this.btnguardar.BackColor = System.Drawing.Color.Green;
+            this.btnguardar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnguardar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnguardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnguardar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnguardar.IconChar = FontAwesome.Sharp.IconChar.FloppyDisk;
+            this.btnguardar.IconColor = System.Drawing.Color.White;
+            this.btnguardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnguardar.IconSize = 16;
+            this.btnguardar.Location = new System.Drawing.Point(46, 499);
+            this.btnguardar.Margin = new System.Windows.Forms.Padding(4);
+            this.btnguardar.Name = "btnguardar";
+            this.btnguardar.Size = new System.Drawing.Size(104, 28);
+            this.btnguardar.TabIndex = 67;
+            this.btnguardar.Text = "Guardar";
+            this.btnguardar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnguardar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnguardar.UseVisualStyleBackColor = false;
+            this.btnguardar.Click += new System.EventHandler(this.btnguardar_Click);
+            // 
+            // cmbestado
+            // 
+            this.cmbestado.FormattingEnabled = true;
+            this.cmbestado.Location = new System.Drawing.Point(55, 340);
+            this.cmbestado.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbestado.Name = "cmbestado";
+            this.cmbestado.Size = new System.Drawing.Size(204, 24);
+            this.cmbestado.TabIndex = 66;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label8.Location = new System.Drawing.Point(51, 319);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(53, 16);
+            this.label8.TabIndex = 65;
+            this.label8.Text = "Estado:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label5.Location = new System.Drawing.Point(48, 257);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(64, 16);
+            this.label5.TabIndex = 63;
+            this.label5.Text = "Telefono:";
+            // 
+            // txtcorreo
+            // 
+            this.txtcorreo.Location = new System.Drawing.Point(52, 220);
+            this.txtcorreo.Margin = new System.Windows.Forms.Padding(4);
+            this.txtcorreo.Name = "txtcorreo";
+            this.txtcorreo.Size = new System.Drawing.Size(204, 22);
+            this.txtcorreo.TabIndex = 62;
+            // 
+            // txtrazonsocial
+            // 
+            this.txtrazonsocial.Location = new System.Drawing.Point(52, 161);
+            this.txtrazonsocial.Margin = new System.Windows.Forms.Padding(4);
+            this.txtrazonsocial.Name = "txtrazonsocial";
+            this.txtrazonsocial.Size = new System.Drawing.Size(204, 22);
+            this.txtrazonsocial.TabIndex = 61;
+            // 
+            // txtdocumento
+            // 
+            this.txtdocumento.Location = new System.Drawing.Point(52, 104);
+            this.txtdocumento.Margin = new System.Windows.Forms.Padding(4);
+            this.txtdocumento.Name = "txtdocumento";
+            this.txtdocumento.Size = new System.Drawing.Size(204, 22);
+            this.txtdocumento.TabIndex = 60;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label4.Location = new System.Drawing.Point(48, 201);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(51, 16);
+            this.label4.TabIndex = 59;
+            this.label4.Text = "Correo:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label3.Location = new System.Drawing.Point(48, 142);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(90, 16);
+            this.label3.TabIndex = 58;
+            this.label3.Text = "Razon Social:";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Left;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(156, 210);
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(520, 31);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "UNICAMNETE DE PRUEBA Proceedores";
+            this.label1.Size = new System.Drawing.Size(320, 585);
+            this.label1.TabIndex = 56;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label2.Location = new System.Drawing.Point(65, 81);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 16);
+            this.label2.TabIndex = 57;
+            this.label2.Text = "No Documento:";
+            // 
+            // btnlimpiarbuscador
+            // 
+            this.btnlimpiarbuscador.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnlimpiarbuscador.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnlimpiarbuscador.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnlimpiarbuscador.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnlimpiarbuscador.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnlimpiarbuscador.IconChar = FontAwesome.Sharp.IconChar.Brush;
+            this.btnlimpiarbuscador.IconColor = System.Drawing.Color.Black;
+            this.btnlimpiarbuscador.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnlimpiarbuscador.IconSize = 16;
+            this.btnlimpiarbuscador.Location = new System.Drawing.Point(1320, 49);
+            this.btnlimpiarbuscador.Margin = new System.Windows.Forms.Padding(4);
+            this.btnlimpiarbuscador.Name = "btnlimpiarbuscador";
+            this.btnlimpiarbuscador.Size = new System.Drawing.Size(48, 28);
+            this.btnlimpiarbuscador.TabIndex = 76;
+            this.btnlimpiarbuscador.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnlimpiarbuscador.UseVisualStyleBackColor = false;
+            this.btnlimpiarbuscador.Click += new System.EventHandler(this.btnlimpiarbuscador_Click);
+            // 
+            // btnbuscar
+            // 
+            this.btnbuscar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnbuscar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnbuscar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnbuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnbuscar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnbuscar.IconChar = FontAwesome.Sharp.IconChar.MagnifyingGlass;
+            this.btnbuscar.IconColor = System.Drawing.Color.Black;
+            this.btnbuscar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnbuscar.IconSize = 16;
+            this.btnbuscar.Location = new System.Drawing.Point(1258, 49);
+            this.btnbuscar.Margin = new System.Windows.Forms.Padding(4);
+            this.btnbuscar.Name = "btnbuscar";
+            this.btnbuscar.Size = new System.Drawing.Size(55, 28);
+            this.btnbuscar.TabIndex = 75;
+            this.btnbuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnbuscar.UseVisualStyleBackColor = false;
+            this.btnbuscar.Click += new System.EventHandler(this.btnbuscar_Click);
+            // 
+            // cmbbusqueda
+            // 
+            this.cmbbusqueda.FormattingEnabled = true;
+            this.cmbbusqueda.Location = new System.Drawing.Point(934, 49);
+            this.cmbbusqueda.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbbusqueda.Name = "cmbbusqueda";
+            this.cmbbusqueda.Size = new System.Drawing.Size(167, 24);
+            this.cmbbusqueda.TabIndex = 74;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label11.Location = new System.Drawing.Point(851, 53);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(75, 16);
+            this.label11.TabIndex = 73;
+            this.label11.Text = "Buscar por:";
+            // 
+            // txtid
+            // 
+            this.txtid.Location = new System.Drawing.Point(246, 72);
+            this.txtid.Margin = new System.Windows.Forms.Padding(4);
+            this.txtid.Name = "txtid";
+            this.txtid.Size = new System.Drawing.Size(27, 22);
+            this.txtid.TabIndex = 72;
+            this.txtid.Text = "0";
+            this.txtid.Visible = false;
+            // 
+            // label10
+            // 
+            this.label10.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(357, 37);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(1023, 49);
+            this.label10.TabIndex = 71;
+            this.label10.Text = "Lista de Proveedores:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtIndice
+            // 
+            this.txtIndice.Location = new System.Drawing.Point(210, 72);
+            this.txtIndice.Margin = new System.Windows.Forms.Padding(4);
+            this.txtIndice.Name = "txtIndice";
+            this.txtIndice.Size = new System.Drawing.Size(27, 22);
+            this.txtIndice.TabIndex = 78;
+            this.txtIndice.Text = "-1";
+            this.txtIndice.Visible = false;
+            // 
+            // dgvdata
+            // 
+            this.dgvdata.AllowUserToAddRows = false;
+            this.dgvdata.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvdata.BackgroundColor = System.Drawing.Color.Beige;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(2);
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvdata.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvdata.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvdata.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.btnSeleccionar,
+            this.Id,
+            this.Documento,
+            this.RazonSocial,
+            this.Correo,
+            this.Telefono,
+            this.EstadoValor,
+            this.Estado});
+            this.dgvdata.Location = new System.Drawing.Point(355, 100);
+            this.dgvdata.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvdata.MultiSelect = false;
+            this.dgvdata.Name = "dgvdata";
+            this.dgvdata.ReadOnly = true;
+            this.dgvdata.RowHeadersWidth = 51;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgvdata.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvdata.RowTemplate.Height = 28;
+            this.dgvdata.Size = new System.Drawing.Size(1025, 427);
+            this.dgvdata.TabIndex = 70;
+            this.dgvdata.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvdata_CellContentClick);
+            // 
+            // btnSeleccionar
+            // 
+            this.btnSeleccionar.FillWeight = 6F;
+            this.btnSeleccionar.HeaderText = "";
+            this.btnSeleccionar.MinimumWidth = 6;
+            this.btnSeleccionar.Name = "btnSeleccionar";
+            this.btnSeleccionar.ReadOnly = true;
+            // 
+            // Id
+            // 
+            this.Id.HeaderText = "Id";
+            this.Id.MinimumWidth = 6;
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
+            // 
+            // Documento
+            // 
+            this.Documento.FillWeight = 60.58911F;
+            this.Documento.HeaderText = "No Documento";
+            this.Documento.MinimumWidth = 6;
+            this.Documento.Name = "Documento";
+            this.Documento.ReadOnly = true;
+            // 
+            // RazonSocial
+            // 
+            this.RazonSocial.FillWeight = 60.58911F;
+            this.RazonSocial.HeaderText = "Razon Social";
+            this.RazonSocial.MinimumWidth = 6;
+            this.RazonSocial.Name = "RazonSocial";
+            this.RazonSocial.ReadOnly = true;
+            // 
+            // Correo
+            // 
+            this.Correo.FillWeight = 60.58911F;
+            this.Correo.HeaderText = "Correo";
+            this.Correo.MinimumWidth = 6;
+            this.Correo.Name = "Correo";
+            this.Correo.ReadOnly = true;
+            // 
+            // Telefono
+            // 
+            this.Telefono.HeaderText = "Telefono";
+            this.Telefono.MinimumWidth = 6;
+            this.Telefono.Name = "Telefono";
+            this.Telefono.ReadOnly = true;
+            // 
+            // EstadoValor
+            // 
+            this.EstadoValor.HeaderText = "EstadoValor";
+            this.EstadoValor.MinimumWidth = 6;
+            this.EstadoValor.Name = "EstadoValor";
+            this.EstadoValor.ReadOnly = true;
+            this.EstadoValor.Visible = false;
+            // 
+            // Estado
+            // 
+            this.Estado.FillWeight = 60.58911F;
+            this.Estado.HeaderText = "Estado";
+            this.Estado.MinimumWidth = 6;
+            this.Estado.Name = "Estado";
+            this.Estado.ReadOnly = true;
+            // 
+            // txtbusqueda
+            // 
+            this.txtbusqueda.Location = new System.Drawing.Point(1134, 50);
+            this.txtbusqueda.Margin = new System.Windows.Forms.Padding(4);
+            this.txtbusqueda.Name = "txtbusqueda";
+            this.txtbusqueda.Size = new System.Drawing.Size(141, 22);
+            this.txtbusqueda.TabIndex = 77;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label6.Location = new System.Drawing.Point(52, 84);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(100, 16);
+            this.label6.TabIndex = 79;
+            this.label6.Text = "No Documento:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(227, 75);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(27, 22);
+            this.textBox1.TabIndex = 80;
+            this.textBox1.Text = "0";
+            this.textBox1.Visible = false;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(191, 75);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(27, 22);
+            this.textBox2.TabIndex = 81;
+            this.textBox2.Text = "-1";
+            this.textBox2.Visible = false;
+            // 
+            // txttelefono
+            // 
+            this.txttelefono.Location = new System.Drawing.Point(52, 277);
+            this.txttelefono.Margin = new System.Windows.Forms.Padding(4);
+            this.txttelefono.Name = "txttelefono";
+            this.txttelefono.Size = new System.Drawing.Size(204, 22);
+            this.txttelefono.TabIndex = 82;
             // 
             // frmProveedores
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1439, 585);
+            this.Controls.Add(this.txttelefono);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.btnlimpiar);
+            this.Controls.Add(this.btnguardar);
+            this.Controls.Add(this.cmbestado);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txtcorreo);
+            this.Controls.Add(this.txtrazonsocial);
+            this.Controls.Add(this.txtdocumento);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.btnlimpiarbuscador);
+            this.Controls.Add(this.btnbuscar);
+            this.Controls.Add(this.cmbbusqueda);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.txtid);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.txtIndice);
+            this.Controls.Add(this.dgvdata);
+            this.Controls.Add(this.txtbusqueda);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmProveedores";
             this.Text = "frmProveedores";
+            this.Load += new System.EventHandler(this.frmProveedores_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvdata)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -56,6 +505,39 @@
 
         #endregion
 
+        private System.Windows.Forms.Label label9;
+        private FontAwesome.Sharp.IconButton btnlimpiar;
+        private FontAwesome.Sharp.IconButton btnguardar;
+        private System.Windows.Forms.ComboBox cmbestado;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtcorreo;
+        private System.Windows.Forms.TextBox txtrazonsocial;
+        private System.Windows.Forms.TextBox txtdocumento;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private FontAwesome.Sharp.IconButton btnlimpiarbuscador;
+        private FontAwesome.Sharp.IconButton btnbuscar;
+        private System.Windows.Forms.ComboBox cmbbusqueda;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtid;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtIndice;
+        private System.Windows.Forms.DataGridView dgvdata;
+        private System.Windows.Forms.TextBox txtbusqueda;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DataGridViewButtonColumn btnSeleccionar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Documento;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RazonSocial;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Correo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Telefono;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EstadoValor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txttelefono;
     }
 }
