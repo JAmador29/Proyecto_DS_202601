@@ -119,7 +119,7 @@ namespace Proyecto_G4
         {
             AbrirFormulario((IconMenuItem)sender, new frmReportes());
         }
-
+        //Formulario de acerca de
         private void menuacercade_Click(object sender, EventArgs e)
         {
             AbrirFormulario((IconMenuItem)sender, new frmAcercade());
