@@ -51,6 +51,7 @@ namespace Proyecto_G4
             this.contenedor = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
+            this.submenunegocio = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,7 +94,8 @@ namespace Proyecto_G4
             this.menugestor.AutoSize = false;
             this.menugestor.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.subMenuCategory,
-            this.SubMenuProducts});
+            this.SubMenuProducts,
+            this.submenunegocio});
             this.menugestor.ForeColor = System.Drawing.Color.MediumPurple;
             this.menugestor.IconChar = FontAwesome.Sharp.IconChar.Gears;
             this.menugestor.IconColor = System.Drawing.Color.MediumPurple;
@@ -111,7 +113,7 @@ namespace Proyecto_G4
             this.subMenuCategory.IconColor = System.Drawing.Color.Black;
             this.subMenuCategory.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.subMenuCategory.Name = "subMenuCategory";
-            this.subMenuCategory.Size = new System.Drawing.Size(158, 26);
+            this.subMenuCategory.Size = new System.Drawing.Size(224, 26);
             this.subMenuCategory.Text = "Categoria";
             this.subMenuCategory.Click += new System.EventHandler(this.subMenuCategory_Click);
             // 
@@ -121,7 +123,7 @@ namespace Proyecto_G4
             this.SubMenuProducts.IconColor = System.Drawing.Color.Black;
             this.SubMenuProducts.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuProducts.Name = "SubMenuProducts";
-            this.SubMenuProducts.Size = new System.Drawing.Size(158, 26);
+            this.SubMenuProducts.Size = new System.Drawing.Size(224, 26);
             this.SubMenuProducts.Text = "Productos";
             this.SubMenuProducts.Click += new System.EventHandler(this.SubMenuProducts_Click);
             // 
@@ -185,7 +187,7 @@ namespace Proyecto_G4
             this.SubmenuRegistrarC.IconColor = System.Drawing.Color.Black;
             this.SubmenuRegistrarC.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubmenuRegistrarC.Name = "SubmenuRegistrarC";
-            this.SubmenuRegistrarC.Size = new System.Drawing.Size(224, 26);
+            this.SubmenuRegistrarC.Size = new System.Drawing.Size(197, 26);
             this.SubmenuRegistrarC.Text = "Registar ";
             this.SubmenuRegistrarC.Click += new System.EventHandler(this.SubmenuRegistrarC_Click);
             // 
@@ -195,7 +197,7 @@ namespace Proyecto_G4
             this.SubMenuDC.IconColor = System.Drawing.Color.Black;
             this.SubMenuDC.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuDC.Name = "SubMenuDC";
-            this.SubMenuDC.Size = new System.Drawing.Size(224, 26);
+            this.SubMenuDC.Size = new System.Drawing.Size(197, 26);
             this.SubMenuDC.Text = "Detalle Compra";
             this.SubMenuDC.Click += new System.EventHandler(this.SubMenuDC_Click);
             // 
@@ -315,6 +317,13 @@ namespace Proyecto_G4
             this.lblUsuario.TabIndex = 5;
             this.lblUsuario.Text = "lblUsuario";
             // 
+            // submenunegocio
+            // 
+            this.submenunegocio.Name = "submenunegocio";
+            this.submenunegocio.Size = new System.Drawing.Size(224, 26);
+            this.submenunegocio.Text = "Negocio";
+            this.submenunegocio.Click += new System.EventHandler(this.submenunegocio_Click);
+            // 
             // MenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
@@ -365,5 +374,6 @@ namespace Proyecto_G4
         private FontAwesome.Sharp.IconMenuItem SubMenuDV;
         private FontAwesome.Sharp.IconMenuItem SubmenuRegistrarC;
         private FontAwesome.Sharp.IconMenuItem SubMenuDC;
+        private ToolStripMenuItem submenunegocio;
     }
 }

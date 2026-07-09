@@ -97,7 +97,7 @@ namespace Proyecto_G4
         //Formularios de Compras/Registrar Compras
         private void SubmenuRegistrarC_Click(object sender, EventArgs e)
         {
-            AbrirFormulario((menucompras), new frmCompras());
+            AbrirFormulario((menucompras), new frmCompras(usuarioActual));
         }
         //Submenu de Detalle de Compras
         private void SubMenuDC_Click(object sender, EventArgs e)
@@ -123,6 +123,11 @@ namespace Proyecto_G4
         private void menuacercade_Click(object sender, EventArgs e)
         {
             AbrirFormulario((IconMenuItem)sender, new frmAcercade());
+        }
+
+        private void submenunegocio_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(menugestor, new frmNegocio());
         }
     }
 }

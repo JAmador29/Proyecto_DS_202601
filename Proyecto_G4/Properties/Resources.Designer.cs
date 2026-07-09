@@ -63,6 +63,16 @@ namespace Proyecto_G4.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Basurero25 {
+            get {
+                object obj = ResourceManager.GetObject("Basurero25", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap ChatGPT_Image_Jul_3__2026__03_27_18_PM {
             get {
                 object obj = ResourceManager.GetObject("ChatGPT Image Jul 3, 2026, 03_27_18 PM", resourceCulture);
