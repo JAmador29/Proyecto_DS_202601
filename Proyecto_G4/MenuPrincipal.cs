@@ -87,7 +87,7 @@ namespace Proyecto_G4
         //Formularios de Ventas/Registrar Ventas
         private void SubMenuRegistrar_Click(object sender, EventArgs e)
         {
-            AbrirFormulario((menuventas), new frmVentas());
+            AbrirFormulario((menuventas), new frmVentas(usuarioActual));
         }
         //Submenu de Detalle de Ventas
         private void SubMenuDV_Click(object sender, EventArgs e)
