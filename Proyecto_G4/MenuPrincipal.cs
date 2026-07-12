@@ -114,11 +114,7 @@ namespace Proyecto_G4
         {
             AbrirFormulario((IconMenuItem)sender, new frmClientes());
         }
-        //Formulario de Reportes
-        private void menureportes_click(object sender, EventArgs e)
-        {
-            AbrirFormulario((IconMenuItem)sender, new frmReportes());
-        }
+        
         //Formulario de acerca de
         private void menuacercade_Click(object sender, EventArgs e)
         {
@@ -128,6 +124,16 @@ namespace Proyecto_G4
         private void submenunegocio_Click(object sender, EventArgs e)
         {
             AbrirFormulario(menugestor, new frmNegocio());
+        }
+
+        private void submenureportecompras_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((menureportes), new frmReporteCompras());
+        }
+
+        private void submenureporteventas_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((menureportes), new frmReporteVentas());
         }
     }
 }

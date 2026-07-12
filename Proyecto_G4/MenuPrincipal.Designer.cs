@@ -36,6 +36,7 @@ namespace Proyecto_G4
             this.menugestor = new FontAwesome.Sharp.IconMenuItem();
             this.subMenuCategory = new FontAwesome.Sharp.IconMenuItem();
             this.SubMenuProducts = new FontAwesome.Sharp.IconMenuItem();
+            this.submenunegocio = new System.Windows.Forms.ToolStripMenuItem();
             this.menuventas = new FontAwesome.Sharp.IconMenuItem();
             this.SubMenuRegistrar = new FontAwesome.Sharp.IconMenuItem();
             this.SubMenuDV = new FontAwesome.Sharp.IconMenuItem();
@@ -51,7 +52,8 @@ namespace Proyecto_G4
             this.contenedor = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
-            this.submenunegocio = new System.Windows.Forms.ToolStripMenuItem();
+            this.submenureportecompras = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteVentasToolStripbmenureporteventasMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,7 +115,7 @@ namespace Proyecto_G4
             this.subMenuCategory.IconColor = System.Drawing.Color.Black;
             this.subMenuCategory.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.subMenuCategory.Name = "subMenuCategory";
-            this.subMenuCategory.Size = new System.Drawing.Size(224, 26);
+            this.subMenuCategory.Size = new System.Drawing.Size(158, 26);
             this.subMenuCategory.Text = "Categoria";
             this.subMenuCategory.Click += new System.EventHandler(this.subMenuCategory_Click);
             // 
@@ -123,9 +125,16 @@ namespace Proyecto_G4
             this.SubMenuProducts.IconColor = System.Drawing.Color.Black;
             this.SubMenuProducts.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuProducts.Name = "SubMenuProducts";
-            this.SubMenuProducts.Size = new System.Drawing.Size(224, 26);
+            this.SubMenuProducts.Size = new System.Drawing.Size(158, 26);
             this.SubMenuProducts.Text = "Productos";
             this.SubMenuProducts.Click += new System.EventHandler(this.SubMenuProducts_Click);
+            // 
+            // submenunegocio
+            // 
+            this.submenunegocio.Name = "submenunegocio";
+            this.submenunegocio.Size = new System.Drawing.Size(158, 26);
+            this.submenunegocio.Text = "Negocio";
+            this.submenunegocio.Click += new System.EventHandler(this.submenunegocio_Click);
             // 
             // menuventas
             // 
@@ -234,6 +243,9 @@ namespace Proyecto_G4
             // menureportes
             // 
             this.menureportes.AutoSize = false;
+            this.menureportes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.submenureportecompras,
+            this.reporteVentasToolStripbmenureporteventasMenuItem});
             this.menureportes.ForeColor = System.Drawing.Color.MediumPurple;
             this.menureportes.IconChar = FontAwesome.Sharp.IconChar.ClipboardList;
             this.menureportes.IconColor = System.Drawing.Color.MediumPurple;
@@ -244,7 +256,6 @@ namespace Proyecto_G4
             this.menureportes.Size = new System.Drawing.Size(90, 74);
             this.menureportes.Text = "Reportes";
             this.menureportes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.menureportes.Click += new System.EventHandler(this.menureportes_click);
             // 
             // menuacercade
             // 
@@ -317,12 +328,18 @@ namespace Proyecto_G4
             this.lblUsuario.TabIndex = 5;
             this.lblUsuario.Text = "lblUsuario";
             // 
-            // submenunegocio
+            // submenureportecompras
             // 
-            this.submenunegocio.Name = "submenunegocio";
-            this.submenunegocio.Size = new System.Drawing.Size(224, 26);
-            this.submenunegocio.Text = "Negocio";
-            this.submenunegocio.Click += new System.EventHandler(this.submenunegocio_Click);
+            this.submenureportecompras.Name = "submenureportecompras";
+            this.submenureportecompras.Size = new System.Drawing.Size(224, 26);
+            this.submenureportecompras.Text = "Reporte Compras";
+            this.submenureportecompras.Click += new System.EventHandler(this.submenureportecompras_Click);
+            // 
+            // reporteVentasToolStripbmenureporteventasMenuItem
+            // 
+            this.reporteVentasToolStripbmenureporteventasMenuItem.Name = "reporteVentasToolStripbmenureporteventasMenuItem";
+            this.reporteVentasToolStripbmenureporteventasMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.reporteVentasToolStripbmenureporteventasMenuItem.Text = "Reporte Ventas";
             // 
             // MenuPrincipal
             // 
@@ -375,5 +392,7 @@ namespace Proyecto_G4
         private FontAwesome.Sharp.IconMenuItem SubmenuRegistrarC;
         private FontAwesome.Sharp.IconMenuItem SubMenuDC;
         private ToolStripMenuItem submenunegocio;
+        private ToolStripMenuItem submenureportecompras;
+        private ToolStripMenuItem reporteVentasToolStripbmenureporteventasMenuItem;
     }
 }

@@ -25,19 +25,25 @@ namespace Proyecto_G4.Modales
         {
             foreach (DataGridViewColumn columna in dgvdata.Columns)
             {
-                cbobusqueda.Items.Add(new OpcionCombo() { Valor = columna.Name, Texto = columna.HeaderText });
+                if (columna.Visible)
+                {
+                    cbobusqueda.Items.Add(new OpcionCombo() { Valor = columna.Name, Texto = columna.HeaderText });
+                }
             }
 
             cbobusqueda.DisplayMember = "Texto";
             cbobusqueda.ValueMember = "Valor";
-            cbobusqueda.SelectedIndex = 0;
+            if (cbobusqueda.Items.Count > 0)
+            {
+                cbobusqueda.SelectedIndex = 0;
+            }
 
             List<Cliente> lista = new CN_Cliente().Listar();
 
             foreach (Cliente item in lista)
             {
                 if (item.Estado)
-                    dgvdata.Rows.Add(new object[] { item.Documento, item.NombreCompleto });
+                    dgvdata.Rows.Add(new object[] { item.IdCliente, item.Documento, item.NombreCompleto });
             }
         }
 
@@ -49,6 +55,7 @@ namespace Proyecto_G4.Modales
             {
                 _Cliente = new Cliente()
                 {
+                    IdCliente = Convert.ToInt32(dgvdata.Rows[iRow].Cells["IdCliente"].Value),
                     Documento = dgvdata.Rows[iRow].Cells["Documento"].Value.ToString(),
                     NombreCompleto = dgvdata.Rows[iRow].Cells["NombreCompleto"].Value.ToString()
                 };

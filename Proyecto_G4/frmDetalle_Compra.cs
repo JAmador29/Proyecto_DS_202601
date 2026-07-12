@@ -135,5 +135,10 @@ namespace Proyecto_G4
                 }
             }
         }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
