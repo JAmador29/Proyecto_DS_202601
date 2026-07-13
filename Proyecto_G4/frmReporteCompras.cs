@@ -20,6 +20,8 @@ namespace Proyecto_G4
         public frmReporteCompras()
         {
             InitializeComponent();
+
+
         }
         
         private void txtbusqueda_TextChanged(object sender, EventArgs e)
@@ -48,6 +50,23 @@ namespace Proyecto_G4
             cbobusqueda.DisplayMember = "Texto";
             cbobusqueda.ValueMember = "Valor";
             cbobusqueda.SelectedIndex = 0;
+
+            dgvdata.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgvdata.Columns["FechaRegistro"].FillWeight = 75;
+            dgvdata.Columns["TipoDocumento"].FillWeight = 85;
+            dgvdata.Columns["NumeroDocumento"].FillWeight = 95;
+            dgvdata.Columns["MontoTotal"].FillWeight = 80;
+            dgvdata.Columns["UsuarioRegistro"].FillWeight = 150;
+            dgvdata.Columns["RTN"].FillWeight = 115;
+            dgvdata.Columns["RazonSocial"].FillWeight = 125;
+            dgvdata.Columns["CodigoProducto"].FillWeight = 90;
+            dgvdata.Columns["NombreProducto"].FillWeight = 130;
+            dgvdata.Columns["Categoria"].FillWeight = 90;
+            dgvdata.Columns["PrecioCompra"].FillWeight = 80;
+            dgvdata.Columns["PrecioVenta"].FillWeight = 80;
+            dgvdata.Columns["Cantidad"].FillWeight = 60;
+            dgvdata.Columns["SubTotal"].FillWeight = 90;
         }
 
         private void iconButton1_Click(object sender, EventArgs e)
@@ -96,6 +115,8 @@ namespace Proyecto_G4
                     rc.SubTotal
                 });
             }
+
+            
         }
 
         private void btnexportar_Click(object sender, EventArgs e)
