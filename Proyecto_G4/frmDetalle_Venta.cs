@@ -98,9 +98,27 @@ namespace Proyecto_G4
 
                 dgvdata.Rows.Clear();
 
-                foreach(Detalle_Venta dv in oVenta.DetalleVenta)
+                if (oVenta.DetalleVenta.Count > 0)
                 {
-                    dgvdata.Rows.Add(new object[] { dv.oProducto.Nombre, dv.PrecioVenta, dv.Cantidad, dv.SubTotal});
+                    foreach(Detalle_Venta dv in oVenta.DetalleVenta)
+                    {
+                        dgvdata.Rows.Add(new object[]
+                        {
+                            dv.oProducto.Nombre,
+                            dv.PrecioVenta.ToString("0.00"),
+                            dv.Cantidad,
+                            dv.SubTotal.ToString("0.00")
+                        });
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "La venta fue encontrada, pero no tiene productos guardados en DETALLE_VENTA.",
+                        "Mensaje",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation
+                    );
                 }
 
                 txtmontototal.Text = oVenta.MontoTotal.ToString("0.00");

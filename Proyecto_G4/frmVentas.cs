@@ -391,6 +391,18 @@ namespace Proyecto_G4
             };
 
             string mensaje = string.Empty;
+
+            if (detalle_venta.Rows.Count == 0)
+            {
+                MessageBox.Show(
+                    "No se generaron filas para el detalle de la venta.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+
+                return;
+            }
             bool respuesta = new CN_Venta().Registrar(oVenta,detalle_venta, out mensaje);  
 
             if(respuesta)
