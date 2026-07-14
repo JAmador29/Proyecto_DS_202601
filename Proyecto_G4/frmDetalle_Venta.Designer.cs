@@ -106,7 +106,7 @@
             this.btnborrar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnborrar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnborrar.UseVisualStyleBackColor = true;
-            this.btnborrar.Click += new System.EventHandler(this.btnborrar_Click_1);
+            this.btnborrar.Click += new System.EventHandler(this.btnborrar_Click);
             // 
             // btnbuscar
             // 
@@ -196,7 +196,6 @@
             this.txttipodocumento.ReadOnly = true;
             this.txttipodocumento.Size = new System.Drawing.Size(267, 24);
             this.txttipodocumento.TabIndex = 87;
-            this.txttipodocumento.TextChanged += new System.EventHandler(this.txttipodocumento_TextChanged);
             // 
             // txtfecha
             // 

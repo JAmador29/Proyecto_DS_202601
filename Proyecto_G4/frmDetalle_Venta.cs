@@ -29,56 +29,61 @@ namespace Proyecto_G4
 
         private void btnbuscar_Click(object sender, EventArgs e)
         {
+            Venta oVenta = new CN_Venta().ObtenerVenta(txtbusqueda.Text);
+            if (oVenta.IdVenta != 0)
+            {
+                txtnumerodocumento.Text = oVenta.NumeroDocumento;
 
-        }
+                txtfecha.Text = oVenta.FechaRegistro;
+                txttipodocumento.Text = oVenta.TipoDocumento;
+                txtusuario.Text = oVenta.oUsuario.NombreCompleto;
 
-        private void label26_Click(object sender, EventArgs e)
-        {
+                txtdoccliente.Text = oVenta.DocumentoCliente;
+                txtnombrecliente.Text = oVenta.NombreCliente;
 
+                dgvdata.Rows.Clear();
+
+                if (oVenta.DetalleVenta.Count > 0)
+                {
+                    foreach (Detalle_Venta dv in oVenta.DetalleVenta)
+                    {
+                        dgvdata.Rows.Add(new object[]
+                        {
+                            dv.oProducto.Nombre,
+                            dv.PrecioVenta.ToString("0.00"),
+                            dv.Cantidad,
+                            dv.SubTotal.ToString("0.00")
+                        });
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "La venta fue encontrada, pero no tiene productos guardados en DETALLE_VENTA.",
+                        "Mensaje",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation
+                    );
+                }
+
+                txtmontototal.Text = oVenta.MontoTotal.ToString("0.00");
+                txtmontopago.Text = oVenta.MontoPago.ToString("0.00");
+                txtmontocambio.Text = oVenta.MontoCambio.ToString("0.00");
+            }
         }
 
         private void btnborrar_Click(object sender, EventArgs e)
         {
+            txtfecha.Text = "";
+            txttipodocumento.Text = "";
+            txtusuario.Text = "";
+            txtdoccliente.Text = "";
+            txtnombrecliente.Text = "";
 
-        }
-
-        private void txttipodocumento_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtmontototal_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtmontopago_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtmontocambio_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btndescargar_Click(object sender, EventArgs e)
-        {
+            dgvdata.Rows.Clear();
+            txtmontototal.Text = "0.00";
+            txtmontopago.Text = "0.00";
+            txtmontocambio.Text = "0.00";
 
         }
 
@@ -125,21 +130,6 @@ namespace Proyecto_G4
                 txtmontopago.Text = oVenta.MontoPago.ToString("0.00");
                 txtmontocambio.Text = oVenta.MontoCambio.ToString("0.00");
             }
-
-        }
-
-        private void btnborrar_Click_1(object sender, EventArgs e)
-        {
-            txtfecha.Text = "";
-            txttipodocumento.Text = "";
-            txtusuario.Text = "";
-            txtdoccliente.Text = "";
-            txtnombrecliente.Text = "";
-
-            dgvdata.Rows.Clear();
-            txtmontototal.Text = "0.00";
-            txtmontopago.Text = "0.00";
-            txtmontocambio.Text = "0.00";
 
         }
 

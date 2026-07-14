@@ -17,6 +17,7 @@ namespace Proyecto_G4
                 SetProcessDPIAware();
 
             Application.Run(new Login());
+
         }
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
