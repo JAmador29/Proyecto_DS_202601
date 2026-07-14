@@ -8,6 +8,7 @@ using Capa_Entidad;
 using System.Net.Http;
 using Capa_Negocio;
 using System.Collections.Generic;
+using Proyecto_G4.Modales;
 
 namespace Proyecto_G4
 {
@@ -118,7 +119,8 @@ namespace Proyecto_G4
         //Formulario de acerca de
         private void menuacercade_Click(object sender, EventArgs e)
         {
-            AbrirFormulario((IconMenuItem)sender, new frmAcercade());
+            mdAcercade md = new mdAcercade();
+            md.ShowDialog();
         }
 
         private void submenunegocio_Click(object sender, EventArgs e)
@@ -131,9 +133,22 @@ namespace Proyecto_G4
             AbrirFormulario((menureportes), new frmReporteCompras());
         }
 
-        private void submenureporteventas_Click(object sender, EventArgs e)
+        /*private void submenureporteventas_Click(object sender, EventArgs e)
         {
             AbrirFormulario((menureportes), new frmReporteVentas());
+        }*/
+
+        private void submenureporteventas_Click_1(object sender, EventArgs e)
+        {
+            AbrirFormulario((menureportes), new frmReporteVentas());
+        }
+
+        private void btnsalir_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("¿Desea cerrar sesión?", "Mensaje", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
     }
 }

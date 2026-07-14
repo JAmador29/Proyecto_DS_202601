@@ -46,14 +46,15 @@ namespace Proyecto_G4
             this.menuproveedores = new FontAwesome.Sharp.IconMenuItem();
             this.menuclientes = new FontAwesome.Sharp.IconMenuItem();
             this.menureportes = new FontAwesome.Sharp.IconMenuItem();
+            this.submenureportecompras = new System.Windows.Forms.ToolStripMenuItem();
+            this.submenureporteventas = new System.Windows.Forms.ToolStripMenuItem();
             this.menuacercade = new FontAwesome.Sharp.IconMenuItem();
             this.menutitulo = new System.Windows.Forms.MenuStrip();
             this.label1 = new System.Windows.Forms.Label();
             this.contenedor = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
-            this.submenureportecompras = new System.Windows.Forms.ToolStripMenuItem();
-            this.reporteVentasToolStripbmenureporteventasMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnsalir = new FontAwesome.Sharp.IconButton();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -245,7 +246,7 @@ namespace Proyecto_G4
             this.menureportes.AutoSize = false;
             this.menureportes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.submenureportecompras,
-            this.reporteVentasToolStripbmenureporteventasMenuItem});
+            this.submenureporteventas});
             this.menureportes.ForeColor = System.Drawing.Color.MediumPurple;
             this.menureportes.IconChar = FontAwesome.Sharp.IconChar.ClipboardList;
             this.menureportes.IconColor = System.Drawing.Color.MediumPurple;
@@ -256,6 +257,20 @@ namespace Proyecto_G4
             this.menureportes.Size = new System.Drawing.Size(90, 74);
             this.menureportes.Text = "Reportes";
             this.menureportes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // submenureportecompras
+            // 
+            this.submenureportecompras.Name = "submenureportecompras";
+            this.submenureportecompras.Size = new System.Drawing.Size(208, 26);
+            this.submenureportecompras.Text = "Reporte Compras";
+            this.submenureportecompras.Click += new System.EventHandler(this.submenureportecompras_Click);
+            // 
+            // submenureporteventas
+            // 
+            this.submenureporteventas.Name = "submenureporteventas";
+            this.submenureporteventas.Size = new System.Drawing.Size(208, 26);
+            this.submenureporteventas.Text = "Reporte Ventas";
+            this.submenureporteventas.Click += new System.EventHandler(this.submenureporteventas_Click_1);
             // 
             // menuacercade
             // 
@@ -311,7 +326,7 @@ namespace Proyecto_G4
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.MediumPurple;
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(949, 39);
+            this.label2.Location = new System.Drawing.Point(835, 39);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 22);
             this.label2.TabIndex = 4;
@@ -322,24 +337,28 @@ namespace Proyecto_G4
             this.lblUsuario.AutoSize = true;
             this.lblUsuario.BackColor = System.Drawing.Color.MediumPurple;
             this.lblUsuario.ForeColor = System.Drawing.Color.White;
-            this.lblUsuario.Location = new System.Drawing.Point(1027, 39);
+            this.lblUsuario.Location = new System.Drawing.Point(913, 39);
             this.lblUsuario.Name = "lblUsuario";
             this.lblUsuario.Size = new System.Drawing.Size(94, 22);
             this.lblUsuario.TabIndex = 5;
             this.lblUsuario.Text = "lblUsuario";
             // 
-            // submenureportecompras
+            // btnsalir
             // 
-            this.submenureportecompras.Name = "submenureportecompras";
-            this.submenureportecompras.Size = new System.Drawing.Size(224, 26);
-            this.submenureportecompras.Text = "Reporte Compras";
-            this.submenureportecompras.Click += new System.EventHandler(this.submenureportecompras_Click);
-            // 
-            // reporteVentasToolStripbmenureporteventasMenuItem
-            // 
-            this.reporteVentasToolStripbmenureporteventasMenuItem.Name = "reporteVentasToolStripbmenureporteventasMenuItem";
-            this.reporteVentasToolStripbmenureporteventasMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.reporteVentasToolStripbmenureporteventasMenuItem.Text = "Reporte Ventas";
+            this.btnsalir.BackColor = System.Drawing.Color.MediumPurple;
+            this.btnsalir.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnsalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnsalir.IconChar = FontAwesome.Sharp.IconChar.SignOut;
+            this.btnsalir.IconColor = System.Drawing.Color.White;
+            this.btnsalir.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnsalir.IconSize = 55;
+            this.btnsalir.Location = new System.Drawing.Point(1071, 12);
+            this.btnsalir.Name = "btnsalir";
+            this.btnsalir.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.btnsalir.Size = new System.Drawing.Size(75, 55);
+            this.btnsalir.TabIndex = 6;
+            this.btnsalir.UseVisualStyleBackColor = false;
+            this.btnsalir.Click += new System.EventHandler(this.btnsalir_Click);
             // 
             // MenuPrincipal
             // 
@@ -347,6 +366,7 @@ namespace Proyecto_G4
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1158, 644);
+            this.Controls.Add(this.btnsalir);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.contenedor);
@@ -393,6 +413,7 @@ namespace Proyecto_G4
         private FontAwesome.Sharp.IconMenuItem SubMenuDC;
         private ToolStripMenuItem submenunegocio;
         private ToolStripMenuItem submenureportecompras;
-        private ToolStripMenuItem reporteVentasToolStripbmenureporteventasMenuItem;
+        private ToolStripMenuItem submenureporteventas;
+        private FontAwesome.Sharp.IconButton btnsalir;
     }
 }
