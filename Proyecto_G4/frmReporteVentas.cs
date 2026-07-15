@@ -34,32 +34,43 @@ namespace Proyecto_G4
 
         private void btnbuscarreporte_Click(object sender, EventArgs e)
         {
-            List<ReporteVenta> lista = new List<ReporteVenta>();
-
-            lista = new CN_Reporte().Venta(txtfechainicio.Value.ToString(), txtfechafin.Value.ToString());
-            
-            dgvdata.Rows.Clear();
-
-            foreach (ReporteVenta rv in lista)
+            try
             {
-                dgvdata.Rows.Add(new object[]
-                {
-                    rv.FechaRegistro,
-                    rv.TipoDocumento,
-                    rv.NumeroDocumento,
-                    rv.MontoTotal,
-                    rv.UsuarioRegistro,
-                    rv.DocumentoCliente,
-                    rv.NombreCliente,
-                    rv.CodigoProducto,
-                    rv.NombreProducto,
-                    rv.Categoria,
-                    rv.PrecioVenta,
-                    rv.Cantidad,
-                    rv.SubTotal
-                });
-            }
+                List<ReporteVenta> lista = new CN_Reporte().Venta(txtfechainicio.Value, txtfechafin.Value);
 
+                dgvdata.Rows.Clear();
+
+                foreach (ReporteVenta rv in lista)
+                {
+                    dgvdata.Rows.Add(new object[]
+                    {
+                        rv.FechaRegistro,
+                        rv.TipoDocumento,
+                        rv.NumeroDocumento,
+                        rv.MontoTotal,
+                        rv.UsuarioRegistro,
+                        rv.DocumentoCliente,
+                        rv.NombreCliente,
+                        rv.CodigoProducto,
+                        rv.NombreProducto,
+                        rv.Categoria,
+                        rv.PrecioVenta,
+                        rv.Cantidad,
+                        rv.SubTotal
+                    });
+                }
+
+                if (lista.Count == 0)
+                    MessageBox.Show("No se encontraron ventas en el rango de fechas seleccionado.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (ArgumentException exArg)
+            {
+                MessageBox.Show(exArg.Message, "Fechas inválidas", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar el reporte: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnbuscar_Click(object sender, EventArgs e)
@@ -70,8 +81,9 @@ namespace Proyecto_G4
             {
                 foreach (DataGridViewRow row in dgvdata.Rows)
                 {
+                    string valorCelda = Convert.ToString(row.Cells[columnaFiltro].Value);
 
-                    if (row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(txtbusqueda.Text.Trim().ToUpper()))
+                    if (valorCelda.Trim().ToUpper().Contains(txtbusqueda.Text.Trim().ToUpper()))
                         row.Visible = true;
                     else
                         row.Visible = false;
@@ -92,63 +104,49 @@ namespace Proyecto_G4
         {
             if (dgvdata.Rows.Count < 1)
             {
-
                 MessageBox.Show("No hay registros para exportar", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
+                return;
             }
-            else
+
+            DataTable dt = new DataTable();
+
+            foreach (DataGridViewColumn columna in dgvdata.Columns)
             {
+                dt.Columns.Add(columna.HeaderText, typeof(string));
+            }
 
-                DataTable dt = new DataTable();
+            foreach (DataGridViewRow row in dgvdata.Rows)
+            {
+                if (!row.Visible) continue;
 
-                foreach (DataGridViewColumn columna in dgvdata.Columns)
+                object[] valores = new object[dgvdata.Columns.Count];
+                for (int i = 0; i < dgvdata.Columns.Count; i++)
                 {
-                    dt.Columns.Add(columna.HeaderText, typeof(string));
+                    valores[i] = Convert.ToString(row.Cells[i].Value);
                 }
+                dt.Rows.Add(valores);
+            }
 
-                foreach (DataGridViewRow row in dgvdata.Rows)
+            SaveFileDialog savefile = new SaveFileDialog();
+            savefile.FileName = string.Format("ReporteVentas_{0}.xlsx", DateTime.Now.ToString("ddMMyyyyHHmmss"));
+            savefile.Filter = "Excel Files | *.xlsx";
+
+            if (savefile.ShowDialog() == DialogResult.OK)
+            {
+                try
                 {
-                    if (row.Visible)
-                        dt.Rows.Add(new object[] {
-                            row.Cells[0].Value.ToString(),
-                            row.Cells[1].Value.ToString(),
-                            row.Cells[2].Value.ToString(),
-                            row.Cells[3].Value.ToString(),
-                            row.Cells[4].Value.ToString(),
-                            row.Cells[5].Value.ToString(),
-                            row.Cells[6].Value.ToString(),
-                            row.Cells[7].Value.ToString(),
-                            row.Cells[8].Value.ToString(),
-                            row.Cells[9].Value.ToString(),
-                            row.Cells[10].Value.ToString(),
-                            row.Cells[11].Value.ToString(),
-                            row.Cells[12].Value.ToString()
-                        });
-                }
-
-                SaveFileDialog savefile = new SaveFileDialog();
-                savefile.FileName = string.Format("ReporteVentas_{0}.xlsx", DateTime.Now.ToString("ddMMyyyyHHmmss"));
-                savefile.Filter = "Excel Files | *.xlsx";
-
-                if (savefile.ShowDialog() == DialogResult.OK)
-                {
-
-                    try
+                    using (XLWorkbook wb = new XLWorkbook())
                     {
-                        XLWorkbook wb = new XLWorkbook();
                         var hoja = wb.Worksheets.Add(dt, "Informe");
                         hoja.ColumnsUsed().AdjustToContents();
                         wb.SaveAs(savefile.FileName);
-                        MessageBox.Show("Reporte Generado", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                     }
-                    catch
-                    {
-                        MessageBox.Show("Error al generar reporte", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-
+                    MessageBox.Show("Reporte Generado", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al generar reporte: " + ex.Message, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
         }
     }

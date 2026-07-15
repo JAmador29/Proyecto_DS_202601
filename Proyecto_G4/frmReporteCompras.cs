@@ -87,36 +87,46 @@ namespace Proyecto_G4
 
         private void btnbuscar_Click(object sender, EventArgs e)
         {
-            int idproveedor = Convert.ToInt32(((OpcionCombo)cboprovedor.SelectedItem).Valor.ToString());
-
-            List<ReporteCompra> lista = new List<ReporteCompra>();
-
-            lista = new CN_Reporte().Compra(txtfechainicio.Value.ToString("dd/MM/yyyy"),txtfechafin.Value.ToString("dd/MM/yyyy"), idproveedor);
-
-            dgvdata.Rows.Clear();
-
-            foreach (ReporteCompra rc in lista)
+            try
             {
-                dgvdata.Rows.Add(new object[]
-                {
-                    rc.FechaRegistro,
-                    rc.TipoDocumento,
-                    rc.NumeroDocumento,
-                    rc.MontoTotal,
-                    rc.UsuarioRegistro,
-                    rc.RTN,
-                    rc.RazonSocial,
-                    rc.CodigoProducto,
-                    rc.NombreProducto,
-                    rc.Categoria,
-                    rc.PrecioCompra,
-                    rc.PrecioVenta,
-                    rc.Cantidad,
-                    rc.SubTotal
-                });
-            }
+                int idproveedor = Convert.ToInt32(((OpcionCombo)cboprovedor.SelectedItem).Valor.ToString());
 
-            
+                List<ReporteCompra> lista = new CN_Reporte().Compra(txtfechainicio.Value, txtfechafin.Value, idproveedor);
+
+                dgvdata.Rows.Clear();
+
+                foreach (ReporteCompra rc in lista)
+                {
+                    dgvdata.Rows.Add(new object[]
+                    {
+                rc.FechaRegistro,
+                rc.TipoDocumento,
+                rc.NumeroDocumento,
+                rc.MontoTotal,
+                rc.UsuarioRegistro,
+                rc.RTN,
+                rc.RazonSocial,
+                rc.CodigoProducto,
+                rc.NombreProducto,
+                rc.Categoria,
+                rc.PrecioCompra,
+                rc.PrecioVenta,
+                rc.Cantidad,
+                rc.SubTotal
+                    });
+                }
+
+                if (lista.Count == 0)
+                    MessageBox.Show("No se encontraron compras en el rango de fechas seleccionado.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (ArgumentException exArg)
+            {
+                MessageBox.Show(exArg.Message, "Fechas inválidas", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar el reporte: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnexportar_Click(object sender, EventArgs e)
