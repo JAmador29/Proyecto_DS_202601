@@ -20,6 +20,16 @@ namespace Proyecto_G4
         {
             InitializeComponent();
         }
+        // evita que la fecha final sea anterior a la fecha inicial
+        private void txtfechainicio_ValueChanged_1(object sender, EventArgs e)
+        {
+            txtfechafin.MinDate = txtfechainicio.Value.Date;
+            if (txtfechafin.Value.Date < txtfechainicio.Value.Date)
+            {
+                txtfechafin.Value = txtfechainicio.Value.Date;
+            }
+
+        }
 
         private void frmReporteVentas_Load(object sender, EventArgs e)
         {
@@ -30,10 +40,28 @@ namespace Proyecto_G4
             cbobusqueda.DisplayMember = "Texto";
             cbobusqueda.ValueMember = "Valor";
             cbobusqueda.SelectedIndex = 0;
+
+            txtfechainicio.MaxDate = DateTime.Today;
+            txtfechafin.MaxDate = DateTime.Today;
+
+            //La fecha final no puede ser anterior a la fecha inicial
+            txtfechafin.MinDate = txtfechainicio.Value.Date;
         }
 
         private void btnbuscarreporte_Click(object sender, EventArgs e)
         {
+            //mensaje de error de fecha inicio que no puede ser despues de fecha inicial
+            if (txtfechainicio.Value.Date > txtfechafin.Value.Date)
+            {
+                MessageBox.Show(
+                    "La fecha inicial no puede ser posterior a la fecha final.",
+                    "Fechas inválidas",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                return;
+            }
             List<ReporteVenta> lista = new List<ReporteVenta>();
 
             lista = new CN_Reporte().Venta(txtfechainicio.Value.ToString(), txtfechafin.Value.ToString());
@@ -59,6 +87,7 @@ namespace Proyecto_G4
                     rv.SubTotal
                 });
             }
+
 
         }
 
@@ -151,5 +180,7 @@ namespace Proyecto_G4
 
             }
         }
+
+       
     }
 }

@@ -23,7 +23,15 @@ namespace Proyecto_G4
 
 
         }
-        
+        private void txtfechainicio_ValueChanged(object sender, EventArgs e)
+        {
+            txtfechafin.MinDate = txtfechainicio.Value.Date;
+
+            if (txtfechafin.Value.Date < txtfechainicio.Value.Date)
+            {
+                txtfechafin.Value = txtfechainicio.Value.Date;
+            }
+        }
         private void txtbusqueda_TextChanged(object sender, EventArgs e)
         {
 
@@ -67,6 +75,13 @@ namespace Proyecto_G4
             dgvdata.Columns["PrecioVenta"].FillWeight = 80;
             dgvdata.Columns["Cantidad"].FillWeight = 60;
             dgvdata.Columns["SubTotal"].FillWeight = 90;
+
+            // Evita seleccionar fechas que vayan despues del día actual.
+            txtfechainicio.MaxDate = DateTime.Today;
+            txtfechafin.MaxDate = DateTime.Today;
+
+            //La fecha final no puede ser anterior a la fecha inicial
+            txtfechafin.MinDate = txtfechainicio.Value.Date;
         }
 
         private void iconButton1_Click(object sender, EventArgs e)
@@ -87,6 +102,18 @@ namespace Proyecto_G4
 
         private void btnbuscar_Click(object sender, EventArgs e)
         {
+            if (txtfechainicio.Value.Date > txtfechafin.Value.Date)
+            {
+                MessageBox.Show(
+                    "La fecha inicial no puede ser posterior a la fecha final.",
+                    "Fechas inválidas",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                return;
+            }
+
             int idproveedor = Convert.ToInt32(((OpcionCombo)cboprovedor.SelectedItem).Valor.ToString());
 
             List<ReporteCompra> lista = new List<ReporteCompra>();
@@ -196,5 +223,6 @@ namespace Proyecto_G4
         {
 
         }
+
     }
 }
