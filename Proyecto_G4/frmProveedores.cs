@@ -18,6 +18,29 @@ namespace Proyecto_G4
         public frmProveedores()
         {
             InitializeComponent();
+            txtdocumento.MaxLength = 14;
+        }
+
+        private void CargarProveedores()
+        {
+            dgvdata.Rows.Clear();
+
+            List<Proveedor> lista = new CN_Proveedor().Listar();
+
+            foreach (Proveedor item in lista)
+            {
+                dgvdata.Rows.Add(new object[]
+                {
+                    "",
+                    item.IdProveedor,
+                    item.RTN,
+                    item.RazonSocial,
+                    item.Correo,
+                    item.Telefono,
+                    item.Estado ? 1 :0,
+                    item.Estado ? "Activo" : "No Activo"
+                });
+            }
         }
 
         private void frmProveedores_Load(object sender, EventArgs e)
@@ -40,15 +63,7 @@ namespace Proyecto_G4
             cmbbusqueda.ValueMember = "Valor";
             cmbbusqueda.SelectedIndex = 0;
 
-            List<Proveedor> lista = new CN_Proveedor().Listar();
-
-            foreach (Proveedor item in lista)
-            {
-                dgvdata.Rows.Add(new object[] {"",item.IdProveedor,item.RTN,item.RazonSocial,item.Correo,item.Telefono,
-                    item.Estado == true ? 1 :0,
-                    item.Estado == true ? "Activo" : "No Activo"
-                });
-            }
+            CargarProveedores();
         }
 
         private void btnguardar_Click(object sender, EventArgs e)
@@ -71,11 +86,7 @@ namespace Proyecto_G4
 
                 if (idgenerado != 0)
                 {
-                    dgvdata.Rows.Add(new object[] {"",idgenerado,txtdocumento.Text,txtrazonsocial.Text,txtcorreo.Text,txttelefono.Text,
-                        ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString(),
-                        ((OpcionCombo)cmbestado.SelectedItem).Texto.ToString(),
-                    });
-
+                    CargarProveedores();
                     Limpiar();
                 }
                 else
@@ -89,14 +100,7 @@ namespace Proyecto_G4
 
                 if (resultado)
                 {
-                    DataGridViewRow row = dgvdata.Rows[Convert.ToInt32(txtIndice.Text)];
-                    row.Cells["Id"].Value = txtid.Text;
-                    row.Cells["Documento"].Value = txtdocumento.Text;
-                    row.Cells["RazonSocial"].Value = txtrazonsocial.Text;
-                    row.Cells["Correo"].Value = txtcorreo.Text;
-                    row.Cells["Telefono"].Value = txttelefono.Text;
-                    row.Cells["EstadoValor"].Value = ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString();
-                    row.Cells["Estado"].Value = ((OpcionCombo)cmbestado.SelectedItem).Texto.ToString();
+                    CargarProveedores();
                     Limpiar();
                 }
                 else
@@ -173,6 +177,34 @@ namespace Proyecto_G4
         private void btnlimpiar_Click(object sender, EventArgs e)
         {
             Limpiar();
+        }
+
+        private void txtrazonsocial_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) &&
+                !char.IsWhiteSpace(e.KeyChar) &&
+                e.KeyChar != '&' &&
+                e.KeyChar != '.' &&
+                !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txttelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtdocumento_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }
