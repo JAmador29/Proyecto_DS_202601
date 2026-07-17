@@ -1,0 +1,33 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<!-- Agregamos -windows para que acepte Windows Forms sin chistar -->
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="App.config" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="App.config">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Capa_Entidad\Capa_Entidad.csproj" />
+		<ProjectReference Include="..\Capa_Negocio\Capa_Negocio.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Actualizamos a tu versión real para quitar el error NU1605 -->
+		<PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
+	</ItemGroup>
+
+</Project>

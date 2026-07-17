@@ -11,7 +11,7 @@ namespace Capa_Datos
 {
     public class CD_Reporte
     {
-        public List<ReporteCompra> Compra(string fechainicio, string fechafin, int idproveedor)
+        public List<ReporteCompra> Compra(DateTime fechainicio, DateTime fechafin, int idproveedor)
         {
             List<ReporteCompra> lista = new List<ReporteCompra>();
 
@@ -19,12 +19,11 @@ namespace Capa_Datos
             {
                 try
                 {
-                    StringBuilder query = new StringBuilder();
                     SqlCommand cmd = new SqlCommand("sp_ReporteCompras", oconexion);
-                    cmd.Parameters.AddWithValue("fechainicio", fechainicio);
-                    cmd.Parameters.AddWithValue("fechafin", fechafin);
-                    cmd.Parameters.AddWithValue("idproveedor", idproveedor);
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@fechainicio", SqlDbType.Date).Value = fechainicio.Date;
+                    cmd.Parameters.Add("@fechafin", SqlDbType.Date).Value = fechafin.Date;
+                    cmd.Parameters.Add("@idproveedor", SqlDbType.Int).Value = idproveedor;
 
                     oconexion.Open();
 
@@ -52,15 +51,16 @@ namespace Capa_Datos
                         }
                     }
                 }
-                catch(Exception ex) 
+                catch (Exception ex)
                 {
-                    lista = new List<ReporteCompra>();
+                    System.Diagnostics.Debug.WriteLine("Error en CD_Reporte.Compra: " + ex.Message);
+                    throw new ApplicationException("No se pudo generar el reporte de compras. " + ex.Message, ex);
                 }
             }
             return lista;
         }
 
-        public List<ReporteVenta> Venta(string fechainicio, string fechafin)
+        public List<ReporteVenta> Venta(DateTime fechainicio, DateTime fechafin)
         {
             List<ReporteVenta> lista = new List<ReporteVenta>();
 
@@ -68,11 +68,10 @@ namespace Capa_Datos
             {
                 try
                 {
-                    StringBuilder query = new StringBuilder();
                     SqlCommand cmd = new SqlCommand("sp_ReporteVentas", oconexion);
-                    cmd.Parameters.AddWithValue("fechainicio", fechainicio);
-                    cmd.Parameters.AddWithValue("fechafin", fechafin);
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@fechainicio", SqlDbType.Date).Value = fechainicio.Date;
+                    cmd.Parameters.Add("@fechafin", SqlDbType.Date).Value = fechafin.Date;
 
                     oconexion.Open();
 
@@ -88,7 +87,7 @@ namespace Capa_Datos
                                 MontoTotal = dr["MontoTotal"].ToString(),
                                 UsuarioRegistro = dr["UsuarioRegistro"].ToString(),
                                 DocumentoCliente = dr["DocumentoCliente"].ToString(),
-                                NombreCliente = dr["RazonSocial"].ToString(),
+                                NombreCliente = dr["NombreCliente"].ToString(),
                                 CodigoProducto = dr["CodigoProducto"].ToString(),
                                 NombreProducto = dr["NombreProducto"].ToString(),
                                 Categoria = dr["Categoria"].ToString(),
@@ -101,7 +100,8 @@ namespace Capa_Datos
                 }
                 catch (Exception ex)
                 {
-                    lista = new List<ReporteVenta>();
+                    System.Diagnostics.Debug.WriteLine("Error en CD_Reporte.Venta: " + ex.Message);
+                    throw new ApplicationException("No se pudo generar el reporte de ventas. " + ex.Message, ex);
                 }
             }
             return lista;
