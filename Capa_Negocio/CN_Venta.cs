@@ -29,9 +29,31 @@ namespace Capa_Negocio
             return objcd_venta.ObtenerCorrelativo();
         }
 
-        public bool Registrar(Venta obj, DataTable DetalleVenta, out string Mensaje)
+        public bool Registrar(Venta obj,DataTable DetalleVenta,out string Mensaje)
         {
-            return objcd_venta.Registrar(obj, DetalleVenta, out Mensaje);
+            Mensaje = string.Empty;
+
+            if (obj.MontoPago < obj.MontoTotal)
+            {
+                Mensaje =
+                    "El monto pagado no puede ser menor que el total de la venta.";
+
+                return false;
+            }
+
+            if (DetalleVenta == null || DetalleVenta.Rows.Count == 0)
+            {
+                Mensaje = "Debe ingresar productos en la venta.";
+                return false;
+            }
+
+            obj.MontoCambio = obj.MontoPago - obj.MontoTotal;
+
+            return objcd_venta.Registrar(
+                obj,
+                DetalleVenta,
+                out Mensaje
+            );
         }
 
         public Venta ObtenerVenta(string numero)

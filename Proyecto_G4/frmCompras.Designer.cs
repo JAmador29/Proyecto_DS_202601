@@ -457,6 +457,7 @@
             // 
             this.txtTotalaPagar.Location = new System.Drawing.Point(1007, 569);
             this.txtTotalaPagar.Name = "txtTotalaPagar";
+            this.txtTotalaPagar.ReadOnly = true;
             this.txtTotalaPagar.Size = new System.Drawing.Size(124, 22);
             this.txtTotalaPagar.TabIndex = 29;
             // 
