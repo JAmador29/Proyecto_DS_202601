@@ -73,7 +73,7 @@ namespace Proyecto_G4
             this.menuacercade});
             this.menu.Location = new System.Drawing.Point(0, 87);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(1158, 78);
+            this.menu.Size = new System.Drawing.Size(1590, 78);
             this.menu.TabIndex = 0;
             this.menu.Text = "menuStrip1";
             // 
@@ -116,7 +116,7 @@ namespace Proyecto_G4
             this.subMenuCategory.IconColor = System.Drawing.Color.Black;
             this.subMenuCategory.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.subMenuCategory.Name = "subMenuCategory";
-            this.subMenuCategory.Size = new System.Drawing.Size(158, 26);
+            this.subMenuCategory.Size = new System.Drawing.Size(132, 26);
             this.subMenuCategory.Text = "Categoria";
             this.subMenuCategory.Click += new System.EventHandler(this.subMenuCategory_Click);
             // 
@@ -126,14 +126,14 @@ namespace Proyecto_G4
             this.SubMenuProducts.IconColor = System.Drawing.Color.Black;
             this.SubMenuProducts.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuProducts.Name = "SubMenuProducts";
-            this.SubMenuProducts.Size = new System.Drawing.Size(158, 26);
+            this.SubMenuProducts.Size = new System.Drawing.Size(132, 26);
             this.SubMenuProducts.Text = "Productos";
             this.SubMenuProducts.Click += new System.EventHandler(this.SubMenuProducts_Click);
             // 
             // submenunegocio
             // 
             this.submenunegocio.Name = "submenunegocio";
-            this.submenunegocio.Size = new System.Drawing.Size(158, 26);
+            this.submenunegocio.Size = new System.Drawing.Size(132, 26);
             this.submenunegocio.Text = "Negocio";
             this.submenunegocio.Click += new System.EventHandler(this.submenunegocio_Click);
             // 
@@ -160,7 +160,7 @@ namespace Proyecto_G4
             this.SubMenuRegistrar.IconColor = System.Drawing.Color.Black;
             this.SubMenuRegistrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuRegistrar.Name = "SubMenuRegistrar";
-            this.SubMenuRegistrar.Size = new System.Drawing.Size(181, 26);
+            this.SubMenuRegistrar.Size = new System.Drawing.Size(146, 26);
             this.SubMenuRegistrar.Text = "Registrar";
             this.SubMenuRegistrar.Click += new System.EventHandler(this.SubMenuRegistrar_Click);
             // 
@@ -170,7 +170,7 @@ namespace Proyecto_G4
             this.SubMenuDV.IconColor = System.Drawing.Color.Black;
             this.SubMenuDV.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuDV.Name = "SubMenuDV";
-            this.SubMenuDV.Size = new System.Drawing.Size(181, 26);
+            this.SubMenuDV.Size = new System.Drawing.Size(146, 26);
             this.SubMenuDV.Text = "Detalle Venta";
             this.SubMenuDV.Click += new System.EventHandler(this.SubMenuDV_Click);
             // 
@@ -197,7 +197,7 @@ namespace Proyecto_G4
             this.SubmenuRegistrarC.IconColor = System.Drawing.Color.Black;
             this.SubmenuRegistrarC.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubmenuRegistrarC.Name = "SubmenuRegistrarC";
-            this.SubmenuRegistrarC.Size = new System.Drawing.Size(197, 26);
+            this.SubmenuRegistrarC.Size = new System.Drawing.Size(160, 26);
             this.SubmenuRegistrarC.Text = "Registar ";
             this.SubmenuRegistrarC.Click += new System.EventHandler(this.SubmenuRegistrarC_Click);
             // 
@@ -207,7 +207,7 @@ namespace Proyecto_G4
             this.SubMenuDC.IconColor = System.Drawing.Color.Black;
             this.SubMenuDC.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuDC.Name = "SubMenuDC";
-            this.SubMenuDC.Size = new System.Drawing.Size(197, 26);
+            this.SubMenuDC.Size = new System.Drawing.Size(160, 26);
             this.SubMenuDC.Text = "Detalle Compra";
             this.SubMenuDC.Click += new System.EventHandler(this.SubMenuDC_Click);
             // 
@@ -261,14 +261,14 @@ namespace Proyecto_G4
             // submenureportecompras
             // 
             this.submenureportecompras.Name = "submenureportecompras";
-            this.submenureportecompras.Size = new System.Drawing.Size(208, 26);
+            this.submenureportecompras.Size = new System.Drawing.Size(166, 22);
             this.submenureportecompras.Text = "Reporte Compras";
             this.submenureportecompras.Click += new System.EventHandler(this.submenureportecompras_Click);
             // 
             // submenureporteventas
             // 
             this.submenureporteventas.Name = "submenureporteventas";
-            this.submenureporteventas.Size = new System.Drawing.Size(208, 26);
+            this.submenureporteventas.Size = new System.Drawing.Size(166, 22);
             this.submenureporteventas.Text = "Reporte Ventas";
             this.submenureporteventas.Click += new System.EventHandler(this.submenureporteventas_Click_1);
             // 
@@ -295,7 +295,7 @@ namespace Proyecto_G4
             this.menutitulo.Location = new System.Drawing.Point(0, 0);
             this.menutitulo.Name = "menutitulo";
             this.menutitulo.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.menutitulo.Size = new System.Drawing.Size(1158, 87);
+            this.menutitulo.Size = new System.Drawing.Size(1590, 87);
             this.menutitulo.TabIndex = 1;
             this.menutitulo.Text = "menuStrip2";
             // 
@@ -307,7 +307,7 @@ namespace Proyecto_G4
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(12, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(312, 48);
+            this.label1.Size = new System.Drawing.Size(248, 38);
             this.label1.TabIndex = 2;
             this.label1.Text = "Loboru Sublima";
             // 
@@ -318,7 +318,7 @@ namespace Proyecto_G4
             this.contenedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.contenedor.Location = new System.Drawing.Point(0, 165);
             this.contenedor.Name = "contenedor";
-            this.contenedor.Size = new System.Drawing.Size(1158, 479);
+            this.contenedor.Size = new System.Drawing.Size(1590, 637);
             this.contenedor.TabIndex = 3;
             // 
             // label2
@@ -328,7 +328,7 @@ namespace Proyecto_G4
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(835, 39);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 22);
+            this.label2.Size = new System.Drawing.Size(62, 18);
             this.label2.TabIndex = 4;
             this.label2.Text = "Usuario:";
             // 
@@ -339,7 +339,7 @@ namespace Proyecto_G4
             this.lblUsuario.ForeColor = System.Drawing.Color.White;
             this.lblUsuario.Location = new System.Drawing.Point(913, 39);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(94, 22);
+            this.lblUsuario.Size = new System.Drawing.Size(76, 18);
             this.lblUsuario.TabIndex = 5;
             this.lblUsuario.Text = "lblUsuario";
             // 
@@ -352,7 +352,7 @@ namespace Proyecto_G4
             this.btnsalir.IconColor = System.Drawing.Color.White;
             this.btnsalir.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnsalir.IconSize = 55;
-            this.btnsalir.Location = new System.Drawing.Point(1071, 12);
+            this.btnsalir.Location = new System.Drawing.Point(1429, 16);
             this.btnsalir.Name = "btnsalir";
             this.btnsalir.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.btnsalir.Size = new System.Drawing.Size(75, 55);
@@ -362,10 +362,10 @@ namespace Proyecto_G4
             // 
             // MenuPrincipal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1158, 644);
+            this.ClientSize = new System.Drawing.Size(1590, 802);
             this.Controls.Add(this.btnsalir);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.label2);

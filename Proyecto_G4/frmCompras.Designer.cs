@@ -105,9 +105,9 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(92, 64);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(346, 105);
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
@@ -119,7 +119,7 @@
             this.cbTipoDocumento.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTipoDocumento.FormattingEnabled = true;
             this.cbTipoDocumento.Location = new System.Drawing.Point(165, 56);
-            this.cbTipoDocumento.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbTipoDocumento.Margin = new System.Windows.Forms.Padding(2);
             this.cbTipoDocumento.Name = "cbTipoDocumento";
             this.cbTipoDocumento.Size = new System.Drawing.Size(144, 21);
             this.cbTipoDocumento.TabIndex = 3;
@@ -128,7 +128,7 @@
             // 
             this.txtFecha.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtFecha.Location = new System.Drawing.Point(7, 56);
-            this.txtFecha.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtFecha.Margin = new System.Windows.Forms.Padding(2);
             this.txtFecha.Name = "txtFecha";
             this.txtFecha.Size = new System.Drawing.Size(134, 20);
             this.txtFecha.TabIndex = 2;
@@ -163,9 +163,9 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Location = new System.Drawing.Point(457, 64);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(373, 105);
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
@@ -174,7 +174,7 @@
             // txtIdProveedor
             // 
             this.txtIdProveedor.Location = new System.Drawing.Point(319, 24);
-            this.txtIdProveedor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtIdProveedor.Margin = new System.Windows.Forms.Padding(2);
             this.txtIdProveedor.Name = "txtIdProveedor";
             this.txtIdProveedor.Size = new System.Drawing.Size(32, 20);
             this.txtIdProveedor.TabIndex = 5;
@@ -187,7 +187,7 @@
             this.btnBuscarProveedor.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnBuscarProveedor.IconSize = 16;
             this.btnBuscarProveedor.Location = new System.Drawing.Point(144, 55);
-            this.btnBuscarProveedor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnBuscarProveedor.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuscarProveedor.Name = "btnBuscarProveedor";
             this.btnBuscarProveedor.Size = new System.Drawing.Size(40, 19);
             this.btnBuscarProveedor.TabIndex = 4;
@@ -198,7 +198,7 @@
             // 
             this.txtNombreProveedor.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtNombreProveedor.Location = new System.Drawing.Point(203, 55);
-            this.txtNombreProveedor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtNombreProveedor.Margin = new System.Windows.Forms.Padding(2);
             this.txtNombreProveedor.Name = "txtNombreProveedor";
             this.txtNombreProveedor.Size = new System.Drawing.Size(148, 20);
             this.txtNombreProveedor.TabIndex = 3;
@@ -207,10 +207,11 @@
             // 
             this.txtDocProveedor.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtDocProveedor.Location = new System.Drawing.Point(7, 56);
-            this.txtDocProveedor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtDocProveedor.Margin = new System.Windows.Forms.Padding(2);
             this.txtDocProveedor.Name = "txtDocProveedor";
             this.txtDocProveedor.Size = new System.Drawing.Size(134, 20);
             this.txtDocProveedor.TabIndex = 2;
+            this.txtDocProveedor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SoloNumeros_KeyPress);
             // 
             // label4
             // 
@@ -248,9 +249,9 @@
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Location = new System.Drawing.Point(92, 195);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox3.Size = new System.Drawing.Size(650, 105);
             this.groupBox3.TabIndex = 25;
             this.groupBox3.TabStop = false;
@@ -280,7 +281,7 @@
             // 
             this.txtPrecioVenta.BackColor = System.Drawing.Color.White;
             this.txtPrecioVenta.Location = new System.Drawing.Point(486, 58);
-            this.txtPrecioVenta.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPrecioVenta.Margin = new System.Windows.Forms.Padding(2);
             this.txtPrecioVenta.Name = "txtPrecioVenta";
             this.txtPrecioVenta.Size = new System.Drawing.Size(78, 20);
             this.txtPrecioVenta.TabIndex = 11;
@@ -299,7 +300,7 @@
             // txtCantidad
             // 
             this.txtCantidad.Location = new System.Drawing.Point(568, 59);
-            this.txtCantidad.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCantidad.Margin = new System.Windows.Forms.Padding(2);
             this.txtCantidad.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -323,7 +324,7 @@
             // 
             this.txtPrecioCompra.BackColor = System.Drawing.Color.White;
             this.txtPrecioCompra.Location = new System.Drawing.Point(404, 58);
-            this.txtPrecioCompra.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPrecioCompra.Margin = new System.Windows.Forms.Padding(2);
             this.txtPrecioCompra.Name = "txtPrecioCompra";
             this.txtPrecioCompra.Size = new System.Drawing.Size(78, 20);
             this.txtPrecioCompra.TabIndex = 7;
@@ -336,7 +337,7 @@
             this.btnBuscarProducto.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnBuscarProducto.IconSize = 16;
             this.btnBuscarProducto.Location = new System.Drawing.Point(165, 56);
-            this.btnBuscarProducto.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnBuscarProducto.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuscarProducto.Name = "btnBuscarProducto";
             this.btnBuscarProducto.Size = new System.Drawing.Size(40, 19);
             this.btnBuscarProducto.TabIndex = 6;
@@ -346,7 +347,7 @@
             // txtIdProducto
             // 
             this.txtIdProducto.Location = new System.Drawing.Point(123, 34);
-            this.txtIdProducto.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtIdProducto.Margin = new System.Windows.Forms.Padding(2);
             this.txtIdProducto.Name = "txtIdProducto";
             this.txtIdProducto.Size = new System.Drawing.Size(33, 20);
             this.txtIdProducto.TabIndex = 5;
@@ -356,7 +357,7 @@
             // 
             this.txtProducto.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtProducto.Location = new System.Drawing.Point(217, 57);
-            this.txtProducto.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtProducto.Margin = new System.Windows.Forms.Padding(2);
             this.txtProducto.Name = "txtProducto";
             this.txtProducto.Size = new System.Drawing.Size(174, 20);
             this.txtProducto.TabIndex = 3;
@@ -365,11 +366,12 @@
             // 
             this.txtCodProducto.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txtCodProducto.Location = new System.Drawing.Point(7, 56);
-            this.txtCodProducto.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCodProducto.Margin = new System.Windows.Forms.Padding(2);
             this.txtCodProducto.Name = "txtCodProducto";
             this.txtCodProducto.Size = new System.Drawing.Size(150, 20);
             this.txtCodProducto.TabIndex = 2;
             this.txtCodProducto.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCodProducto_KeyDown);
+            this.txtCodProducto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SoloNumeros_KeyPress);
             // 
             // label6
             // 
@@ -405,7 +407,7 @@
             this.SubTotal,
             this.btnEliminar});
             this.dgvdata.Location = new System.Drawing.Point(92, 317);
-            this.dgvdata.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvdata.Margin = new System.Windows.Forms.Padding(2);
             this.dgvdata.Name = "dgvdata";
             this.dgvdata.ReadOnly = true;
             this.dgvdata.RowHeadersWidth = 51;
@@ -487,7 +489,7 @@
             // txtTotalaPagar
             // 
             this.txtTotalaPagar.Location = new System.Drawing.Point(755, 462);
-            this.txtTotalaPagar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTotalaPagar.Margin = new System.Windows.Forms.Padding(2);
             this.txtTotalaPagar.Name = "txtTotalaPagar";
             this.txtTotalaPagar.ReadOnly = true;
             this.txtTotalaPagar.Size = new System.Drawing.Size(94, 20);
@@ -502,7 +504,7 @@
             this.btnRegistrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnRegistrar.IconSize = 40;
             this.btnRegistrar.Location = new System.Drawing.Point(755, 492);
-            this.btnRegistrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRegistrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnRegistrar.Name = "btnRegistrar";
             this.btnRegistrar.Size = new System.Drawing.Size(93, 39);
             this.btnRegistrar.TabIndex = 30;
@@ -520,7 +522,7 @@
             this.btnAgregarProducto.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnAgregarProducto.IconSize = 30;
             this.btnAgregarProducto.Location = new System.Drawing.Point(755, 201);
-            this.btnAgregarProducto.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAgregarProducto.Margin = new System.Windows.Forms.Padding(2);
             this.btnAgregarProducto.Name = "btnAgregarProducto";
             this.btnAgregarProducto.Size = new System.Drawing.Size(82, 76);
             this.btnAgregarProducto.TabIndex = 27;
