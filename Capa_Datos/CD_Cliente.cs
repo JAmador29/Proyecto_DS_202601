@@ -78,10 +78,23 @@ namespace Capa_Datos
                     Mensaje = cmd.Parameters["Mensaje"].Value?.ToString() ?? string.Empty;
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 idClientegenerado = 0;
-                Mensaje = ex.Message;
+
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    Mensaje = "Ya existe un cliente registrado con esos datos.";
+                }
+                else
+                {
+                    Mensaje = "Ocurrió un error al acceder a la base de datos.";
+                }
+            }
+            catch (Exception)
+            {
+                idClientegenerado = 0;
+                Mensaje = "Ocurrió un error inesperado al registrar el cliente.";
             }
             return idClientegenerado;
         }
