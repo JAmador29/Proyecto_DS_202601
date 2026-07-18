@@ -2,6 +2,8 @@
 using Capa_Entidad;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace Capa_Negocio
 {
@@ -56,12 +58,7 @@ namespace Capa_Negocio
             {
                 mensaje += "Es necesario el RTN del proveedor.\n";
             }
-
-            if (string.IsNullOrWhiteSpace(obj.RTN))
-            {
-                mensaje += "Es necesario el RTN del proveedor.\n";
-            }
-            else if (obj.RTN.Length != 14)
+            else if (!TieneLongitudValida(obj.RTN, 14, 14))
             {
                 mensaje += "El RTN del proveedor debe contener 14 dígitos.\n";
             }
@@ -92,8 +89,40 @@ namespace Capa_Negocio
             {
                 mensaje += "Es necesario el correo del proveedor.\n";
             }
+            else if (!CorreoValido(obj.Correo))
+            {
+                mensaje += "Debe ingresar un correo electrónico válido.\n";
+            }
+
+            if (string.IsNullOrWhiteSpace(obj.Telefono))
+            {
+                mensaje += "Es necesario el teléfono del proveedor.\n";
+            }
+            else if (!TieneLongitudValida(obj.Telefono, 8, 8))
+            {
+                mensaje += "El teléfono debe contener exactamente 8 dígitos.\n";
+            }
+            else if (!obj.Telefono.All(char.IsDigit))
+            {
+                mensaje += "El teléfono solo debe contener números.\n";
+            }
 
             return mensaje;
+        }
+
+        private bool TieneLongitudValida(string texto, int minimo, int maximo)
+        {
+            if (string.IsNullOrWhiteSpace(texto))
+                return false;
+
+            texto = texto.Trim();
+            return texto.Length >= minimo && texto.Length <= maximo;
+        }
+
+        private bool CorreoValido(string correo)
+        {
+            string patron = @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$";
+            return Regex.IsMatch(correo, patron);
         }
     }
 }
