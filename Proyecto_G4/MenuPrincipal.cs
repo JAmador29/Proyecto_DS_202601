@@ -53,7 +53,6 @@ namespace Proyecto_G4
             //Activar los Formularios en el panel contenedor
             contenedor.Controls.Add(Fromulario);
             Fromulario.Show();
-
         }
 
         private void MenuPrincipal_Load(object sender, EventArgs e)
@@ -149,11 +148,6 @@ namespace Proyecto_G4
         {
             AbrirFormulario((menureportes), new frmReporteCompras());
         }
-
-        /*private void submenureporteventas_Click(object sender, EventArgs e)
-        {
-            AbrirFormulario((menureportes), new frmReporteVentas());
-        }*/
 
         private void submenureporteventas_Click_1(object sender, EventArgs e)
         {
