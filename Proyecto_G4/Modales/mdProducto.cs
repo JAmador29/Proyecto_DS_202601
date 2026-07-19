@@ -39,6 +39,9 @@ namespace Proyecto_G4.Modales
 
             foreach (Producto item in listaProducto)
             {
+                if (!item.Estado)
+                    continue;
+
                 dgvdataProd.Rows.Add(new object[] {
                     item.IdProducto,
                     item.Codigo,
