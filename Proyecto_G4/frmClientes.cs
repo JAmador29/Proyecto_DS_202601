@@ -12,6 +12,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Net.Mail;
+using System.Text.RegularExpressions;
+
 namespace Proyecto_G4
 {
     public partial class frmClientes : Form
@@ -54,9 +57,94 @@ namespace Proyecto_G4
             }
         }
 
+        private bool ValidarLongitudCampos()
+        {
+            // Modifica los números (20, 150, 100, 50) según los tamaños reales de tu base de datos
+
+            if (txtdocumento.Text.Trim().Length > 13)
+            {
+                MessageBox.Show("El campo 'Documento' no puede superar los 13 caracteres.",
+                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtdocumento.Focus();
+                return false;
+            }
+
+            if (txtnombrecompleto.Text.Trim().Length > 50)
+            {
+                MessageBox.Show("El campo 'Nombre Completo' es demasiado largo. El máximo permitido son 50 caracteres.",
+                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtnombrecompleto.Focus();
+                return false;
+            }
+
+            if (txtcorreo.Text.Trim().Length > 50)
+            {
+                MessageBox.Show("El correo electrónico no puede superar los 50 caracteres.",
+                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtcorreo.Focus();
+                return false;
+            }
+
+            if (txttelefono.Text.Trim().Length > 8)
+            {
+                MessageBox.Show("El teléfono no puede superar los 8 caracteres.",
+                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txttelefono.Focus();
+                return false;
+            }
+
+            return true; // Todos los campos cumplen con la longitud permitida
+        }
+
+        //Metodo de validacion de correo y dominio
+        private bool ValidarCorreoYDominio(string correo)
+        {
+            //Expresión regular para validar formato general del correo
+            string patronRegex = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+
+            if (string.IsNullOrWhiteSpace(correo) || !Regex.IsMatch(correo, patronRegex))
+            {
+                return false;
+            }
+
+            try
+            {
+                //Extraer el dominio limpio usando MailAddress
+                var mail = new MailAddress(correo);
+                string dominioUsuario = mail.Host.ToLower().Trim();
+
+                //Lista blanca de dominios aceptados
+                string[] dominiosValidos = { "gmail.com", "yahoo.com", "outlook.com", "hotmail.com" };
+
+                //Comprobar si el dominio pertenece a la lista blanca
+                return dominiosValidos.Contains(dominioUsuario);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         private void btnguardar_Click(object sender, EventArgs e)
         {
             string mensaje = string.Empty;
+
+            // Validación de Longitudes (Llamada a la nueva función externa)
+            if (!ValidarLongitudCampos())
+            {
+                return; // Se detiene porque la función interna ya mostró el MessageBox y dio Focus
+            }
+
+            //validacion de correo
+            string correo = txtcorreo.Text.Trim();
+
+            // Ejecuta el formato Regex y la lista de dominios en un solo paso instantáneo
+            if (!ValidarCorreoYDominio(correo))
+            {
+                MessageBox.Show("Ingrese un correo electrónico válido.\n\nSolo se permiten dominios de: gmail.com, yahoo.com, outlook.com y hotmail.com.",
+                                "Validación de Correo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             Cliente obj = new Cliente()
             {

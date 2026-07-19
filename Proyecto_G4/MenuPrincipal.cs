@@ -1,14 +1,15 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Linq;
-using FontAwesome.Sharp;
-using System.Drawing;
-
-using Capa_Entidad;
-using System.Net.Http;
+﻿using Capa_Entidad;
 using Capa_Negocio;
-using System.Collections.Generic;
+using FontAwesome.Sharp;
+using Microsoft.Diagnostics.Tracing.Parsers.IIS_Trace;
 using Proyecto_G4.Modales;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Net.Http;
+using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
@@ -30,9 +31,13 @@ namespace Proyecto_G4
         {
             if(menuActivo != null)
             {
-                menuActivo.BackColor = Color.FromArgb(64,64,64);
+                menuActivo.BackColor = Color.FromArgb(34, 36, 52);
+                menuActivo.IconColor = Color.FromArgb(110, 81, 181);
+                menuActivo.ForeColor = Color.FromArgb(110, 81, 181);
             }
-            menu.BackColor = Color.FromArgb(45,45,45);
+            menu.BackColor = Color.FromArgb(66, 55, 105);
+            menu.IconColor = Color.White;
+            menu.ForeColor = Color.White;
             menuActivo = menu;
 
             if(FormularioActivo != null)
@@ -44,7 +49,7 @@ namespace Proyecto_G4
             Fromulario.TopLevel = false;
             Fromulario.FormBorderStyle = FormBorderStyle.None;
             Fromulario.Dock = DockStyle.Fill;
-            Fromulario.BackColor = Color.MediumPurple;
+            Fromulario.BackColor = Color.FromArgb(28, 25, 44);
             //Activar los Formularios en el panel contenedor
             contenedor.Controls.Add(Fromulario);
             Fromulario.Show();
@@ -53,6 +58,9 @@ namespace Proyecto_G4
 
         private void MenuPrincipal_Load(object sender, EventArgs e)
         {
+
+            HacerCircular(pblogo);
+
             //Para poder determianr que tipo de permisos tendra el usuario que se loguea al sistema.
             List<Permiso> listaPermisos = new CN_Permiso().Listar(usuarioActual.IdUsuario);
             foreach (IconMenuItem iconmenu in menu.Items)
@@ -69,6 +77,15 @@ namespace Proyecto_G4
 
             lblUsuario.Text = usuarioActual.NombreCompleto;
         }
+
+        private void HacerCircular(PictureBox pictureBox)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.AddEllipse(0, 0, pictureBox.Width, pictureBox.Height);
+
+            pictureBox.Region = new Region(path);
+        }
+
         //MenuStrip con botones para aperturar formularios
         //Formulario de Usuarios
         private void menuusuarios_Click(object sender, EventArgs e)

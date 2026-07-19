@@ -108,6 +108,7 @@
             // txtDireccion
             // 
             this.txtDireccion.Location = new System.Drawing.Point(224, 180);
+            this.txtDireccion.MaxLength = 210;
             this.txtDireccion.Name = "txtDireccion";
             this.txtDireccion.Size = new System.Drawing.Size(273, 22);
             this.txtDireccion.TabIndex = 8;
@@ -115,6 +116,7 @@
             // txtRTN
             // 
             this.txtRTN.Location = new System.Drawing.Point(224, 116);
+            this.txtRTN.MaxLength = 14;
             this.txtRTN.Name = "txtRTN";
             this.txtRTN.Size = new System.Drawing.Size(273, 22);
             this.txtRTN.TabIndex = 7;
@@ -122,6 +124,7 @@
             // txtNombre
             // 
             this.txtNombre.Location = new System.Drawing.Point(224, 57);
+            this.txtNombre.MaxLength = 60;
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(273, 22);
             this.txtNombre.TabIndex = 6;

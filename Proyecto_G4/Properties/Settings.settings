@@ -10,5 +10,11 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=proyectloborudb.database.windows.net;Initial Catalog=LOBORUSYSTEMDB;Persist Security Info=True;User ID=SqlAdminJD;TrustServerCertificate=True</Value>
     </Setting>
+    <Setting Name="UsuarioRecordado" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="RecordarUsuario" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -54,9 +54,28 @@ namespace Proyecto_G4
             }
         }
 
+        private bool ValidarLongitudCampos()
+        {
+
+            if (txtdescripcion.Text.Trim().Length > 100)
+            {
+                MessageBox.Show("El campo 'Descripción' no puede superar los 100 caracteres.",
+                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtdescripcion.Focus();
+                return false;
+            }
+            return true; // Todos los campos cumplen con la longitud permitida
+        }
+
         private void btnguardar_Click(object sender, EventArgs e)
         {
             string mensaje = string.Empty;
+
+            // Validación de Longitudes (Llamada a la nueva función externa)
+            if (!ValidarLongitudCampos())
+            {
+                return; // Se detiene porque la función interna ya mostró el MessageBox y dio Focus
+            }
 
             Categoria obj = new Categoria()
             {

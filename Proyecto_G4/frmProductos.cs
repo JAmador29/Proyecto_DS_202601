@@ -75,9 +75,45 @@ namespace Proyecto_G4
             }
         }
 
+        private bool ValidarLongitudCampos()
+        {
+
+            if (txtcodigo.Text.Trim().Length > 50)
+            {
+                MessageBox.Show("El campo 'Código' no puede superar los 50 caracteres.",
+                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtcodigo.Focus();
+                return false;
+            }
+
+            if (txtnombre.Text.Trim().Length > 50)
+            {
+                MessageBox.Show("El campo 'Nombre' es demasiado largo. El máximo permitido son 50 caracteres.",
+                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtnombre.Focus();
+                return false;
+            }
+
+            if (txtdescripcion.Text.Trim().Length > 50)
+            {
+                MessageBox.Show("El campo 'Nombre' es demasiado largo. El máximo permitido son 50 caracteres.",
+                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtdescripcion.Focus();
+                return false;
+            }
+
+            return true; // Todos los campos cumplen con la longitud permitida
+        }
+
         private void btnguardar_Click(object sender, EventArgs e)
         {
             string mensaje = string.Empty;
+
+            // Validación de Longitudes (Llamada a la nueva función externa)
+            if (!ValidarLongitudCampos())
+            {
+                return; // Se detiene porque la función interna ya mostró el MessageBox y dio Focus
+            }
 
             Producto objProducto = new Producto()
             {

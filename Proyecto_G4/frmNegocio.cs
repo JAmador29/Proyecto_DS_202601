@@ -68,9 +68,45 @@ namespace Proyecto_G4
             }
         }
 
+        private bool ValidarLongitudCampos()
+        {
+
+            if (txtNombre.Text.Trim().Length > 60)
+            {
+                MessageBox.Show("El campo 'Nombre' no puede superar los 60 caracteres.",
+                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return false;
+            }
+
+            if (txtRTN.Text.Trim().Length > 14)
+            {
+                MessageBox.Show("El campo 'RTN' es demasiado largo. El máximo permitido son 14 caracteres.",
+                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtRTN.Focus();
+                return false;
+            }
+
+            if (txtDireccion.Text.Trim().Length > 200)
+            {
+                MessageBox.Show("El campo 'Dirección' es demasiado largo. El máximo permitido son 200 caracteres.",
+                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDireccion.Focus();
+                return false;
+            }
+
+            return true; // Todos los campos cumplen con la longitud permitida
+        }
+
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             string mensaje = string.Empty;
+
+            // Validación de Longitudes (Llamada a la nueva función externa)
+            if (!ValidarLongitudCampos())
+            {
+                return; // Se detiene porque la función interna ya mostró el MessageBox y dio Focus
+            }
 
             Negocio obj = new Negocio()
             {

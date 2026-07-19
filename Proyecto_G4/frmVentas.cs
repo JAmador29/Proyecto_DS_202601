@@ -240,7 +240,7 @@ namespace Proyecto_G4
         {
             txtidproducto.Text = "0";
             txtcodproducto.Text = "";
-            txtcodproducto.BackColor = Color.White;
+            txtcodproducto.BackColor = Color.FromArgb(41, 43, 61);
             txtproducto.Text = "";
             txtprecio.Text = "";
             txtstock.Text = "";

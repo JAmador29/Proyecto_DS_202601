@@ -10,12 +10,16 @@ using System.Windows.Forms;
 
 using Capa_Entidad;
 using Capa_Negocio;
+using System.Drawing.Drawing2D;
 
 
 namespace Proyecto_G4
 {
     public partial class Login : Form
     {
+
+        private bool mostrarPassword = false;
+
         public Login()
         {
             InitializeComponent();
@@ -26,7 +30,22 @@ namespace Proyecto_G4
         {
             txtDocument.Focus();
             CentrarGroupBox();
+            HacerCircular(pblogo);
 
+            // Leemos los valores guardados en los Settings de la aplicación
+            if (Properties.Settings.Default.RecordarUsuario)
+            {
+                txtDocument.Text = Properties.Settings.Default.UsuarioRecordado;
+                chkrecordar.Checked = true;
+
+                // Mueve el foco de escritura directo a la contraseña, ya que el usuario ya está lleno
+                txtPassword.Select();
+            }
+            else
+            {
+                chkrecordar.Checked = false;
+                txtDocument.Select(); // Foco en el usuario si no hay nada guardado
+            }
         }
 
         private void Login_Resize(object sender, EventArgs e)
@@ -38,6 +57,14 @@ namespace Proyecto_G4
         {
             groupBox1.Left = (this.ClientSize.Width - groupBox1.Width) / 2;
             groupBox1.Top = (this.ClientSize.Height - groupBox1.Height) / 2;
+        }
+
+        private void HacerCircular(PictureBox pictureBox)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.AddEllipse(0, 0, pictureBox.Width, pictureBox.Height);
+
+            pictureBox.Region = new Region(path);
         }
 
         /*private void linkUppPass_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -80,6 +107,22 @@ namespace Proyecto_G4
 
             if (claveCorrecta)
             {
+                //Guardar o limpiar documento de usuario
+                if (chkrecordar.Checked)
+                {
+                    Properties.Settings.Default.UsuarioRecordado = documento;
+                    Properties.Settings.Default.RecordarUsuario = true;
+                }
+                else
+                {
+                    Properties.Settings.Default.UsuarioRecordado = string.Empty;
+                    Properties.Settings.Default.RecordarUsuario = false;
+                }
+
+                // Guardar físicamente los cambios en el equipo del cliente
+                Properties.Settings.Default.Save();
+
+
                 MenuPrincipal form = new MenuPrincipal(ousuario);
 
                 form.Show();
@@ -109,6 +152,23 @@ namespace Proyecto_G4
             {
                 e.Handled = true; // Bloquea la entrada
             }
+        }
+
+        private void btnmostrarclave_Click(object sender, EventArgs e)
+        {
+            mostrarPassword = !mostrarPassword;
+
+            if (mostrarPassword)
+            {
+                txtPassword.PasswordChar = '\0'; // Muestra el texto
+                btnmostrarclave.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
+            }
+            else
+            {
+                txtPassword.PasswordChar = '*'; // Oculta el texto
+                btnmostrarclave.IconChar = FontAwesome.Sharp.IconChar.Eye;
+            }
+            txtPassword.Focus();
         }
     }
 }
