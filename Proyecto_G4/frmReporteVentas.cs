@@ -92,6 +92,7 @@ namespace Proyecto_G4
         private void btnbuscar_Click(object sender, EventArgs e)
         {
             string columnaFiltro = ((OpcionCombo)cbobusqueda.SelectedItem).Valor.ToString();
+            bool seEncontroCoincidencia = false;
 
             if (dgvdata.Rows.Count > 0)
             {
@@ -100,9 +101,24 @@ namespace Proyecto_G4
                     string valorCelda = Convert.ToString(row.Cells[columnaFiltro].Value);
 
                     if (valorCelda.Trim().ToUpper().Contains(txtbusqueda.Text.Trim().ToUpper()))
+                    {
                         row.Visible = true;
+                        seEncontroCoincidencia = true;
+                    }
                     else
                         row.Visible = false;
+                }
+
+                if (!seEncontroCoincidencia)
+                {
+                    MessageBox.Show("No se encontraron resultados para su búsqueda.",
+                                    "Sin Resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Vuelve a mostrar todas las filas para que la grilla no quede vacía
+                    foreach (DataGridViewRow row in dgvdata.Rows)
+                    {
+                        row.Visible = true;
+                    }
                 }
             }
         }

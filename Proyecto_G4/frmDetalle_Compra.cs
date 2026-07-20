@@ -27,7 +27,7 @@ namespace Proyecto_G4
         {
             Compras oCompra = new CN_Compra().ObtenerCompra(txtbusqueda.Text);
 
-            if (oCompra.IdCompra != 0)
+            if (oCompra != null && oCompra.IdCompra != 0)
             {
 
                 txtnumerodocumento.Text = oCompra.NumeroDocumento;
@@ -46,6 +46,15 @@ namespace Proyecto_G4
 
                 txtmontototal.Text = oCompra.MontoTotal.ToString("0.00");
 
+            }
+            else
+            {
+                MessageBox.Show("No se encontró ninguna compra con ese número de documento.",
+                                "Sin Resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Limpia los campos para que no quede información de una búsqueda anterior
+                btnborrar_Click(sender, e);
+                txtbusqueda.Focus();
             }
         }
 
@@ -146,6 +155,11 @@ namespace Proyecto_G4
             {
                 e.Handled = true;
             }
+        }
+
+        private void frmDetalle_Compra_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
