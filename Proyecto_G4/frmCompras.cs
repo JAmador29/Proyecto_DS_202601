@@ -127,6 +127,13 @@ namespace Proyecto_G4
                 return;
             }
 
+            if (Convert.ToInt32(txtPrecioVenta.Text) <= Convert.ToInt32(txtPrecioCompra.Text))
+            {
+                MessageBox.Show("El precio de venta debe ser mayor que el precio de compra.","Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPrecioVenta.Select();
+                return;
+            }
+
             foreach (DataGridViewRow fila in dgvdata.Rows)
             {
                 if (fila.Cells["IdProducto"].Value.ToString() == txtIdProducto.Text)

@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -105,6 +106,30 @@ namespace Proyecto_G4
             return true; // Todos los campos cumplen con la longitud permitida
         }
 
+        private bool validarNombreProducto()
+        {
+            string patronNombreProducto = @"^(?=.{2,100}$)[\p{L}\p{M}\p{N} .,'’()\-_/#+%&°:]+$";
+
+            string nombre = txtnombre.Text.Trim();
+
+            nombre = Regex.Replace(nombre, @"\s+", " ");
+
+            if (!Regex.IsMatch(nombre, patronNombreProducto))
+            {
+                MessageBox.Show(
+                    "El nombre del producto contiene caracteres no permitidos.",
+                    "Validación",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                txtnombre.Focus();
+                return false;
+            }
+
+            txtnombre.Text = nombre;
+            return true;
+        }
+
         private void btnguardar_Click(object sender, EventArgs e)
         {
             string mensaje = string.Empty;
@@ -113,6 +138,11 @@ namespace Proyecto_G4
             if (!ValidarLongitudCampos())
             {
                 return; // Se detiene porque la función interna ya mostró el MessageBox y dio Focus
+            }
+
+            if (!validarNombreProducto())
+            {
+                return;
             }
 
             Producto objProducto = new Producto()
