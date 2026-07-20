@@ -276,6 +276,11 @@ namespace Proyecto_G4
                 e.Handled = true;
             }
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
     
 }

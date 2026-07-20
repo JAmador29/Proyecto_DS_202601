@@ -208,6 +208,7 @@
             this.txtdocproveedor.ReadOnly = true;
             this.txtdocproveedor.Size = new System.Drawing.Size(134, 21);
             this.txtdocproveedor.TabIndex = 85;
+            this.txtdocproveedor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SoloNumeros_KeyPress);
             // 
             // txtnombreproveedor
             // 
@@ -399,7 +400,7 @@
             this.Controls.Add(this.txtbusqueda);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label10);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmDetalle_Compra";
             this.Text = "frmDetalle_Compra";
             ((System.ComponentModel.ISupportInitialize)(this.dgvdata)).EndInit();
