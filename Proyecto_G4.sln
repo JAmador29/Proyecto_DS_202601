@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa_Datos", "Capa_Datos\Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proyecto_G4.Benchmarks", "Proyecto_G4.Benchmarks\Proyecto_G4.Benchmarks.csproj", "{401DDB94-3B3D-4C94-A518-095DD5F0572E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proyecto_G4.PruebasEstres", "Proyecto_G4.PruebasEstres\Proyecto_G4.PruebasEstres.csproj", "{EEEC41F7-EE28-4A3E-9FD9-8581E0B6B611}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{401DDB94-3B3D-4C94-A518-095DD5F0572E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{401DDB94-3B3D-4C94-A518-095DD5F0572E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{401DDB94-3B3D-4C94-A518-095DD5F0572E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEEC41F7-EE28-4A3E-9FD9-8581E0B6B611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEEC41F7-EE28-4A3E-9FD9-8581E0B6B611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEEC41F7-EE28-4A3E-9FD9-8581E0B6B611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEEC41F7-EE28-4A3E-9FD9-8581E0B6B611}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
