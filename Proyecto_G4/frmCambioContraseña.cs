@@ -84,5 +84,12 @@ namespace Proyecto_G4
                 MessageBox.Show("Error al actualizar la contraseña: " + mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btncancelar_Click(object sender, EventArgs e)
+        {
+            Login frmlog = new Login();
+            frmlog.Show();
+            this.Close();
+        }
     }
 }
