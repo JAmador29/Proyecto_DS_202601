@@ -61,6 +61,7 @@
             this.txtbusqueda = new System.Windows.Forms.TextBox();
             this.txtIndice = new System.Windows.Forms.TextBox();
             this.iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
+            this.btnDesbloquear = new FontAwesome.Sharp.IconButton();
             this.btnSeleccionar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Documento = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -71,6 +72,7 @@
             this.Rol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EstadoValor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Bloqueado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvdata)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -83,7 +85,7 @@
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(320, 559);
+            this.label1.Size = new System.Drawing.Size(320, 650);
             this.label1.TabIndex = 0;
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
@@ -365,7 +367,8 @@
             this.IdRol,
             this.Rol,
             this.EstadoValor,
-            this.Estado});
+            this.Estado,
+            this.Bloqueado});
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(30)))), ((int)(((byte)(44)))));
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -530,6 +533,29 @@
             this.iconPictureBox1.TabIndex = 29;
             this.iconPictureBox1.TabStop = false;
             // 
+            // btnDesbloquear
+            // 
+            this.btnDesbloquear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnDesbloquear.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDesbloquear.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnDesbloquear.FlatAppearance.BorderSize = 0;
+            this.btnDesbloquear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDesbloquear.ForeColor = System.Drawing.Color.White;
+            this.btnDesbloquear.IconChar = FontAwesome.Sharp.IconChar.LockOpen;
+            this.btnDesbloquear.IconColor = System.Drawing.Color.White;
+            this.btnDesbloquear.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnDesbloquear.IconSize = 16;
+            this.btnDesbloquear.Location = new System.Drawing.Point(90, 554);
+            this.btnDesbloquear.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDesbloquear.Name = "btnDesbloquear";
+            this.btnDesbloquear.Size = new System.Drawing.Size(118, 36);
+            this.btnDesbloquear.TabIndex = 30;
+            this.btnDesbloquear.Text = "Desbloquear";
+            this.btnDesbloquear.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnDesbloquear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnDesbloquear.UseVisualStyleBackColor = false;
+            this.btnDesbloquear.Click += new System.EventHandler(this.btnDesbloquear_Click);
+            // 
             // btnSeleccionar
             // 
             this.btnSeleccionar.FillWeight = 5.468104F;
@@ -580,6 +606,7 @@
             // 
             // IdRol
             // 
+            this.IdRol.FillWeight = 80F;
             this.IdRol.HeaderText = "IdRol";
             this.IdRol.MinimumWidth = 6;
             this.IdRol.Name = "IdRol";
@@ -604,11 +631,19 @@
             // 
             // Estado
             // 
-            this.Estado.FillWeight = 82.60576F;
+            this.Estado.FillWeight = 30F;
             this.Estado.HeaderText = "Estado";
             this.Estado.MinimumWidth = 6;
             this.Estado.Name = "Estado";
             this.Estado.ReadOnly = true;
+            // 
+            // Bloqueado
+            // 
+            this.Bloqueado.FillWeight = 30F;
+            this.Bloqueado.HeaderText = "Bloqueado";
+            this.Bloqueado.MinimumWidth = 6;
+            this.Bloqueado.Name = "Bloqueado";
+            this.Bloqueado.ReadOnly = true;
             // 
             // frmUsuario
             // 
@@ -616,7 +651,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(1395, 559);
+            this.ClientSize = new System.Drawing.Size(1395, 650);
+            this.Controls.Add(this.btnDesbloquear);
             this.Controls.Add(this.iconPictureBox1);
             this.Controls.Add(this.txtIndice);
             this.Controls.Add(this.txtbusqueda);
@@ -686,6 +722,7 @@
         private System.Windows.Forms.TextBox txtbusqueda;
         private System.Windows.Forms.TextBox txtIndice;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox1;
+        private FontAwesome.Sharp.IconButton btnDesbloquear;
         private System.Windows.Forms.DataGridViewButtonColumn btnSeleccionar;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Documento;
@@ -696,5 +733,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Rol;
         private System.Windows.Forms.DataGridViewTextBoxColumn EstadoValor;
         private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Bloqueado;
     }
 }

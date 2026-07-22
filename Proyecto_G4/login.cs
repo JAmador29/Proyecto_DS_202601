@@ -19,6 +19,7 @@ namespace Proyecto_G4
     {
 
         private bool mostrarPassword = false;
+        private CN_Usuario objCNUsuario = new CN_Usuario();
 
         public Login()
         {
@@ -75,12 +76,7 @@ namespace Proyecto_G4
 
         private void btncancelar_Click(object sender, EventArgs e)
         {
-            this.Close();
-        }
-
-        private void txtPassword_TextChanged(object sender, EventArgs e)
-        {
-
+            Application.Exit();
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
@@ -107,6 +103,10 @@ namespace Proyecto_G4
 
             if (claveCorrecta)
             {
+                string mensajeBitacora;
+
+                bool registro = objCNUsuario.Registrar_Bitacora(ousuario.IdUsuario, "LOGIN", $"IdUsuario={ousuario.IdUsuario}, Nombre={ousuario.NombreCompleto}", out mensajeBitacora);
+
                 //Guardar o limpiar documento de usuario
                 if (chkrecordar.Checked)
                 {
@@ -125,14 +125,43 @@ namespace Proyecto_G4
 
                 MenuPrincipal form = new MenuPrincipal(ousuario);
 
+                form.FormClosing += frm_closing;
+
                 form.Show();
                 this.Hide();
-
-                form.FormClosing += frm_closing;
             }
             else
             {
-                MessageBox.Show("Usuario o contraseña incorrectos.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                if (ousuario != null)
+                {
+                    if(objCNUsuario.Usuario_Bloqueado(ousuario.IdUsuario))
+                    {
+                        MessageBox.Show("Esta cuenta está bloqueada. Por favor, contacte al administrador.", "Cuenta Bloqueada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    int intentos = objCNUsuario.Intentos_Fallidos(ousuario.IdUsuario);
+
+                    if (intentos >= 3)
+                    {
+                        objCNUsuario.Bloquear_Usuario(ousuario.IdUsuario);
+
+                        string mensajeBitacora;
+
+                        objCNUsuario.Registrar_Bitacora(ousuario.IdUsuario, "BLOQUEO", $"IdUsuario={ousuario.IdUsuario}, Nombre={ousuario.NombreCompleto}", out mensajeBitacora);
+                        
+                        MessageBox.Show("Se ha bloqueado la cuenta debido a múltiples intentos fallidos de inicio de sesión.", "Cuenta Bloqueada", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Usuario o contraseña incorrectos. Intentos {intentos} de 3.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Usuario o contraseña incorrectos.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                }
                 txtPassword.Clear();
                 txtPassword.Focus();
             }
@@ -169,6 +198,13 @@ namespace Proyecto_G4
                 btnmostrarclave.IconChar = FontAwesome.Sharp.IconChar.Eye;
             }
             txtPassword.Focus();
+        }
+
+        private void lnkOlvidarContraseña_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            frmOlvidoContraseña OlvContr = new frmOlvidoContraseña();
+            OlvContr.Show();
+            this.Hide();
         }
     }
 }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Linq;
 using System.Net.Http;
 using System.Windows.Forms;
@@ -19,13 +20,13 @@ namespace Proyecto_G4
         private static Usuario usuarioActual;
         private static IconMenuItem menuActivo = null;
         private static Form FormularioActivo = null;
+        
         public MenuPrincipal(Usuario objusuario)
         {
-            usuarioActual = objusuario;
-
             InitializeComponent();
-
+            usuarioActual = objusuario;
         }
+
         //Evento para mostrar el respectivo formulario por menu
         private void AbrirFormulario(IconMenuItem menu, Form Fromulario)
         {
@@ -160,6 +161,15 @@ namespace Proyecto_G4
             {
                 this.Close();
             }
+        }
+
+        private void MenuPrincipal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            string mensajeBitacora;
+
+            CN_Usuario objCNUsuario = new CN_Usuario();
+
+            objCNUsuario.Registrar_Bitacora(usuarioActual.IdUsuario, "LOGOUT", $"IdUsuario={usuarioActual.IdUsuario}, Nombre={usuarioActual.NombreCompleto}", out mensajeBitacora);
         }
     }
 }

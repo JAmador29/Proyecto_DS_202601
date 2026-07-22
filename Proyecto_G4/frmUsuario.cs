@@ -70,9 +70,33 @@ namespace Proyecto_G4
                     item.oRol.IdRol,
                     item.oRol.Descripcion,
                     item.Estado == true ? 1 :0,
-                    item.Estado == true ? "Activo" : "No Activo"
+                    item.Estado == true ? "Activo" : "No Activo",
+                    item.Bloqueado == true ? "Sí" : "No"
+                });
+            }
+        }
 
+        private void CargarUsuarios()
+        {
+            dgvdata.Rows.Clear();
 
+            List<Usuario> listaUsuario = new CN_Usuario().Listar();
+
+            foreach (Usuario item in listaUsuario)
+            {
+                dgvdata.Rows.Add(new object[]
+                {
+                    "",
+                    item.IdUsuario,
+                    item.Documento,
+                    item.NombreCompleto,
+                    item.Correo,
+                    item.Clave,
+                    item.oRol.IdRol,
+                    item.oRol.Descripcion,
+                    item.Estado ? 1 : 0,
+                    item.Estado ? "Activo" : "No Activo",
+                    item.Bloqueado ? "Sí" : "No"
                 });
             }
         }
@@ -185,13 +209,15 @@ namespace Proyecto_G4
                 if (idusuariogenerado != 0)
                 {
 
-                    dgvdata.Rows.Add(new object[] {"",idusuariogenerado,txtdocumento.Text,txtnombrecompleto.Text,txtcorreo.Text,txtclave.Text,
-                   ((OpcionCombo)cmbrol.SelectedItem).Valor.ToString(),
-                   ((OpcionCombo)cmbrol.SelectedItem).Texto.ToString(),
-                   ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString(),
-                   ((OpcionCombo)cmbestado.SelectedItem).Texto.ToString(),
-
-                });
+                    dgvdata.Rows.Add(new object[] 
+                    {
+                        "",idusuariogenerado,txtdocumento.Text,txtnombrecompleto.Text,txtcorreo.Text,txtclave.Text,
+                        ((OpcionCombo)cmbrol.SelectedItem).Valor.ToString(),
+                        ((OpcionCombo)cmbrol.SelectedItem).Texto.ToString(),
+                        ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString(),
+                        ((OpcionCombo)cmbestado.SelectedItem).Texto.ToString(),
+                        "No"
+                    });
 
                     Limpiar();
                 }
@@ -384,6 +410,52 @@ namespace Proyecto_G4
                     e.CellStyle.SelectionBackColor = Color.FromArgb(231, 76, 60);
                     e.CellStyle.SelectionForeColor = Color.White;
                 }
+            }
+        }
+
+        private void btnDesbloquear_Click(object sender, EventArgs e)
+        {
+            if (dgvdata.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione un usuario.");
+                return;
+            }
+
+            bool bloqueado = dgvdata.CurrentRow.Cells["Bloqueado"].Value.ToString() == "Sí";
+
+            if(!bloqueado) 
+            {
+                MessageBox.Show("El usuario seleccionado no está bloqueado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            int idUsuario = Convert.ToInt32(
+                dgvdata.CurrentRow.Cells["Id"].Value
+            );
+
+
+            string nombre = dgvdata.CurrentRow.Cells["NombreCompleto"].Value.ToString();
+
+
+            string mensaje;
+
+
+            CN_Usuario objCN = new CN_Usuario();
+
+
+            if (objCN.Desbloquear_Usuario(idUsuario, out mensaje))
+            {
+
+                objCN.Registrar_Bitacora(idUsuario, "DESBLOQUEO", $"IdUsuario={idUsuario}, Nombre={nombre}", out mensaje);
+
+
+                MessageBox.Show("Usuario desbloqueado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                CargarUsuarios();
+            }
+            else
+            {
+                MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

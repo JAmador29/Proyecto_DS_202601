@@ -116,7 +116,7 @@ namespace Proyecto_G4
             this.SubMenuRegistrar.IconColor = System.Drawing.Color.Black;
             this.SubMenuRegistrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuRegistrar.Name = "SubMenuRegistrar";
-            this.SubMenuRegistrar.Size = new System.Drawing.Size(146, 26);
+            this.SubMenuRegistrar.Size = new System.Drawing.Size(181, 26);
             this.SubMenuRegistrar.Text = "Registrar";
             this.SubMenuRegistrar.Click += new System.EventHandler(this.SubMenuRegistrar_Click);
             // 
@@ -126,7 +126,7 @@ namespace Proyecto_G4
             this.SubMenuDV.IconColor = System.Drawing.Color.Black;
             this.SubMenuDV.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuDV.Name = "SubMenuDV";
-            this.SubMenuDV.Size = new System.Drawing.Size(146, 26);
+            this.SubMenuDV.Size = new System.Drawing.Size(181, 26);
             this.SubMenuDV.Text = "Detalle Venta";
             this.SubMenuDV.Click += new System.EventHandler(this.SubMenuDV_Click);
             // 
@@ -153,7 +153,7 @@ namespace Proyecto_G4
             this.SubmenuRegistrarC.IconColor = System.Drawing.Color.Black;
             this.SubmenuRegistrarC.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubmenuRegistrarC.Name = "SubmenuRegistrarC";
-            this.SubmenuRegistrarC.Size = new System.Drawing.Size(160, 26);
+            this.SubmenuRegistrarC.Size = new System.Drawing.Size(197, 26);
             this.SubmenuRegistrarC.Text = "Registar ";
             this.SubmenuRegistrarC.Click += new System.EventHandler(this.SubmenuRegistrarC_Click);
             // 
@@ -163,7 +163,7 @@ namespace Proyecto_G4
             this.SubMenuDC.IconColor = System.Drawing.Color.Black;
             this.SubMenuDC.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuDC.Name = "SubMenuDC";
-            this.SubMenuDC.Size = new System.Drawing.Size(160, 26);
+            this.SubMenuDC.Size = new System.Drawing.Size(197, 26);
             this.SubMenuDC.Text = "Detalle Compra";
             this.SubMenuDC.Click += new System.EventHandler(this.SubMenuDC_Click);
             // 
@@ -191,7 +191,7 @@ namespace Proyecto_G4
             this.subMenuCategory.IconColor = System.Drawing.Color.Black;
             this.subMenuCategory.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.subMenuCategory.Name = "subMenuCategory";
-            this.subMenuCategory.Size = new System.Drawing.Size(132, 26);
+            this.subMenuCategory.Size = new System.Drawing.Size(158, 26);
             this.subMenuCategory.Text = "Categoria";
             this.subMenuCategory.Click += new System.EventHandler(this.subMenuCategory_Click);
             // 
@@ -201,14 +201,14 @@ namespace Proyecto_G4
             this.SubMenuProducts.IconColor = System.Drawing.Color.Black;
             this.SubMenuProducts.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.SubMenuProducts.Name = "SubMenuProducts";
-            this.SubMenuProducts.Size = new System.Drawing.Size(132, 26);
+            this.SubMenuProducts.Size = new System.Drawing.Size(158, 26);
             this.SubMenuProducts.Text = "Productos";
             this.SubMenuProducts.Click += new System.EventHandler(this.SubMenuProducts_Click);
             // 
             // submenunegocio
             // 
             this.submenunegocio.Name = "submenunegocio";
-            this.submenunegocio.Size = new System.Drawing.Size(132, 26);
+            this.submenunegocio.Size = new System.Drawing.Size(158, 26);
             this.submenunegocio.Text = "Negocio";
             this.submenunegocio.Click += new System.EventHandler(this.submenunegocio_Click);
             // 
@@ -262,14 +262,14 @@ namespace Proyecto_G4
             // submenureportecompras
             // 
             this.submenureportecompras.Name = "submenureportecompras";
-            this.submenureportecompras.Size = new System.Drawing.Size(166, 22);
+            this.submenureportecompras.Size = new System.Drawing.Size(208, 26);
             this.submenureportecompras.Text = "Reporte Compras";
             this.submenureportecompras.Click += new System.EventHandler(this.submenureportecompras_Click);
             // 
             // submenureporteventas
             // 
             this.submenureporteventas.Name = "submenureporteventas";
-            this.submenureporteventas.Size = new System.Drawing.Size(166, 22);
+            this.submenureporteventas.Size = new System.Drawing.Size(208, 26);
             this.submenureporteventas.Text = "Reporte Ventas";
             this.submenureporteventas.Click += new System.EventHandler(this.submenureporteventas_Click_1);
             // 
@@ -331,7 +331,7 @@ namespace Proyecto_G4
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(782, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 21);
+            this.label2.Size = new System.Drawing.Size(89, 28);
             this.label2.TabIndex = 4;
             this.label2.Text = "Usuario:";
             // 
@@ -344,7 +344,7 @@ namespace Proyecto_G4
             this.lblUsuario.ForeColor = System.Drawing.Color.White;
             this.lblUsuario.Location = new System.Drawing.Point(861, 33);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(70, 19);
+            this.lblUsuario.Size = new System.Drawing.Size(86, 23);
             this.lblUsuario.TabIndex = 5;
             this.lblUsuario.Text = "lblUsuario";
             // 
@@ -381,7 +381,7 @@ namespace Proyecto_G4
             // 
             // MenuPrincipal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1158, 644);
@@ -400,6 +400,7 @@ namespace Proyecto_G4
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu Principal";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MenuPrincipal_FormClosing);
             this.Load += new System.EventHandler(this.MenuPrincipal_Load);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();

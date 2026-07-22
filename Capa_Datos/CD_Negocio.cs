@@ -12,22 +12,24 @@ namespace Capa_Datos
 {
     public class CD_Negocio
     {
-        public Negocio ObtenerDatos() {
+        public Negocio ObtenerDatos()
+        {
 
             Negocio obj = new Negocio();
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection(Conexion.cadena)) {
+                using (SqlConnection conexion = new SqlConnection(Conexion.cadena))
+                {
                     conexion.Open();
 
                     string query = "select IdNegocio, Nombre, RTN, Direccion from NEGOCIO where IdNegocio = 1";
                     SqlCommand cmd = new SqlCommand(query, conexion);
                     cmd.CommandType = System.Data.CommandType.Text;
 
-                    using (SqlDataReader dr = cmd.ExecuteReader()) 
+                    using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        while (dr.Read()) 
+                        while (dr.Read())
                         {
                             obj = new Negocio()
                             {
@@ -41,7 +43,7 @@ namespace Capa_Datos
                 }
 
             }
-            catch 
+            catch
             {
                 obj = new Negocio();
             }
@@ -49,10 +51,11 @@ namespace Capa_Datos
             return obj;
         }
 
-        public bool GuardarDatos(Negocio objeto, out string mensaje) {
+        public bool GuardarDatos(Negocio objeto, out string mensaje)
+        {
 
             mensaje = string.Empty;
-            bool respuesta = true;
+            bool respuesta = false;
 
             try
             {
@@ -61,30 +64,39 @@ namespace Capa_Datos
                     conexion.Open();
 
                     StringBuilder query = new StringBuilder();
-                    query.AppendLine("update NEGOCIO set Nombre = @nombre");
-                    query.AppendLine("RTN = @rtn");
+                    query.AppendLine("UPDATE NEGOCIO SET");
+                    query.AppendLine("Nombre = @nombre,");
+                    query.AppendLine("RTN = @rtn,");
                     query.AppendLine("Direccion = @direccion");
-                    query.AppendLine("where IdNegocio = 1");
+                    query.AppendLine("WHERE IdNegocio = 1");
 
                     SqlCommand cmd = new SqlCommand(query.ToString(), conexion);
-                    cmd.Parameters.AddWithValue("@nombre",objeto.Nombre);
+
+                    cmd.Parameters.AddWithValue("@nombre", objeto.Nombre);
                     cmd.Parameters.AddWithValue("@rtn", objeto.RTN);
                     cmd.Parameters.AddWithValue("@direccion", objeto.Direccion);
+
                     cmd.CommandType = System.Data.CommandType.Text;
 
-                    if (cmd.ExecuteNonQuery() <1) 
-                    {
-                        mensaje = "No se pudo guardar los datos!";
-                        respuesta = false;
-                    }
+                    int filasAfectadas = cmd.ExecuteNonQuery();
 
+                    if (filasAfectadas > 0)
+                    {
+                        respuesta = true;
+                        mensaje = "Los datos fueron guardados correctamente.";
+                    }
+                    else
+                    {
+                        mensaje = "No se encontró el negocio con IdNegocio = 1.";
+                    }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 mensaje = ex.Message;
-                respuesta =false;
+                respuesta = false;
             }
+
             return respuesta;
         }
 

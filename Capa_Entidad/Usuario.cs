@@ -14,6 +14,8 @@ namespace Capa_Entidad
         public Rol oRol { get; set; }
         public bool Estado { get; set; }
         public  string FechaRegistro { get; set; }
-
+        public int IntentosFallidos { get; set; }
+        public bool Bloqueado { get; set; }
+        public DateTime? FechaBloqueo { get; set; }
     }
 }
