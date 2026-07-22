@@ -26,6 +26,8 @@ namespace Proyecto_G4
             InitializeComponent();
         }
 
+        CN_Usuario objCNUsuario = new CN_Usuario();
+
         private void frmUsuario_Load(object sender, EventArgs e)
         {
 
@@ -173,6 +175,9 @@ namespace Proyecto_G4
         private void btnguardar_Click(object sender, EventArgs e)
         {
             string mensaje = string.Empty;
+            string Contraseña = txtclave.Text;
+            string confirmarContraseña = txtconfirmarclave.Text;
+
 
             // 2. Validación de Longitudes (Llamada a la nueva función externa)
             if (!ValidarLongitudCampos())
@@ -188,6 +193,18 @@ namespace Proyecto_G4
             {
                 MessageBox.Show("Ingrese un correo electrónico válido.\n\nSolo se permiten dominios de: gmail.com, yahoo.com, outlook.com y hotmail.com.",
                                 "Validación de Correo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!objCNUsuario.Validar_Contraseña(Contraseña, out mensaje))
+            {
+                MessageBox.Show(mensaje, "Contraseña inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (Contraseña != confirmarContraseña)
+            {
+                MessageBox.Show("Las contraseñas no coinciden. Por favor, inténtelo de nuevo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -218,6 +235,7 @@ namespace Proyecto_G4
                         ((OpcionCombo)cmbestado.SelectedItem).Texto.ToString(),
                         "No"
                     });
+                    MessageBox.Show("Se registró el usuario con éxito.", "Confirmado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     Limpiar();
                 }
@@ -242,6 +260,7 @@ namespace Proyecto_G4
                     row.Cells["Rol"].Value = ((OpcionCombo)cmbrol.SelectedItem).Texto.ToString();
                     row.Cells["EstadoValor"].Value = ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString();
                     row.Cells["Estado"].Value = ((OpcionCombo)cmbestado.SelectedItem).Texto.ToString();
+                    MessageBox.Show("Se editó el usuario con éxito.", "Confirmado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Limpiar();
                 }
                 else
@@ -292,6 +311,8 @@ namespace Proyecto_G4
         {
             if (dgvdata.Columns[e.ColumnIndex].Name == "btnSeleccionar")
             {
+                txtclave.Enabled = false;
+                txtconfirmarclave.Enabled = false;
 
                 int indice = e.RowIndex;
 
@@ -303,8 +324,6 @@ namespace Proyecto_G4
                     txtdocumento.Text = dgvdata.Rows[indice].Cells["Documento"].Value.ToString();
                     txtnombrecompleto.Text = dgvdata.Rows[indice].Cells["NombreCompleto"].Value.ToString();
                     txtcorreo.Text = dgvdata.Rows[indice].Cells["Correo"].Value.ToString();
-                    txtclave.Text = dgvdata.Rows[indice].Cells["Clave"].Value.ToString();
-                    txtconfirmarclave.Text = dgvdata.Rows[indice].Cells["Clave"].Value.ToString();
 
                     foreach(OpcionCombo oc in cmbrol.Items)
                     {
