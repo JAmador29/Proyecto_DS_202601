@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Capa_Datos;
+using Capa_Entidad;
+using System;
 using System.Collections.Generic;
 using System.Text;
-
-using Capa_Datos;
-using Capa_Entidad;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 
 namespace Capa_Negocio
@@ -88,6 +89,99 @@ namespace Capa_Negocio
 
                 return objCd_usuario.Editar(obj, out Mensaje);
             }
+        }
+
+        public bool Actualizar_Contraseña(string correo, string nuevaContraseña, out string Mensaje)
+        {
+            Mensaje = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(nuevaContraseña))
+            {
+                Mensaje = "La nueva contraseña no puede estar vacía.";
+                return false;
+            }
+
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(nuevaContraseña);
+            return objCd_usuario.Actualizar_Contraseña(correo, hashedPassword, out Mensaje);
+        }
+
+        public bool Validar_Contraseña(string contraseña, out string Mensaje)
+        {
+            Mensaje = "";
+
+            if (contraseña.Length < 8)
+            {
+                Mensaje = "La contraseña debe tener al menos 8 caracteres.";
+                return false;
+            }
+
+            if (!contraseña.Any(char.IsUpper))
+            {
+                Mensaje = "La contraseña debe contener al menos una letra mayúscula.";
+                return false;
+            }
+
+            if (!contraseña.Any(char.IsLower))
+            {
+                Mensaje = "La contraseña debe contener al menos una letra minúscula.";
+                return false;
+            }
+
+            if (!contraseña.Any(char.IsDigit))
+            {
+                Mensaje = "La contraseña debe contener al menos un número.";
+                return false;
+            }
+
+            if (!contraseña.Any(ch => !char.IsLetterOrDigit(ch)))
+            {
+                Mensaje = "La contraseña debe contener al menos un carácter especial.";
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool Validar_ContraseñaAntigua(string correo, string contraseñaAntigua)
+        {
+            string contraseñaActual = objCd_usuario.Obtener_ClaveCorreo(correo);
+
+            if(string.IsNullOrEmpty(contraseñaActual))
+            {
+                return false;
+            }
+
+            return BCrypt.Net.BCrypt.Verify(contraseñaAntigua, contraseñaActual);
+        }
+
+        public bool Registrar_Bitacora(int idUsuario, string accion, string detalle, out string Mensaje)
+        {
+            return objCd_usuario.Registrar_Bitacora(idUsuario, accion, detalle, out Mensaje);
+        }
+
+        public bool Registrar_BitacoraSinUsuario(int idUsuario, string accion, string detalle, out string Mensaje)
+        {
+            return objCd_usuario.Registrar_BitacoraSinUsuario(idUsuario, accion, detalle, out Mensaje);
+        }
+
+        public bool Usuario_Bloqueado(int idUsuario)
+        {
+            return objCd_usuario.Usuario_Bloqueado(idUsuario);
+        }
+
+        public int Intentos_Fallidos(int idUsuario)
+        {
+            return objCd_usuario.Aumentar_Intentos(idUsuario);
+        }
+
+        public void Bloquear_Usuario(int idUsuario)
+        {
+            objCd_usuario.Bloquear_Usuario(idUsuario);
+        }
+
+        public bool Desbloquear_Usuario(int idUsuario, out string Mensaje)
+        {
+            return objCd_usuario.Desbloquear_Usuario(idUsuario, out Mensaje);
         }
     }
 }

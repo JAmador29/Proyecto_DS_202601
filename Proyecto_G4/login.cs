@@ -17,8 +17,11 @@ namespace Proyecto_G4
 {
     public partial class Login : Form
     {
+        // Cantidad máxima de intentos fallidos permitidos antes de bloquear la cuenta.
+        private const int MAX_INTENTOS_FALLIDOS = 3;
 
         private bool mostrarPassword = false;
+        private readonly CN_Usuario objCNUsuario = new CN_Usuario();
 
         public Login()
         {
@@ -26,26 +29,16 @@ namespace Proyecto_G4
             this.AcceptButton = btnIngresar;
         }
 
+        // ------------------------------------------------------------------
+        // Ciclo de vida / UI
+        // ------------------------------------------------------------------
+
         private void Login_Load(object sender, EventArgs e)
         {
             txtDocument.Focus();
             CentrarGroupBox();
             HacerCircular(pblogo);
-
-            // Leemos los valores guardados en los Settings de la aplicación
-            if (Properties.Settings.Default.RecordarUsuario)
-            {
-                txtDocument.Text = Properties.Settings.Default.UsuarioRecordado;
-                chkrecordar.Checked = true;
-
-                // Mueve el foco de escritura directo a la contraseña, ya que el usuario ya está lleno
-                txtPassword.Select();
-            }
-            else
-            {
-                chkrecordar.Checked = false;
-                txtDocument.Select(); // Foco en el usuario si no hay nada guardado
-            }
+            CargarUsuarioRecordado();
         }
 
         private void Login_Resize(object sender, EventArgs e)
@@ -63,94 +56,21 @@ namespace Proyecto_G4
         {
             GraphicsPath path = new GraphicsPath();
             path.AddEllipse(0, 0, pictureBox.Width, pictureBox.Height);
-
             pictureBox.Region = new Region(path);
         }
 
-        /*private void linkUppPass_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void CargarUsuarioRecordado()
         {
-            RecuperarPass recuperar = new RecuperarPass();
-            recuperar.ShowDialog();
-        }*/
-
-        private void btncancelar_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void txtPassword_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnIngresar_Click(object sender, EventArgs e)
-        {
-            string documento = txtDocument.Text.Trim();
-            string clave = txtPassword.Text;
-
-            // Validación de campos vacíos
-            if (string.IsNullOrWhiteSpace(documento) || string.IsNullOrWhiteSpace(clave))
+            if (Properties.Settings.Default.RecordarUsuario)
             {
-                MessageBox.Show("Por favor ingrese documento y contraseña.", "Campos vacíos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Buscamos el usuario SOLO por documento (la clave se verifica aparte con BCrypt)
-            List<Usuario> listaUsuarios = new CN_Usuario().Listar();
-
-            Usuario ousuario = listaUsuarios
-                .Where(u => u.Documento.Trim() == documento)
-                .FirstOrDefault();
-
-            // Verificamos la clave usando BCrypt (compara el texto escrito contra el hash guardado)
-            bool claveCorrecta = ousuario != null && BCrypt.Net.BCrypt.Verify(clave, ousuario.Clave);
-
-            if (claveCorrecta)
-            {
-                //Guardar o limpiar documento de usuario
-                if (chkrecordar.Checked)
-                {
-                    Properties.Settings.Default.UsuarioRecordado = documento;
-                    Properties.Settings.Default.RecordarUsuario = true;
-                }
-                else
-                {
-                    Properties.Settings.Default.UsuarioRecordado = string.Empty;
-                    Properties.Settings.Default.RecordarUsuario = false;
-                }
-
-                // Guardar físicamente los cambios en el equipo del cliente
-                Properties.Settings.Default.Save();
-
-
-                MenuPrincipal form = new MenuPrincipal(ousuario);
-
-                form.Show();
-                this.Hide();
-
-                form.FormClosing += frm_closing;
+                txtDocument.Text = Properties.Settings.Default.UsuarioRecordado;
+                chkrecordar.Checked = true;
+                txtPassword.Select(); // El usuario ya está lleno, el foco va a la clave
             }
             else
             {
-                MessageBox.Show("Usuario o contraseña incorrectos.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                txtPassword.Clear();
-                txtPassword.Focus();
-            }
-        }
-
-        //Evento creado para que al cerrar el menu principal se muestre nuevamente el login    
-        private void frm_closing(object sender, FormClosingEventArgs e)
-        {
-            txtDocument.Clear();
-            txtPassword.Clear();
-            this.Show();
-        }
-        private void txtDocument_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Permitir solo números y retroceso
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
-            {
-                e.Handled = true; // Bloquea la entrada
+                chkrecordar.Checked = false;
+                txtDocument.Select();
             }
         }
 
@@ -160,15 +80,190 @@ namespace Proyecto_G4
 
             if (mostrarPassword)
             {
-                txtPassword.PasswordChar = '\0'; // Muestra el texto
+                txtPassword.PasswordChar = '\0';
                 btnmostrarclave.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
             }
             else
             {
-                txtPassword.PasswordChar = '*'; // Oculta el texto
+                txtPassword.PasswordChar = '*';
                 btnmostrarclave.IconChar = FontAwesome.Sharp.IconChar.Eye;
             }
             txtPassword.Focus();
+        }
+
+        private void txtDocument_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo números y retroceso
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void btncancelar_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void lnkOlvidarContraseña_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            frmOlvidoContraseña OlvContr = new frmOlvidoContraseña();
+            OlvContr.Show();
+            this.Hide();
+        }
+
+        // Evento creado para que al cerrar el menú principal se muestre nuevamente el login
+        private void frm_closing(object sender, FormClosingEventArgs e)
+        {
+            txtDocument.Clear();
+            txtPassword.Clear();
+            this.Show();
+        }
+
+        // ------------------------------------------------------------------
+        // Autenticación
+        // ------------------------------------------------------------------
+
+        private void btnIngresar_Click(object sender, EventArgs e)
+        {
+            string documento = txtDocument.Text.Trim();
+            string clave = txtPassword.Text;
+
+            if (!CamposCompletos(documento, clave))
+            {
+                MostrarAdvertencia("Por favor ingrese documento y contraseña.", "Campos vacíos");
+                return;
+            }
+
+            Usuario usuario = BuscarUsuarioPorDocumento(documento);
+
+            if (usuario != null && CredencialesValidas(usuario, clave))
+            {
+                if (!usuario.Estado)
+                {
+                    MostrarError("Esta cuenta se encuentra inactiva. Contacte al administrador.", "Cuenta Inactiva");
+                    ReiniciarCampoClave();
+                    return;
+                }
+
+                IniciarSesion(usuario);
+            }
+            else
+            {
+                ManejarLoginFallido(usuario);
+            }
+        }
+
+        private bool CamposCompletos(string documento, string clave)
+        {
+            return !string.IsNullOrWhiteSpace(documento) && !string.IsNullOrWhiteSpace(clave);
+        }
+
+        private Usuario BuscarUsuarioPorDocumento(string documento)
+        {
+            List<Usuario> listaUsuarios = objCNUsuario.Listar();
+
+            return listaUsuarios
+                .Where(u => u.Documento.Trim() == documento)
+                .FirstOrDefault();
+        }
+
+        private bool CredencialesValidas(Usuario usuario, string clave)
+        {
+            return BCrypt.Net.BCrypt.Verify(clave, usuario.Clave);
+        }
+
+        private void IniciarSesion(Usuario usuario)
+        {
+            string mensajeBitacora;
+            objCNUsuario.Registrar_Bitacora(usuario.IdUsuario, "LOGIN", $"IdUsuario={usuario.IdUsuario}, Nombre={usuario.NombreCompleto}", out mensajeBitacora);
+
+            GuardarPreferenciaRecordarUsuario(usuario.Documento);
+
+            AbrirMenuPrincipal(usuario);
+        }
+
+        private void GuardarPreferenciaRecordarUsuario(string documento)
+        {
+            if (chkrecordar.Checked)
+            {
+                Properties.Settings.Default.UsuarioRecordado = documento;
+                Properties.Settings.Default.RecordarUsuario = true;
+            }
+            else
+            {
+                Properties.Settings.Default.UsuarioRecordado = string.Empty;
+                Properties.Settings.Default.RecordarUsuario = false;
+            }
+
+            Properties.Settings.Default.Save();
+        }
+
+        private void AbrirMenuPrincipal(Usuario usuario)
+        {
+            MenuPrincipal form = new MenuPrincipal(usuario);
+            form.FormClosing += frm_closing;
+            form.Show();
+            this.Hide();
+        }
+
+        private void ManejarLoginFallido(Usuario usuario)
+        {
+            if (usuario == null)
+            {
+                MostrarAdvertencia("Usuario o contraseña incorrectos.", "Mensaje");
+                ReiniciarCampoClave();
+                return;
+            }
+
+            if (objCNUsuario.Usuario_Bloqueado(usuario.IdUsuario))
+            {
+                MostrarError("Esta cuenta está bloqueada. Por favor, contacte al administrador.", "Cuenta Bloqueada");
+                ReiniciarCampoClave();
+                return;
+            }
+
+            RegistrarIntentoFallido(usuario);
+            ReiniciarCampoClave();
+        }
+
+        private void RegistrarIntentoFallido(Usuario usuario)
+        {
+            int intentos = objCNUsuario.Intentos_Fallidos(usuario.IdUsuario);
+
+            if (intentos >= MAX_INTENTOS_FALLIDOS)
+            {
+                objCNUsuario.Bloquear_Usuario(usuario.IdUsuario);
+
+                string mensajeBitacora;
+                objCNUsuario.Registrar_Bitacora(usuario.IdUsuario, "BLOQUEO", $"IdUsuario={usuario.IdUsuario}, Nombre={usuario.NombreCompleto}", out mensajeBitacora);
+
+                MostrarError("Se ha bloqueado la cuenta debido a múltiples intentos fallidos de inicio de sesión.", "Cuenta Bloqueada");
+            }
+            else
+            {
+                MostrarAdvertencia($"Usuario o contraseña incorrectos. Intentos {intentos} de {MAX_INTENTOS_FALLIDOS}.", "Error");
+            }
+        }
+
+        private void ReiniciarCampoClave()
+        {
+            txtPassword.Clear();
+            txtPassword.Focus();
+        }
+
+        // ------------------------------------------------------------------
+        // Helpers de mensajes (evitan repetir MessageBox.Show(...) por todo el archivo)
+        // ------------------------------------------------------------------
+
+        private void MostrarAdvertencia(string mensaje, string titulo)
+        {
+            MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void MostrarError(string mensaje, string titulo)
+        {
+            MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
