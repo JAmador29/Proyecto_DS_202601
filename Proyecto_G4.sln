@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proyecto_G4.Benchmarks", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proyecto_G4.PruebasEstres", "Proyecto_G4.PruebasEstres\Proyecto_G4.PruebasEstres.csproj", "{EEEC41F7-EE28-4A3E-9FD9-8581E0B6B611}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Loboru Sistema", "Loboru Sistema\Loboru Sistema.vdproj", "{DC3E2244-9AAA-54C0-543B-E3F64A71C5B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,8 @@ Global
 		{EEEC41F7-EE28-4A3E-9FD9-8581E0B6B611}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEEC41F7-EE28-4A3E-9FD9-8581E0B6B611}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEEC41F7-EE28-4A3E-9FD9-8581E0B6B611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC3E2244-9AAA-54C0-543B-E3F64A71C5B9}.Debug|Any CPU.ActiveCfg = Debug
+		{DC3E2244-9AAA-54C0-543B-E3F64A71C5B9}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
