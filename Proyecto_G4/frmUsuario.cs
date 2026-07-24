@@ -282,30 +282,11 @@ namespace Proyecto_G4
             txtconfirmarclave.Text = "";
             cmbrol.SelectedIndex = 0;
             cmbestado.SelectedIndex = 0;
+            txtclave.Enabled = true;
+            txtconfirmarclave.Enabled = true;
 
             txtdocumento.Select();
         }
-
-        /*private void dgvdata_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            if (e.RowIndex < 0)
-                return;
-
-            if (e.ColumnIndex == 0)
-            {
-                e.Paint(e.CellBounds, DataGridViewPaintParts.All);
-
-                var w = Properties.Resources.gettyimages_1696263143_612x612.Width;
-                var h = Properties.Resources.gettyimages_1696263143_612x612.Height;
-                var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
-                var y = e.CellBounds.Left + (e.CellBounds.Height - h) / 2;
-
-                e.Graphics.DrawImage(Properties.Resources.gettyimages_1696263143_612x612, new Rectangle(x, y, w, h));
-                e.Handled = true;
-            }
-
-
-        }*/
 
         private void dgvdata_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
