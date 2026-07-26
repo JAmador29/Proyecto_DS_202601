@@ -411,6 +411,23 @@ namespace Proyecto_G4
                     e.CellStyle.SelectionForeColor = Color.White;
                 }
             }
+            if (dgvdata.Columns[e.ColumnIndex].Name == "Bloqueado")
+            {
+                string bloqueado = e.Value?.ToString();
+
+                if (bloqueado == "Sí")
+                {
+                    e.CellStyle.ForeColor = Color.FromArgb(255, 128, 0);
+                    e.CellStyle.SelectionBackColor = Color.FromArgb(255, 170, 0);
+                    e.CellStyle.SelectionForeColor = Color.White;
+                }
+                else if (bloqueado == "No")
+                {
+                    e.CellStyle.ForeColor = Color.FromArgb(0, 128, 255);
+                    e.CellStyle.SelectionBackColor = Color.FromArgb(0, 170, 255);
+                    e.CellStyle.SelectionForeColor = Color.White;
+                }
+            }
         }
 
         private void btnDesbloquear_Click(object sender, EventArgs e)

@@ -298,6 +298,29 @@ namespace Proyecto_G4
         {
 
         }
+
+        private void dgvdata_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvdata.Columns[e.ColumnIndex].Name == "Estado")
+            {
+                string estado = e.Value?.ToString();
+
+                if (estado == "Activo")
+                {
+                    //e.CellStyle.BackColor = Color.FromArgb(39, 174, 96);   // Verde
+                    e.CellStyle.ForeColor = Color.FromArgb(39, 174, 96);
+                    e.CellStyle.SelectionBackColor = Color.FromArgb(46, 204, 113);
+                    e.CellStyle.SelectionForeColor = Color.White;
+                }
+                else if (estado == "No Activo")
+                {
+                    //e.CellStyle.BackColor = Color.FromArgb(192, 57, 43);   // Rojo
+                    e.CellStyle.ForeColor = Color.FromArgb(192, 57, 43);
+                    e.CellStyle.SelectionBackColor = Color.FromArgb(231, 76, 60);
+                    e.CellStyle.SelectionForeColor = Color.White;
+                }
+            }
+        }
     }
     
 }
