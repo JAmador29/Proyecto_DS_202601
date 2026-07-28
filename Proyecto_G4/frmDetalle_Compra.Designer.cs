@@ -487,7 +487,6 @@
             this.label10.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.label10.Size = new System.Drawing.Size(822, 584);
             this.label10.TabIndex = 205;
-            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // frmDetalle_Compra
             // 

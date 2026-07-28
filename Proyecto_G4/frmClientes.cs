@@ -1,326 +1,714 @@
-﻿using Capa_Entidad;
-using Capa_Entidad.Utilidades;
-using Capa_Negocio;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Net.WebSockets;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using Capa_Entidad;
+using Capa_Entidad.Utilidades;
+using Capa_Negocio;
 
 namespace Proyecto_G4
 {
     public partial class frmClientes : Form
     {
+        private const int LongitudMaximaDocumento = 13;
+        private const int LongitudMaximaNombre = 50;
+        private const int LongitudMaximaCorreo = 50;
+        private const int LongitudMaximaTelefono = 8;
+
+        private readonly CN_Cliente clienteNegocio;
+
+        private static readonly string[] DominiosPermitidos =
+        {
+            "gmail.com",
+            "yahoo.com",
+            "outlook.com",
+            "hotmail.com"
+        };
+
         public frmClientes()
         {
             InitializeComponent();
+            clienteNegocio = new CN_Cliente();
         }
+
+        // ================================================================
+        // CARGA DEL FORMULARIO
+        // ================================================================
 
         private void frmClientes_Load(object sender, EventArgs e)
         {
-            cmbestado.Items.Add(new OpcionCombo() { Valor = 1, Texto = "Activo" });
-            cmbestado.Items.Add(new OpcionCombo() { Valor = 0, Texto = "No Activo" });
+            ConfigurarComboEstado();
+            ConfigurarComboBusqueda();
+            CargarClientes();
+            LimpiarFormulario();
+        }
 
-            cmbestado.DisplayMember = "Texto";
-            cmbestado.ValueMember = "Valor";
-            cmbestado.SelectedIndex = 0;
+        private void ConfigurarComboEstado()
+        {
+            cmbestado.Items.Clear();
+
+            cmbestado.Items.Add(new OpcionCombo
+            {
+                Valor = 1,
+                Texto = "Activo"
+            });
+
+            cmbestado.Items.Add(new OpcionCombo
+            {
+                Valor = 0,
+                Texto = "No Activo"
+            });
+
+            ConfigurarCombo(cmbestado);
+        }
+
+        private void ConfigurarComboBusqueda()
+        {
+            cmbbusqueda.Items.Clear();
 
             foreach (DataGridViewColumn columna in dgvdata.Columns)
             {
-                if (columna.Visible == true && columna.Name != "btnSeleccionar")
+                bool sePuedeBuscar =
+                    columna.Visible &&
+                    columna.Name != "btnSeleccionar";
+
+                if (!sePuedeBuscar)
+                    continue;
+
+                cmbbusqueda.Items.Add(new OpcionCombo
                 {
-                    cmbbusqueda.Items.Add(new OpcionCombo() { Valor = columna.Name, Texto = columna.HeaderText });
-                }
-            }
-            cmbbusqueda.DisplayMember = "Texto";
-            cmbbusqueda.ValueMember = "Valor";
-            cmbbusqueda.SelectedIndex = 0;
-
-
-            //MOSTRAR TODOS LOS USUARIOS
-            List<Cliente> lista = new CN_Cliente().Listar();
-
-            foreach (Cliente item in lista)
-            {
-                dgvdata.Rows.Add(new object[] {"",item.IdCliente,item.Documento,item.NombreCompleto,item.Correo,item.Telefono,
-                    item.Estado == true ? 1 :0,
-                    item.Estado == true ? "Activo" : "No Activo" 
+                    Valor = columna.Name,
+                    Texto = columna.HeaderText
                 });
             }
+
+            ConfigurarCombo(cmbbusqueda);
         }
 
-        private bool ValidarLongitudCampos()
+        private static void ConfigurarCombo(ComboBox combo)
         {
-            // Modifica los números (20, 150, 100, 50) según los tamaños reales de tu base de datos
+            combo.DisplayMember = "Texto";
+            combo.ValueMember = "Valor";
 
-            if (txtdocumento.Text.Trim().Length > 13)
+            if (combo.Items.Count > 0)
+                combo.SelectedIndex = 0;
+        }
+
+        // ================================================================
+        // CARGA DE CLIENTES
+        // ================================================================
+
+        private void CargarClientes()
+        {
+            dgvdata.Rows.Clear();
+
+            List<Cliente> clientes = clienteNegocio.Listar();
+
+            foreach (Cliente cliente in clientes)
+                AgregarClienteAlGrid(cliente);
+        }
+
+        private void AgregarClienteAlGrid(Cliente cliente)
+        {
+            dgvdata.Rows.Add(
+                "",
+                cliente.IdCliente,
+                cliente.Documento,
+                cliente.NombreCompleto,
+                cliente.Correo,
+                cliente.Telefono,
+                cliente.Estado ? 1 : 0,
+                cliente.Estado ? "Activo" : "No Activo"
+            );
+        }
+
+        // ================================================================
+        // GUARDAR Y EDITAR
+        // ================================================================
+
+        private void btnguardar_Click(object sender, EventArgs e)
+        {
+            if (!ValidarFormulario())
+                return;
+
+            Cliente cliente = CrearClienteDesdeFormulario();
+
+            if (cliente.IdCliente == 0)
+                RegistrarCliente(cliente);
+            else
+                EditarCliente(cliente);
+        }
+
+        private Cliente CrearClienteDesdeFormulario()
+        {
+            return new Cliente
             {
-                MessageBox.Show("El campo 'Documento' no puede superar los 13 caracteres.",
-                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                IdCliente = ObtenerIdCliente(),
+                Documento = txtdocumento.Text.Trim(),
+                NombreCompleto = txtnombrecompleto.Text.Trim(),
+                Correo = txtcorreo.Text.Trim(),
+                Telefono = txttelefono.Text.Trim(),
+                Estado = ObtenerValorEstado() == 1
+            };
+        }
+
+        private int ObtenerIdCliente()
+        {
+            return int.TryParse(txtid.Text, out int idCliente)
+                ? idCliente
+                : 0;
+        }
+
+        private int ObtenerValorEstado()
+        {
+            if (cmbestado.SelectedItem is OpcionCombo opcion)
+                return Convert.ToInt32(opcion.Valor);
+
+            return 0;
+        }
+
+        private string ObtenerTextoEstado()
+        {
+            if (cmbestado.SelectedItem is OpcionCombo opcion)
+                return opcion.Texto?.ToString() ?? string.Empty;
+
+            return string.Empty;
+        }
+
+        private void RegistrarCliente(Cliente cliente)
+        {
+            int idCliente = clienteNegocio.Registrar(
+                cliente,
+                out string mensaje);
+
+            if (idCliente == 0)
+            {
+                MostrarError(mensaje, "Error al registrar");
+                return;
+            }
+
+            cliente.IdCliente = idCliente;
+
+            AgregarClienteAlGrid(cliente);
+
+            MostrarInformacion(
+                "El cliente se registró correctamente.",
+                "Cliente registrado");
+
+            LimpiarFormulario();
+        }
+
+        private void EditarCliente(Cliente cliente)
+        {
+            bool resultado = clienteNegocio.Editar(
+                cliente,
+                out string mensaje);
+
+            if (!resultado)
+            {
+                MostrarError(mensaje, "Error al editar");
+                return;
+            }
+
+            ActualizarFilaSeleccionada(cliente);
+
+            MostrarInformacion(
+                "El cliente se editó correctamente.",
+                "Cliente editado");
+
+            LimpiarFormulario();
+        }
+
+        private void ActualizarFilaSeleccionada(Cliente cliente)
+        {
+            if (!int.TryParse(txtIndice.Text, out int indice))
+                return;
+
+            if (indice < 0 || indice >= dgvdata.Rows.Count)
+                return;
+
+            DataGridViewRow fila = dgvdata.Rows[indice];
+
+            fila.Cells["Id"].Value = cliente.IdCliente;
+            fila.Cells["Documento"].Value = cliente.Documento;
+            fila.Cells["NombreCompleto"].Value = cliente.NombreCompleto;
+            fila.Cells["Correo"].Value = cliente.Correo;
+            fila.Cells["Telefono"].Value = cliente.Telefono;
+            fila.Cells["EstadoValor"].Value = cliente.Estado ? 1 : 0;
+            fila.Cells["Estado"].Value = ObtenerTextoEstado();
+        }
+
+        // ================================================================
+        // VALIDACIONES
+        // ================================================================
+
+        private bool ValidarFormulario()
+        {
+            if (!ValidarCamposObligatorios())
+                return false;
+
+            if (!ValidarEspaciosIniciales())
+                return false;
+
+            if (!ValidarLongitudCampos())
+                return false;
+
+            if (!ValidarCorreo())
+                return false;
+
+            return true;
+        }
+
+        private bool ValidarCamposObligatorios()
+        {
+            if (string.IsNullOrWhiteSpace(txtdocumento.Text))
+            {
+                MostrarAdvertencia(
+                    "El campo documento es obligatorio.",
+                    "Campo obligatorio");
+
                 txtdocumento.Focus();
                 return false;
             }
 
-            if (txtnombrecompleto.Text.Trim().Length > 50)
+            if (string.IsNullOrWhiteSpace(txtnombrecompleto.Text))
             {
-                MessageBox.Show("El campo 'Nombre Completo' es demasiado largo. El máximo permitido son 50 caracteres.",
-                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MostrarAdvertencia(
+                    "El campo nombre completo es obligatorio.",
+                    "Campo obligatorio");
+
                 txtnombrecompleto.Focus();
                 return false;
             }
 
-            if (txtcorreo.Text.Trim().Length > 50)
+            if (string.IsNullOrWhiteSpace(txtcorreo.Text))
             {
-                MessageBox.Show("El correo electrónico no puede superar los 50 caracteres.",
-                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MostrarAdvertencia(
+                    "El campo correo es obligatorio.",
+                    "Campo obligatorio");
+
                 txtcorreo.Focus();
                 return false;
             }
 
-            if (txttelefono.Text.Trim().Length > 8)
+            if (string.IsNullOrWhiteSpace(txttelefono.Text))
             {
-                MessageBox.Show("El teléfono no puede superar los 8 caracteres.",
-                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MostrarAdvertencia(
+                    "El campo teléfono es obligatorio.",
+                    "Campo obligatorio");
+
                 txttelefono.Focus();
                 return false;
             }
 
-            return true; // Todos los campos cumplen con la longitud permitida
+            return true;
         }
 
-        //Metodo de validacion de correo y dominio
-        private bool ValidarCorreoYDominio(string correo)
+        private bool ValidarEspaciosIniciales()
         {
-            //Expresión regular para validar formato general del correo
-            string patronRegex = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            if (TieneEspacioInicial(txtdocumento.Text))
+            {
+                MostrarAdvertencia(
+                    "El documento no puede comenzar con espacios en blanco.",
+                    "Espacios no permitidos");
 
-            if (string.IsNullOrWhiteSpace(correo) || !Regex.IsMatch(correo, patronRegex))
+                txtdocumento.Focus();
+                return false;
+            }
+
+            if (TieneEspacioInicial(txtnombrecompleto.Text))
+            {
+                MostrarAdvertencia(
+                    "El nombre completo no puede comenzar con espacios en blanco.",
+                    "Espacios no permitidos");
+
+                txtnombrecompleto.Focus();
+                return false;
+            }
+
+            if (TieneEspacioInicial(txtcorreo.Text))
+            {
+                MostrarAdvertencia(
+                    "El correo no puede comenzar con espacios en blanco.",
+                    "Espacios no permitidos");
+
+                txtcorreo.Focus();
+                return false;
+            }
+
+            if (TieneEspacioInicial(txttelefono.Text))
+            {
+                MostrarAdvertencia(
+                    "El teléfono no puede comenzar con espacios en blanco.",
+                    "Espacios no permitidos");
+
+                txttelefono.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool TieneEspacioInicial(string texto)
+        {
+            return !string.IsNullOrEmpty(texto) &&
+                   char.IsWhiteSpace(texto[0]);
+        }
+
+        private bool ValidarLongitudCampos()
+        {
+            if (!ValidarLongitud(
+                    txtdocumento,
+                    LongitudMaximaDocumento,
+                    "El documento no puede superar los 13 caracteres."))
             {
                 return false;
             }
+
+            if (!ValidarLongitud(
+                    txtnombrecompleto,
+                    LongitudMaximaNombre,
+                    "El nombre completo no puede superar los 50 caracteres."))
+            {
+                return false;
+            }
+
+            if (!ValidarLongitud(
+                    txtcorreo,
+                    LongitudMaximaCorreo,
+                    "El correo electrónico no puede superar los 50 caracteres."))
+            {
+                return false;
+            }
+
+            if (!ValidarLongitud(
+                    txttelefono,
+                    LongitudMaximaTelefono,
+                    "El teléfono no puede superar los 8 caracteres."))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ValidarLongitud(
+            TextBox campo,
+            int longitudMaxima,
+            string mensaje)
+        {
+            if (campo.Text.Trim().Length <= longitudMaxima)
+                return true;
+
+            MostrarAdvertencia(
+                mensaje,
+                "Validación de longitud");
+
+            campo.Focus();
+            return false;
+        }
+
+        private bool ValidarCorreo()
+        {
+            string correo = txtcorreo.Text.Trim();
+
+            if (CorreoValido(correo))
+                return true;
+
+            MostrarAdvertencia(
+                "Ingrese un correo electrónico válido.\n\n" +
+                "Solo se permiten los dominios gmail.com, yahoo.com, " +
+                "outlook.com y hotmail.com.",
+                "Validación de correo");
+
+            txtcorreo.Focus();
+            return false;
+        }
+
+        private static bool CorreoValido(string correo)
+        {
+            const string PatronCorreo =
+                @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+
+            if (string.IsNullOrWhiteSpace(correo))
+                return false;
+
+            if (!Regex.IsMatch(correo, PatronCorreo))
+                return false;
 
             try
             {
-                //Extraer el dominio limpio usando MailAddress
-                var mail = new MailAddress(correo);
-                string dominioUsuario = mail.Host.ToLower().Trim();
+                MailAddress direccionCorreo = new MailAddress(correo);
 
-                //Lista blanca de dominios aceptados
-                string[] dominiosValidos = { "gmail.com", "yahoo.com", "outlook.com", "hotmail.com" };
+                string dominio =
+                    direccionCorreo.Host.ToLowerInvariant().Trim();
 
-                //Comprobar si el dominio pertenece a la lista blanca
-                return dominiosValidos.Contains(dominioUsuario);
+                return DominiosPermitidos.Contains(dominio);
             }
-            catch
+            catch (FormatException)
             {
                 return false;
             }
         }
 
-        private void btnguardar_Click(object sender, EventArgs e)
+        // ================================================================
+        // SELECCIÓN DEL DATAGRIDVIEW
+        // ================================================================
+
+        private void dgvdata_CellContentClick(
+            object sender,
+            DataGridViewCellEventArgs e)
         {
-            string mensaje = string.Empty;
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
 
-            // Validación de Longitudes (Llamada a la nueva función externa)
-            if (!ValidarLongitudCampos())
+            if (dgvdata.Columns[e.ColumnIndex].Name != "btnSeleccionar")
+                return;
+
+            SeleccionarCliente(e.RowIndex);
+        }
+
+        private void SeleccionarCliente(int indice)
+        {
+            DataGridViewRow fila = dgvdata.Rows[indice];
+
+            txtIndice.Text = indice.ToString();
+            txtid.Text = ObtenerValorCelda(fila, "Id");
+            txtdocumento.Text = ObtenerValorCelda(fila, "Documento");
+            txtnombrecompleto.Text =
+                ObtenerValorCelda(fila, "NombreCompleto");
+            txtcorreo.Text = ObtenerValorCelda(fila, "Correo");
+            txttelefono.Text = ObtenerValorCelda(fila, "Telefono");
+
+            SeleccionarEstado(
+                ObtenerValorCelda(fila, "EstadoValor"));
+        }
+
+        private static string ObtenerValorCelda(
+            DataGridViewRow fila,
+            string nombreColumna)
+        {
+            return fila.Cells[nombreColumna].Value?.ToString()
+                   ?? string.Empty;
+        }
+
+        private void SeleccionarEstado(string valorEstado)
+        {
+            foreach (OpcionCombo opcion in cmbestado.Items)
             {
-                return; // Se detiene porque la función interna ya mostró el MessageBox y dio Focus
-            }
+                if (opcion.Valor.ToString() != valorEstado)
+                    continue;
 
-            //validacion de correo
-            string correo = txtcorreo.Text.Trim();
+                cmbestado.SelectedIndex =
+                    cmbestado.Items.IndexOf(opcion);
 
-            // Ejecuta el formato Regex y la lista de dominios en un solo paso instantáneo
-            if (!ValidarCorreoYDominio(correo))
-            {
-                MessageBox.Show("Ingrese un correo electrónico válido.\n\nSolo se permiten dominios de: gmail.com, yahoo.com, outlook.com y hotmail.com.",
-                                "Validación de Correo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            Cliente obj = new Cliente()
-            {
-                IdCliente = Convert.ToInt32(txtid.Text),
-                Documento = txtdocumento.Text,
-                NombreCompleto = txtnombrecompleto.Text,
-                Correo = txtcorreo.Text,
-                Telefono = txttelefono.Text,
-                Estado = Convert.ToInt32(((OpcionCombo)cmbestado.SelectedItem).Valor) == 1 ? true : false
-            };
-
-            if (obj.IdCliente == 0)
-            {
-                int idgenerado = new CN_Cliente().Registrar(obj, out mensaje);
-
-                if (idgenerado != 0)
-                {
-
-                    dgvdata.Rows.Add(new object[] {"",idgenerado,txtdocumento.Text,txtnombrecompleto.Text,txtcorreo.Text,txttelefono.Text,
-                        ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString(),
-                        ((OpcionCombo)cmbestado.SelectedItem).Texto.ToString(),
-                    });
-
-                    Limpiar();
-                }
-                else
-                {
-                    MessageBox.Show(mensaje);
-                }
-            }
-            else
-            {
-                bool resultado = new CN_Cliente().Editar(obj, out mensaje);
-
-                if (resultado)
-                {
-                    DataGridViewRow row = dgvdata.Rows[Convert.ToInt32(txtIndice.Text)];
-                    row.Cells["Id"].Value = txtid.Text;
-                    row.Cells["Documento"].Value = txtdocumento.Text;
-                    row.Cells["NombreCompleto"].Value = txtnombrecompleto.Text;
-                    row.Cells["Correo"].Value = txtcorreo.Text;
-                    row.Cells["Telefono"].Value = txttelefono.Text;
-                    row.Cells["EstadoValor"].Value = ((OpcionCombo)cmbestado.SelectedItem).Valor.ToString();
-                    row.Cells["Estado"].Value = ((OpcionCombo)cmbestado.SelectedItem).Texto.ToString();
-                    Limpiar();
-                }
-                else
-                {
-                    MessageBox.Show(mensaje);
-                }
-            }
         }
 
-        private void Limpiar()
-        {
-            txtIndice.Text = "-1";
-            txtid.Text = "0";
-            txtdocumento.Text = "";
-            txtnombrecompleto.Text = "";
-            txtcorreo.Text = "";
-            txttelefono.Text = "";
-            cmbestado.SelectedIndex = 0;
-            txtdocumento.Select();
-        }
-
-        private void dgvdata_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (dgvdata.Columns[e.ColumnIndex].Name == "btnSeleccionar")
-            {
-
-                int indice = e.RowIndex;
-
-                if (indice >= 0)
-                {
-
-                    txtIndice.Text = indice.ToString();
-                    txtid.Text = dgvdata.Rows[indice].Cells["Id"].Value.ToString();
-                    txtdocumento.Text = dgvdata.Rows[indice].Cells["Documento"].Value.ToString();
-                    txtnombrecompleto.Text = dgvdata.Rows[indice].Cells["NombreCompleto"].Value.ToString();
-                    txtcorreo.Text = dgvdata.Rows[indice].Cells["Correo"].Value.ToString();
-                    txttelefono.Text = dgvdata.Rows[indice].Cells["Telefono"].Value.ToString();
-
-                    foreach (OpcionCombo oc in cmbestado.Items)
-                    {
-                        if (Convert.ToInt32(oc.Valor) == Convert.ToInt32(dgvdata.Rows[indice].Cells["EstadoValor"].Value))
-                        {
-                            int indice_combo = cmbestado.Items.IndexOf(oc);
-                            cmbestado.SelectedIndex = indice_combo;
-                            break;
-
-                        }
-                    }
-                }
-            }
-        }
+        // ================================================================
+        // BÚSQUEDA
+        // ================================================================
 
         private void btnbuscar_Click(object sender, EventArgs e)
         {
-            string columnaFiltro = ((OpcionCombo)cmbbusqueda.SelectedItem).Valor.ToString();
-            bool seEncontroCoincidencia = false;
+            if (!(cmbbusqueda.SelectedItem is OpcionCombo opcionBusqueda))
+                return;
 
-            if (dgvdata.Rows.Count > 0)
-            {
-                foreach (DataGridViewRow row in dgvdata.Rows)
-                {
-                    if (row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(txtbusqueda.Text.Trim().ToUpper()))
-                    {
-                        row.Visible = true;
-                        seEncontroCoincidencia = true;
-                    }
-                    else
-                        row.Visible = false;
-                }
+            string columnaFiltro =
+                opcionBusqueda.Valor.ToString();
 
-                if (!seEncontroCoincidencia)
-                {
-                    MessageBox.Show("No se encontraron resultados para su búsqueda.",
-                                    "Sin Resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string textoBusqueda =
+                txtbusqueda.Text.Trim();
 
-                    // Vuelve a mostrar todas las filas para que la grilla no quede vacía
-                    foreach (DataGridViewRow row in dgvdata.Rows)
-                    {
-                        row.Visible = true;
-                    }
-                }
-            }
+            bool encontrado = FiltrarClientes(
+                columnaFiltro,
+                textoBusqueda);
+
+            if (encontrado)
+                return;
+
+            MostrarInformacion(
+                "No se encontraron resultados para su búsqueda.",
+                "Sin resultados");
+
+            MostrarTodasLasFilas();
         }
 
-        private void btnlimpiarbuscador_Click(object sender, EventArgs e)
+        private bool FiltrarClientes(
+            string columnaFiltro,
+            string textoBusqueda)
         {
-            txtbusqueda.Text = "";
-            foreach (DataGridViewRow row in dgvdata.Rows)
+            bool encontrado = false;
+
+            foreach (DataGridViewRow fila in dgvdata.Rows)
             {
-                row.Visible = true;
+                if (fila.IsNewRow)
+                    continue;
+
+                string valor =
+                    fila.Cells[columnaFiltro].Value?.ToString()
+                    ?? string.Empty;
+
+                bool coincide = valor.IndexOf(
+                    textoBusqueda,
+                    StringComparison.OrdinalIgnoreCase) >= 0;
+
+                fila.Visible = coincide;
+
+                if (coincide)
+                    encontrado = true;
+            }
+
+            return encontrado;
+        }
+
+        private void btnlimpiarbuscador_Click(
+            object sender,
+            EventArgs e)
+        {
+            txtbusqueda.Clear();
+            MostrarTodasLasFilas();
+        }
+
+        private void MostrarTodasLasFilas()
+        {
+            foreach (DataGridViewRow fila in dgvdata.Rows)
+            {
+                if (!fila.IsNewRow)
+                    fila.Visible = true;
             }
         }
+
+        // ================================================================
+        // LIMPIEZA
+        // ================================================================
 
         private void btnlimpiar_Click(object sender, EventArgs e)
         {
-            Limpiar();
+            LimpiarFormulario();
         }
-        private void SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
+
+        private void LimpiarFormulario()
         {
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
+            txtIndice.Text = "-1";
+            txtid.Text = "0";
+            txtdocumento.Clear();
+            txtnombrecompleto.Clear();
+            txtcorreo.Clear();
+            txttelefono.Clear();
+
+            if (cmbestado.Items.Count > 0)
+                cmbestado.SelectedIndex = 0;
+
+            txtdocumento.Focus();
+        }
+
+        // ================================================================
+        // VALIDACIÓN DE TECLADO
+        // ================================================================
+
+        private void SoloNumeros_KeyPress(
+            object sender,
+            KeyPressEventArgs e)
+        {
+            bool esNumero = char.IsDigit(e.KeyChar);
+            bool esTeclaControl = char.IsControl(e.KeyChar);
+
+            if (!esNumero && !esTeclaControl)
                 e.Handled = true;
-            }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
+        // ================================================================
+        // FORMATO DEL DATAGRIDVIEW
+        // ================================================================
 
+        private void dgvdata_CellFormatting(
+            object sender,
+            DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            if (dgvdata.Columns[e.ColumnIndex].Name != "Estado")
+                return;
+
+            string estado = e.Value?.ToString();
+
+            FormatearEstado(e, estado);
         }
 
-        private void dgvdata_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private static void FormatearEstado(
+            DataGridViewCellFormattingEventArgs e,
+            string estado)
         {
-            if (dgvdata.Columns[e.ColumnIndex].Name == "Estado")
+            if (estado == "Activo")
             {
-                string estado = e.Value?.ToString();
+                AplicarFormatoEstado(
+                    e,
+                    Color.FromArgb(39, 174, 96),
+                    Color.FromArgb(46, 204, 113));
 
-                if (estado == "Activo")
-                {
-                    //e.CellStyle.BackColor = Color.FromArgb(39, 174, 96);   // Verde
-                    e.CellStyle.ForeColor = Color.FromArgb(39, 174, 96);
-                    e.CellStyle.SelectionBackColor = Color.FromArgb(46, 204, 113);
-                    e.CellStyle.SelectionForeColor = Color.White;
-                }
-                else if (estado == "No Activo")
-                {
-                    //e.CellStyle.BackColor = Color.FromArgb(192, 57, 43);   // Rojo
-                    e.CellStyle.ForeColor = Color.FromArgb(192, 57, 43);
-                    e.CellStyle.SelectionBackColor = Color.FromArgb(231, 76, 60);
-                    e.CellStyle.SelectionForeColor = Color.White;
-                }
+                return;
             }
+
+            if (estado == "No Activo")
+            {
+                AplicarFormatoEstado(
+                    e,
+                    Color.FromArgb(192, 57, 43),
+                    Color.FromArgb(231, 76, 60));
+            }
+        }
+
+        private static void AplicarFormatoEstado(
+            DataGridViewCellFormattingEventArgs e,
+            Color colorTexto,
+            Color colorSeleccion)
+        {
+            e.CellStyle.ForeColor = colorTexto;
+            e.CellStyle.SelectionBackColor = colorSeleccion;
+            e.CellStyle.SelectionForeColor = Color.White;
+        }
+
+        // ================================================================
+        // MENSAJES
+        // ================================================================
+
+        private static void MostrarAdvertencia(
+            string mensaje,
+            string titulo)
+        {
+            MessageBox.Show(
+                mensaje,
+                titulo,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+        }
+
+        private static void MostrarInformacion(
+            string mensaje,
+            string titulo)
+        {
+            MessageBox.Show(
+                mensaje,
+                titulo,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
+
+        private static void MostrarError(
+            string mensaje,
+            string titulo)
+        {
+            MessageBox.Show(
+                mensaje,
+                titulo,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
         }
     }
-    
 }

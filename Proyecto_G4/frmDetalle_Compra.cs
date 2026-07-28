@@ -1,165 +1,495 @@
-﻿using Capa_Entidad;
+﻿using System;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Windows.Forms;
+using Capa_Entidad;
 using Capa_Negocio;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
     public partial class frmDetalle_Compra : Form
     {
+        private const string FormatoMoneda = "0.00";
+
+        private readonly CN_Compra compraNegocio;
+        private readonly CN_Negocio negocioNegocio;
+
         public frmDetalle_Compra()
         {
             InitializeComponent();
+
+            compraNegocio = new CN_Compra();
+            negocioNegocio = new CN_Negocio();
         }
 
-        private void btnbuscar_Click(object sender, EventArgs e)
-        {
-            Compras oCompra = new CN_Compra().ObtenerCompra(txtbusqueda.Text);
-
-            if (oCompra != null && oCompra.IdCompra != 0)
-            {
-
-                txtnumerodocumento.Text = oCompra.NumeroDocumento;
-
-                txtfecha.Text = oCompra.FechaRegistro;
-                txttipodocumento.Text = oCompra.TipoDocumento;
-                txtusuario.Text = oCompra.oUsuario.NombreCompleto;
-                txtdocproveedor.Text = oCompra.oProveedor.RTN;
-                txtnombreproveedor.Text = oCompra.oProveedor.RazonSocial;
-
-                dgvdata.Rows.Clear();
-                foreach (Detalle_Compra dc in oCompra.DetalleCompra)
-                {
-                    dgvdata.Rows.Add(new object[] { dc.oProducto.Nombre, dc.PrecioCompra, dc.Cantidad, dc.MontoTotal });
-                }
-
-                txtmontototal.Text = oCompra.MontoTotal.ToString("0.00");
-
-            }
-            else
-            {
-                MessageBox.Show("No se encontró ninguna compra con ese número de documento.",
-                                "Sin Resultados", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Limpia los campos para que no quede información de una búsqueda anterior
-                btnborrar_Click(sender, e);
-                txtbusqueda.Focus();
-            }
-        }
-
-        private void btnborrar_Click(object sender, EventArgs e)
-        {
-            txtfecha.Text = "";
-            txttipodocumento.Text = "";
-            txtusuario.Text = "";
-            txtdocproveedor.Text = "";
-            txtnombreproveedor.Text = "";
-
-            dgvdata.Rows.Clear();
-            txtmontototal.Text = "0.00";
-        }
-
-        private void btndescargar_Click(object sender, EventArgs e)
-        {
-            if (txttipodocumento.Text == "")
-            {
-                MessageBox.Show("No se encontraron resultados", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-
-            string Texto_Html = Properties.Resources.PlantillaCompra.ToString();
-            Negocio odatos = new CN_Negocio().ObtenerDatos();
-
-            Texto_Html = Texto_Html.Replace("@nombrenegocio", odatos.Nombre.ToUpper());
-            Texto_Html = Texto_Html.Replace("@docnegocio", odatos.RTN);
-            Texto_Html = Texto_Html.Replace("@direcnegocio", odatos.Direccion);
-
-            Texto_Html = Texto_Html.Replace("@tipodocumento", txttipodocumento.Text.ToUpper());
-            Texto_Html = Texto_Html.Replace("@numerodocumento", txtnumerodocumento.Text);
-
-
-            Texto_Html = Texto_Html.Replace("@docproveedor", txtdocproveedor.Text);
-            Texto_Html = Texto_Html.Replace("@nombreproveedor", txtnombreproveedor.Text);
-            Texto_Html = Texto_Html.Replace("@fecharegistro", txtfecha.Text);
-            Texto_Html = Texto_Html.Replace("@usuarioregistro", txtusuario.Text);
-
-            string filas = string.Empty;
-            foreach (DataGridViewRow row in dgvdata.Rows)
-            {
-                filas += "<tr>";
-                filas += "<td>" + row.Cells["Producto"].Value.ToString() + "</td>";
-                filas += "<td>" + row.Cells["PrecioCompra"].Value.ToString() + "</td>";
-                filas += "<td>" + row.Cells["Cantidad"].Value.ToString() + "</td>";
-                filas += "<td>" + row.Cells["SubTotal"].Value.ToString() + "</td>";
-                filas += "</tr>";
-            }
-            Texto_Html = Texto_Html.Replace("@filas", filas);
-            Texto_Html = Texto_Html.Replace("@montototal", txtmontototal.Text);
-
-            SaveFileDialog savefile = new SaveFileDialog();
-            savefile.FileName = string.Format("Compra_{0}.pdf", txtnumerodocumento.Text);
-            savefile.Filter = "Pdf Files|*.pdf";
-
-            if (savefile.ShowDialog() == DialogResult.OK)
-            {
-                using (FileStream stream = new FileStream(savefile.FileName, FileMode.Create))
-                {
-
-                    Document pdfDoc = new Document(PageSize.A4, 25, 25, 25, 25);
-
-                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
-                    pdfDoc.Open();
-
-                    bool obtenido = true;
-                    byte[] byteImage = new CN_Negocio().ObtenerLogo(out obtenido);
-
-                    if (obtenido)
-                    {
-                        iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(byteImage);
-                        img.ScaleToFit(60, 60);
-                        img.Alignment = iTextSharp.text.Image.UNDERLYING;
-                        img.SetAbsolutePosition(pdfDoc.Left, pdfDoc.GetTop(51));
-                        pdfDoc.Add(img);
-                    }
-
-                    using (StringReader sr = new StringReader(Texto_Html))
-                    {
-                        XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
-                    }
-
-                    pdfDoc.Close();
-                    stream.Close();
-                    MessageBox.Show("Documento Generado", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-        }
-
-        private void label10_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
+        // ================================================================
+        // CARGA DEL FORMULARIO
+        // ================================================================
 
         private void frmDetalle_Compra_Load(object sender, EventArgs e)
         {
+            LimpiarDetalle();
+            txtbusqueda.Focus();
+        }
 
+        // ================================================================
+        // BÚSQUEDA DE COMPRA
+        // ================================================================
+
+        private void btnbuscar_Click(object sender, EventArgs e)
+        {
+            BuscarCompra();
+        }
+
+        private void BuscarCompra()
+        {
+            string numeroDocumento = txtbusqueda.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(numeroDocumento))
+            {
+                MostrarAdvertencia(
+                    "Ingrese el número de documento de la compra.",
+                    "Número requerido");
+
+                txtbusqueda.Focus();
+                return;
+            }
+
+            Compras compra = compraNegocio.ObtenerCompra(numeroDocumento);
+
+            if (!CompraValida(compra))
+            {
+                MostrarInformacion(
+                    "No se encontró ninguna compra con ese número de documento.",
+                    "Sin resultados");
+
+                LimpiarDetalle();
+                txtbusqueda.Focus();
+                return;
+            }
+
+            MostrarCompra(compra);
+        }
+
+        private static bool CompraValida(Compras compra)
+        {
+            return compra != null &&
+                   compra.IdCompra > 0;
+        }
+
+        private void MostrarCompra(Compras compra)
+        {
+            txtnumerodocumento.Text =
+                compra.NumeroDocumento ?? string.Empty;
+
+            txtfecha.Text =
+                compra.FechaRegistro ?? string.Empty;
+
+            txttipodocumento.Text =
+                compra.TipoDocumento ?? string.Empty;
+
+            txtusuario.Text =
+                compra.oUsuario?.NombreCompleto ?? string.Empty;
+
+            txtdocproveedor.Text =
+                compra.oProveedor?.RTN ?? string.Empty;
+
+            txtnombreproveedor.Text =
+                compra.oProveedor?.RazonSocial ?? string.Empty;
+
+            CargarDetalleCompra(compra);
+
+            txtmontototal.Text =
+                compra.MontoTotal.ToString(FormatoMoneda);
+        }
+
+        private void CargarDetalleCompra(Compras compra)
+        {
+            dgvdata.Rows.Clear();
+
+            if (compra.DetalleCompra == null)
+                return;
+
+            foreach (Detalle_Compra detalle in compra.DetalleCompra)
+            {
+                AgregarDetalleAlGrid(detalle);
+            }
+        }
+
+        private void AgregarDetalleAlGrid(Detalle_Compra detalle)
+        {
+            dgvdata.Rows.Add(
+                detalle.oProducto?.Nombre ?? string.Empty,
+                detalle.PrecioCompra.ToString(FormatoMoneda),
+                detalle.Cantidad,
+                detalle.MontoTotal.ToString(FormatoMoneda)
+            );
+        }
+
+        // ================================================================
+        // LIMPIEZA
+        // ================================================================
+
+        private void btnborrar_Click(object sender, EventArgs e)
+        {
+            LimpiarFormulario();
+        }
+
+        private void LimpiarFormulario()
+        {
+            txtbusqueda.Clear();
+            LimpiarDetalle();
+            txtbusqueda.Focus();
+        }
+
+        private void LimpiarDetalle()
+        {
+            txtnumerodocumento.Clear();
+            txtfecha.Clear();
+            txttipodocumento.Clear();
+            txtusuario.Clear();
+            txtdocproveedor.Clear();
+            txtnombreproveedor.Clear();
+
+            dgvdata.Rows.Clear();
+
+            txtmontototal.Text = FormatoMoneda;
+        }
+
+        // ================================================================
+        // GENERACIÓN DEL PDF
+        // ================================================================
+
+        private void btndescargar_Click(object sender, EventArgs e)
+        {
+            if (!HayCompraCargada())
+            {
+                MostrarAdvertencia(
+                    "Primero debe buscar y seleccionar una compra.",
+                    "Compra requerida");
+
+                txtbusqueda.Focus();
+                return;
+            }
+
+            try
+            {
+                GenerarDocumentoPdf();
+            }
+            catch (Exception ex)
+            {
+                MostrarError(
+                    "No se pudo generar el documento PDF.\n\n" +
+                    ex.Message,
+                    "Error al generar PDF");
+            }
+        }
+
+        private bool HayCompraCargada()
+        {
+            return !string.IsNullOrWhiteSpace(txttipodocumento.Text) &&
+                   !string.IsNullOrWhiteSpace(txtnumerodocumento.Text);
+        }
+
+        private void GenerarDocumentoPdf()
+        {
+            string textoHtml = CrearContenidoHtml();
+
+            using (SaveFileDialog dialogoGuardar = CrearDialogoGuardar())
+            {
+                if (dialogoGuardar.ShowDialog() != DialogResult.OK)
+                    return;
+
+                CrearArchivoPdf(
+                    dialogoGuardar.FileName,
+                    textoHtml);
+            }
+
+            MostrarInformacion(
+                "El documento PDF se generó correctamente.",
+                "Documento generado");
+        }
+
+        private SaveFileDialog CrearDialogoGuardar()
+        {
+            string numeroDocumento =
+                LimpiarNombreArchivo(txtnumerodocumento.Text);
+
+            return new SaveFileDialog
+            {
+                FileName = $"Compra_{numeroDocumento}.pdf",
+                Filter = "Archivos PDF (*.pdf)|*.pdf",
+                DefaultExt = "pdf",
+                AddExtension = true,
+                OverwritePrompt = true,
+                Title = "Guardar detalle de compra"
+            };
+        }
+
+        private string CrearContenidoHtml()
+        {
+            string textoHtml =
+                Properties.Resources.PlantillaCompra.ToString();
+
+            Negocio datosNegocio =
+                negocioNegocio.ObtenerDatos();
+
+            textoHtml = ReemplazarDatosNegocio(
+                textoHtml,
+                datosNegocio);
+
+            textoHtml = ReemplazarDatosCompra(textoHtml);
+
+            textoHtml = textoHtml.Replace(
+                "@filas",
+                CrearFilasHtml());
+
+            textoHtml = textoHtml.Replace(
+                "@montototal",
+                CodificarHtml(txtmontototal.Text));
+
+            return textoHtml;
+        }
+
+        private static string ReemplazarDatosNegocio(
+            string textoHtml,
+            Negocio negocio)
+        {
+            string nombre =
+                negocio?.Nombre ?? string.Empty;
+
+            string rtn =
+                negocio?.RTN ?? string.Empty;
+
+            string direccion =
+                negocio?.Direccion ?? string.Empty;
+
+            return textoHtml
+                .Replace(
+                    "@nombrenegocio",
+                    CodificarHtml(nombre.ToUpperInvariant()))
+                .Replace(
+                    "@docnegocio",
+                    CodificarHtml(rtn))
+                .Replace(
+                    "@direcnegocio",
+                    CodificarHtml(direccion));
+        }
+
+        private string ReemplazarDatosCompra(string textoHtml)
+        {
+            return textoHtml
+                .Replace(
+                    "@tipodocumento",
+                    CodificarHtml(
+                        txttipodocumento.Text.ToUpperInvariant()))
+                .Replace(
+                    "@numerodocumento",
+                    CodificarHtml(txtnumerodocumento.Text))
+                .Replace(
+                    "@docproveedor",
+                    CodificarHtml(txtdocproveedor.Text))
+                .Replace(
+                    "@nombreproveedor",
+                    CodificarHtml(txtnombreproveedor.Text))
+                .Replace(
+                    "@fecharegistro",
+                    CodificarHtml(txtfecha.Text))
+                .Replace(
+                    "@usuarioregistro",
+                    CodificarHtml(txtusuario.Text));
+        }
+
+        private string CrearFilasHtml()
+        {
+            StringBuilder filasHtml = new StringBuilder();
+
+            foreach (DataGridViewRow fila in dgvdata.Rows)
+            {
+                if (fila.IsNewRow)
+                    continue;
+
+                filasHtml.AppendLine("<tr>");
+
+                filasHtml.AppendFormat(
+                    "<td>{0}</td>",
+                    ObtenerValorHtml(fila, "Producto"));
+
+                filasHtml.AppendFormat(
+                    "<td>{0}</td>",
+                    ObtenerValorHtml(fila, "PrecioCompra"));
+
+                filasHtml.AppendFormat(
+                    "<td>{0}</td>",
+                    ObtenerValorHtml(fila, "Cantidad"));
+
+                filasHtml.AppendFormat(
+                    "<td>{0}</td>",
+                    ObtenerValorHtml(fila, "SubTotal"));
+
+                filasHtml.AppendLine("</tr>");
+            }
+
+            return filasHtml.ToString();
+        }
+
+        private static string ObtenerValorHtml(
+            DataGridViewRow fila,
+            string nombreColumna)
+        {
+            string valor =
+                fila.Cells[nombreColumna].Value?.ToString()
+                ?? string.Empty;
+
+            return CodificarHtml(valor);
+        }
+
+        private void CrearArchivoPdf(
+            string rutaArchivo,
+            string textoHtml)
+        {
+            using (FileStream stream = new FileStream(
+                       rutaArchivo,
+                       FileMode.Create,
+                       FileAccess.Write,
+                       FileShare.None))
+            {
+                using (Document documento = new Document(
+                           PageSize.A4,
+                           25,
+                           25,
+                           25,
+                           25))
+                {
+                    PdfWriter escritor =
+                        PdfWriter.GetInstance(
+                            documento,
+                            stream);
+
+                    documento.Open();
+
+                    AgregarLogo(documento);
+
+                    using (StringReader lectorHtml =
+                           new StringReader(textoHtml))
+                    {
+                        XMLWorkerHelper
+                            .GetInstance()
+                            .ParseXHtml(
+                                escritor,
+                                documento,
+                                lectorHtml);
+                    }
+                }
+            }
+        }
+
+        private void AgregarLogo(Document documento)
+        {
+            byte[] logo =
+                negocioNegocio.ObtenerLogo(
+                    out bool obtenido);
+
+            if (!obtenido ||
+                logo == null ||
+                logo.Length == 0)
+            {
+                return;
+            }
+
+            iTextSharp.text.Image imagen =
+                iTextSharp.text.Image.GetInstance(logo);
+
+            imagen.ScaleToFit(60, 60);
+            imagen.Alignment =
+                iTextSharp.text.Image.UNDERLYING;
+
+            imagen.SetAbsolutePosition(
+                documento.Left,
+                documento.GetTop(51));
+
+            documento.Add(imagen);
+        }
+
+        private static string CodificarHtml(string valor)
+        {
+            return WebUtility.HtmlEncode(
+                valor ?? string.Empty);
+        }
+
+        private static string LimpiarNombreArchivo(string nombre)
+        {
+            if (string.IsNullOrWhiteSpace(nombre))
+                return "SinNumero";
+
+            foreach (char caracterInvalido
+                     in Path.GetInvalidFileNameChars())
+            {
+                nombre = nombre.Replace(
+                    caracterInvalido,
+                    '_');
+            }
+
+            return nombre.Trim();
+        }
+
+        // ================================================================
+        // VALIDACIÓN DE TECLADO
+        // ================================================================
+
+        private void SoloNumeros_KeyPress(
+            object sender,
+            KeyPressEventArgs e)
+        {
+            bool esNumero =
+                char.IsDigit(e.KeyChar);
+
+            bool esTeclaControl =
+                char.IsControl(e.KeyChar);
+
+            if (!esNumero && !esTeclaControl)
+                e.Handled = true;
+        }
+
+        // ================================================================
+        // MENSAJES
+        // ================================================================
+
+        private static void MostrarAdvertencia(
+            string mensaje,
+            string titulo)
+        {
+            MessageBox.Show(
+                mensaje,
+                titulo,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+        }
+
+        private static void MostrarInformacion(
+            string mensaje,
+            string titulo)
+        {
+            MessageBox.Show(
+                mensaje,
+                titulo,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
+
+        private static void MostrarError(
+            string mensaje,
+            string titulo)
+        {
+            MessageBox.Show(
+                mensaje,
+                titulo,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
         }
     }
 }

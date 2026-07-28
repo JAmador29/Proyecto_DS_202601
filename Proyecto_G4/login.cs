@@ -1,103 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using Capa_Entidad;
 using Capa_Negocio;
-using System.Drawing.Drawing2D;
-
 
 namespace Proyecto_G4
 {
     public partial class Login : Form
     {
-        // Cantidad máxima de intentos fallidos permitidos antes de bloquear la cuenta.
-        private const int MAX_INTENTOS_FALLIDOS = 3;
+        private const int MaxIntentosFallidos = 3;
 
-        private bool mostrarPassword = false;
-        private readonly CN_Usuario objCNUsuario = new CN_Usuario();
+        private bool mostrarPassword;
+        private readonly CN_Usuario usuarioNegocio;
 
         public Login()
         {
             InitializeComponent();
-            this.AcceptButton = btnIngresar;
+
+            usuarioNegocio = new CN_Usuario();
+            AcceptButton = btnIngresar;
         }
 
-        // ------------------------------------------------------------------
-        // Ciclo de vida / UI
-        // ------------------------------------------------------------------
+        // ================================================================
+        // EVENTOS DEL FORMULARIO
+        // ================================================================
 
         private void Login_Load(object sender, EventArgs e)
         {
-            txtDocument.Focus();
-            CentrarGroupBox();
+            CentrarFormularioLogin();
             HacerCircular(pblogo);
             CargarUsuarioRecordado();
         }
 
         private void Login_Resize(object sender, EventArgs e)
         {
-            CentrarGroupBox();
+            CentrarFormularioLogin();
         }
 
-        private void CentrarGroupBox()
+        private void btnIngresar_Click(object sender, EventArgs e)
         {
-            groupBox1.Left = (this.ClientSize.Width - groupBox1.Width) / 2;
-            groupBox1.Top = (this.ClientSize.Height - groupBox1.Height) / 2;
-        }
+            string documento = txtDocument.Text;
+            string clave = txtPassword.Text;
 
-        private void HacerCircular(PictureBox pictureBox)
-        {
-            GraphicsPath path = new GraphicsPath();
-            path.AddEllipse(0, 0, pictureBox.Width, pictureBox.Height);
-            pictureBox.Region = new Region(path);
-        }
+            if (!ValidarCampos(documento, clave))
+                return;
 
-        private void CargarUsuarioRecordado()
-        {
-            if (Properties.Settings.Default.RecordarUsuario)
-            {
-                txtDocument.Text = Properties.Settings.Default.UsuarioRecordado;
-                chkrecordar.Checked = true;
-                txtPassword.Select(); // El usuario ya está lleno, el foco va a la clave
-            }
-            else
-            {
-                chkrecordar.Checked = false;
-                txtDocument.Select();
-            }
+            documento = documento.Trim();
+
+            Usuario usuario = BuscarUsuarioPorDocumento(documento);
+
+            if (!ValidarAcceso(usuario, clave))
+                return;
+
+            IniciarSesion(usuario);
         }
 
         private void btnmostrarclave_Click(object sender, EventArgs e)
         {
-            mostrarPassword = !mostrarPassword;
-
-            if (mostrarPassword)
-            {
-                txtPassword.PasswordChar = '\0';
-                btnmostrarclave.IconChar = FontAwesome.Sharp.IconChar.EyeSlash;
-            }
-            else
-            {
-                txtPassword.PasswordChar = '*';
-                btnmostrarclave.IconChar = FontAwesome.Sharp.IconChar.Eye;
-            }
-            txtPassword.Focus();
-        }
-
-        private void txtDocument_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Permitir solo números y retroceso
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
-            {
-                e.Handled = true;
-            }
+            AlternarVisibilidadPassword();
         }
 
         private void btncancelar_Click(object sender, EventArgs e)
@@ -105,145 +67,310 @@ namespace Proyecto_G4
             Application.Exit();
         }
 
-        private void lnkOlvidarContraseña_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void txtDocument_KeyPress(object sender, KeyPressEventArgs e)
         {
-            frmOlvidoContraseña OlvContr = new frmOlvidoContraseña();
-            OlvContr.Show();
-            this.Hide();
+            PermitirSoloNumeros(e);
         }
 
-        // Evento creado para que al cerrar el menú principal se muestre nuevamente el login
-        private void frm_closing(object sender, FormClosingEventArgs e)
+        private void lnkOlvidarContraseña_LinkClicked(
+            object sender,
+            LinkLabelLinkClickedEventArgs e)
         {
-            txtDocument.Clear();
-            txtPassword.Clear();
-            this.Show();
+            AbrirRecuperacionPassword();
         }
 
-        // ------------------------------------------------------------------
-        // Autenticación
-        // ------------------------------------------------------------------
-
-        private void btnIngresar_Click(object sender, EventArgs e)
+        private void MenuPrincipal_FormClosing(
+            object sender,
+            FormClosingEventArgs e)
         {
-            string documento = txtDocument.Text.Trim();
-            string clave = txtPassword.Text;
+            LimpiarLogin();
+            Show();
+        }
 
-            if (!CamposCompletos(documento, clave))
+        // ================================================================
+        // VALIDACIÓN DE CAMPOS
+        // ================================================================
+
+        private bool ValidarCampos(string documento, string clave)
+        {
+            if (AmbosCamposVacios(documento, clave))
             {
                 MostrarAdvertencia("Por favor ingrese documento y contraseña.", "Campos vacíos");
-                return;
+
+                txtDocument.Focus();
+                return false;
             }
 
-            Usuario usuario = BuscarUsuarioPorDocumento(documento);
-
-            if (usuario != null && CredencialesValidas(usuario, clave))
+            if (CampoVacio(documento))
             {
-                if (!usuario.Estado)
-                {
-                    MostrarError("Esta cuenta se encuentra inactiva. Contacte al administrador.", "Cuenta Inactiva");
-                    ReiniciarCampoClave();
-                    return;
-                }
+                MostrarAdvertencia("El campo de documento no puede estar vacío.", "Campo vacío");
 
-                IniciarSesion(usuario);
+                txtDocument.Focus();
+                return false;
             }
-            else
+
+            if (CampoVacio(clave))
             {
-                ManejarLoginFallido(usuario);
+                MostrarAdvertencia("El campo de contraseña no puede estar vacío.", "Campo vacío");
+
+                txtPassword.Focus();
+                return false;
             }
+
+            if (AmbosCamposTienenEspacioInicial(documento, clave))
+            {
+                MostrarAdvertencia("Los campos de documento y contraseña no pueden comenzar con espacios en blanco.", "Espacios no permitidos");
+
+                txtDocument.Focus();
+                return false;
+            }
+
+            if (TieneEspacioInicial(documento))
+            {
+                MostrarAdvertencia("El campo de documento no puede comenzar con espacios en blanco.", "Espacios no permitidos");
+
+                txtDocument.Focus();
+                return false;
+            }
+
+            if (TieneEspacioInicial(clave))
+            {
+                MostrarAdvertencia("El campo de contraseña no puede comenzar con espacios en blanco.", "Espacios no permitidos");
+
+                txtPassword.Focus();
+                return false;
+            }
+
+            return true;
         }
 
-        private bool CamposCompletos(string documento, string clave)
+        private bool ValidarAcceso(Usuario usuario, string clave)
         {
-            return !string.IsNullOrWhiteSpace(documento) && !string.IsNullOrWhiteSpace(clave);
+            if (usuario == null)
+            {
+                MostrarCredencialesIncorrectas();
+                return false;
+            }
+
+            if (UsuarioEstaBloqueado(usuario))
+            {
+                MostrarError("Esta cuenta está bloqueada. Por favor, contacte al administrador.", "Cuenta bloqueada");
+
+                ReiniciarCampoClave();
+                return false;
+            }
+
+            if (!PasswordCorrecto(usuario, clave))
+            {
+                ProcesarIntentoFallido(usuario);
+                ReiniciarCampoClave();
+                return false;
+            }
+
+            if (!usuario.Estado)
+            {
+                MostrarError("Esta cuenta se encuentra inactiva. Contacte al administrador.", "Cuenta inactiva");
+
+                ReiniciarCampoClave();
+                return false;
+            }
+
+            return true;
         }
+
+        private static bool AmbosCamposVacios(string documento, string clave)
+        {
+            return CampoVacio(documento) && CampoVacio(clave);
+        }
+
+        private static bool CampoVacio(string texto)
+        {
+            return string.IsNullOrWhiteSpace(texto);
+        }
+
+        private static bool AmbosCamposTienenEspacioInicial(
+            string documento,
+            string clave)
+        {
+            return TieneEspacioInicial(documento) && TieneEspacioInicial(clave);
+        }
+
+        private static bool TieneEspacioInicial(string texto)
+        {
+            return !string.IsNullOrEmpty(texto) && char.IsWhiteSpace(texto[0]);
+        }
+
+        // ================================================================
+        // AUTENTICACIÓN
+        // ================================================================
 
         private Usuario BuscarUsuarioPorDocumento(string documento)
         {
-            List<Usuario> listaUsuarios = objCNUsuario.Listar();
-
-            return listaUsuarios
-                .Where(u => u.Documento.Trim() == documento)
-                .FirstOrDefault();
+            return usuarioNegocio
+                .Listar()
+                .FirstOrDefault(usuario =>
+                    string.Equals(
+                        usuario.Documento?.Trim(),
+                        documento,
+                        StringComparison.Ordinal));
         }
 
-        private bool CredencialesValidas(Usuario usuario, string clave)
+        private bool UsuarioEstaBloqueado(Usuario usuario)
         {
-            return BCrypt.Net.BCrypt.Verify(clave, usuario.Clave);
+            return usuarioNegocio.Usuario_Bloqueado(usuario.IdUsuario);
+        }
+
+        private static bool PasswordCorrecto(Usuario usuario, string clave)
+        {
+            if (string.IsNullOrWhiteSpace(usuario.Clave))
+                return false;
+
+            try
+            {
+                return BCrypt.Net.BCrypt.Verify(clave, usuario.Clave);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void ProcesarIntentoFallido(Usuario usuario)
+        {
+            int intentos = usuarioNegocio.Intentos_Fallidos(
+                usuario.IdUsuario);
+
+            if (intentos >= MaxIntentosFallidos)
+            {
+                BloquearUsuario(usuario);
+                return;
+            }
+
+            MostrarAdvertencia($"Usuario o contraseña incorrectos. Intentos {intentos} de {MaxIntentosFallidos}.", "Credenciales incorrectas");
+        }
+
+        private void BloquearUsuario(Usuario usuario)
+        {
+            usuarioNegocio.Bloquear_Usuario(usuario.IdUsuario);
+
+            RegistrarBitacora(usuario, "BLOQUEO", $"IdUsuario={usuario.IdUsuario}, Nombre={usuario.NombreCompleto}");
+
+            MostrarError("Se ha bloqueado la cuenta debido a múltiples intentos fallidos de inicio de sesión.", "Cuenta bloqueada");
         }
 
         private void IniciarSesion(Usuario usuario)
         {
-            string mensajeBitacora;
-            objCNUsuario.Registrar_Bitacora(usuario.IdUsuario, "LOGIN", $"IdUsuario={usuario.IdUsuario}, Nombre={usuario.NombreCompleto}", out mensajeBitacora);
+            RegistrarBitacora(usuario, "LOGIN", $"IdUsuario={usuario.IdUsuario}, Nombre={usuario.NombreCompleto}");
 
-            GuardarPreferenciaRecordarUsuario(usuario.Documento);
-
+            GuardarPreferenciaUsuario(usuario.Documento);
             AbrirMenuPrincipal(usuario);
         }
 
-        private void GuardarPreferenciaRecordarUsuario(string documento)
+        private void RegistrarBitacora(Usuario usuario, string accion, string detalle)
         {
-            if (chkrecordar.Checked)
+            string mensaje;
+
+            usuarioNegocio.Registrar_Bitacora(usuario.IdUsuario, accion, detalle, out mensaje);
+        }
+
+        // ================================================================
+        // PREFERENCIAS
+        // ================================================================
+
+        private void CargarUsuarioRecordado()
+        {
+            bool recordarUsuario = Properties.Settings.Default.RecordarUsuario;
+
+            chkrecordar.Checked = recordarUsuario;
+
+            if (recordarUsuario)
             {
-                Properties.Settings.Default.UsuarioRecordado = documento;
-                Properties.Settings.Default.RecordarUsuario = true;
+                txtDocument.Text = Properties.Settings.Default.UsuarioRecordado;
+
+                txtPassword.Focus();
+                return;
             }
-            else
-            {
-                Properties.Settings.Default.UsuarioRecordado = string.Empty;
-                Properties.Settings.Default.RecordarUsuario = false;
-            }
+
+            txtDocument.Focus();
+        }
+
+        private void GuardarPreferenciaUsuario(string documento)
+        {
+            Properties.Settings.Default.RecordarUsuario = chkrecordar.Checked;
+
+            Properties.Settings.Default.UsuarioRecordado = chkrecordar.Checked ? documento : string.Empty;
 
             Properties.Settings.Default.Save();
         }
 
+        // ================================================================
+        // NAVEGACIÓN
+        // ================================================================
+
         private void AbrirMenuPrincipal(Usuario usuario)
         {
-            MenuPrincipal form = new MenuPrincipal(usuario);
-            form.FormClosing += frm_closing;
-            form.Show();
-            this.Hide();
+            MenuPrincipal menuPrincipal = new MenuPrincipal(usuario);
+
+            menuPrincipal.FormClosing += MenuPrincipal_FormClosing;
+            menuPrincipal.Show();
+
+            Hide();
         }
 
-        private void ManejarLoginFallido(Usuario usuario)
+        private void AbrirRecuperacionPassword()
         {
-            if (usuario == null)
-            {
-                MostrarAdvertencia("Usuario o contraseña incorrectos.", "Mensaje");
-                ReiniciarCampoClave();
-                return;
-            }
+            frmOlvidoContraseña formulario = new frmOlvidoContraseña();
 
-            if (objCNUsuario.Usuario_Bloqueado(usuario.IdUsuario))
-            {
-                MostrarError("Esta cuenta está bloqueada. Por favor, contacte al administrador.", "Cuenta Bloqueada");
-                ReiniciarCampoClave();
-                return;
-            }
-
-            RegistrarIntentoFallido(usuario);
-            ReiniciarCampoClave();
+            formulario.Show();
+            Hide();
         }
 
-        private void RegistrarIntentoFallido(Usuario usuario)
+        // ================================================================
+        // INTERFAZ
+        // ================================================================
+
+        private void CentrarFormularioLogin()
         {
-            int intentos = objCNUsuario.Intentos_Fallidos(usuario.IdUsuario);
+            groupBox1.Left = (ClientSize.Width - groupBox1.Width) / 2;
 
-            if (intentos >= MAX_INTENTOS_FALLIDOS)
+            groupBox1.Top = (ClientSize.Height - groupBox1.Height) / 2;
+        }
+
+        private static void HacerCircular(PictureBox pictureBox)
+        {
+            using (GraphicsPath path = new GraphicsPath())
             {
-                objCNUsuario.Bloquear_Usuario(usuario.IdUsuario);
+                path.AddEllipse(0, 0, pictureBox.Width, pictureBox.Height);
 
-                string mensajeBitacora;
-                objCNUsuario.Registrar_Bitacora(usuario.IdUsuario, "BLOQUEO", $"IdUsuario={usuario.IdUsuario}, Nombre={usuario.NombreCompleto}", out mensajeBitacora);
+                pictureBox.Region = new Region(path);
+            }
+        }
 
-                MostrarError("Se ha bloqueado la cuenta debido a múltiples intentos fallidos de inicio de sesión.", "Cuenta Bloqueada");
-            }
-            else
-            {
-                MostrarAdvertencia($"Usuario o contraseña incorrectos. Intentos {intentos} de {MAX_INTENTOS_FALLIDOS}.", "Error");
-            }
+        private void AlternarVisibilidadPassword()
+        {
+            mostrarPassword = !mostrarPassword;
+
+            txtPassword.PasswordChar = mostrarPassword ? '\0' : '*';
+
+            btnmostrarclave.IconChar = mostrarPassword ? FontAwesome.Sharp.IconChar.EyeSlash : FontAwesome.Sharp.IconChar.Eye;
+
+            txtPassword.Focus();
+        }
+
+        private static void PermitirSoloNumeros(KeyPressEventArgs e)
+        {
+            bool esNumero = char.IsDigit(e.KeyChar);
+            bool esTeclaControl = char.IsControl(e.KeyChar);
+
+            if (!esNumero && !esTeclaControl)
+                e.Handled = true;
+        }
+
+        private void LimpiarLogin()
+        {
+            txtDocument.Clear();
+            txtPassword.Clear();
+            txtDocument.Focus();
         }
 
         private void ReiniciarCampoClave()
@@ -252,16 +379,23 @@ namespace Proyecto_G4
             txtPassword.Focus();
         }
 
-        // ------------------------------------------------------------------
-        // Helpers de mensajes (evitan repetir MessageBox.Show(...) por todo el archivo)
-        // ------------------------------------------------------------------
+        // ================================================================
+        // MENSAJES
+        // ================================================================
 
-        private void MostrarAdvertencia(string mensaje, string titulo)
+        private void MostrarCredencialesIncorrectas()
+        {
+            MostrarAdvertencia("Usuario o contraseña incorrectos.", "Acceso denegado");
+
+            ReiniciarCampoClave();
+        }
+
+        private static void MostrarAdvertencia(string mensaje, string titulo)
         {
             MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        private void MostrarError(string mensaje, string titulo)
+        private static void MostrarError(string mensaje, string titulo)
         {
             MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }

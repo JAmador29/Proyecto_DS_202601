@@ -1,193 +1,488 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
     public partial class frmCodigoVerificacion : Form
     {
-        private string correoUsuario;
+        private readonly string correoUsuario;
+
         private string codigoCorrecto;
 
         public frmCodigoVerificacion(string correo, string codigo)
         {
             InitializeComponent();
+
             correoUsuario = correo;
             codigoCorrecto = codigo;
         }
 
-        private void CentrarGroupBox()
+        // ================================================================
+        // EVENTOS DEL FORMULARIO
+        // ================================================================
+
+        private void frmCodigoVerificacion_Load(
+            object sender,
+            EventArgs e)
         {
-            groupBox1.Left = (this.ClientSize.Width - groupBox1.Width) / 2;
-            groupBox1.Top = (this.ClientSize.Height - groupBox1.Height) / 2;
+            CentrarGroupBox();
+            ConfigurarCamposCodigo();
+            txtCodigo1.Focus();
         }
 
-        private void EnviarCodigoCorreo(string destino, string codigo)
+        private void frmCodigoVerificacion_Resize(
+            object sender,
+            EventArgs e)
         {
-            string correoOrigen = ConfigurationManager.AppSettings["CorreoSoporte"];
-            string claveApp = ConfigurationManager.AppSettings["ClaveAppCorreo"];
+            CentrarGroupBox();
+        }
 
+        private void btnValidar_Click(
+            object sender,
+            EventArgs e)
+        {
+            if (!ValidarCamposCodigo())
+                return;
 
-            MailMessage mensaje = new MailMessage();
-            mensaje.From = new MailAddress(correoOrigen, "Soporte Loboru Sublima");
-            mensaje.To.Add(destino);
-            mensaje.Subject = "Código de recuperación - Loboru Sublima";
-            mensaje.Body = $"Tú código de recuperación es: {codigo}";
+            string codigoIngresado = ObtenerCodigoIngresado();
 
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587)
+            if (!CodigoEsCorrecto(codigoIngresado))
             {
-                Credentials = new NetworkCredential(correoOrigen, claveApp),
-                EnableSsl = true
+                MostrarError(
+                    "Código incorrecto. Intente nuevamente.",
+                    "Código incorrecto");
 
-            };
-            try
-            {
-                smtp.Send(mensaje);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al enviar correo: " + ex.Message);
-            }
-        }
-
-        private void Solo_Numeros(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void txtCodigo1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Solo_Numeros(sender, e);
-        }
-
-        private void txtCodigo2_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Solo_Numeros(sender, e);
-        }
-
-        private void txtCodigo3_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Solo_Numeros(sender, e);
-        }
-
-        private void txtCodigo4_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Solo_Numeros(sender, e);
-        }
-
-        private void txtCodigo5_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Solo_Numeros(sender, e);
-        }
-
-        private void txtCodigo6_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Solo_Numeros(sender, e);
-        }
-
-        private void Mover_Siguiente(TextBox actual, TextBox siguiente)
-        {
-            if(actual.Text.Length == 1)
-            {
-                siguiente.Focus();
-            }
-        }
-
-        private void txtCodigo1_TextChanged(object sender, EventArgs e)
-        {
-            Mover_Siguiente(txtCodigo1, txtCodigo2);
-        }
-
-        private void txtCodigo2_TextChanged(object sender, EventArgs e)
-        {
-            Mover_Siguiente(txtCodigo2, txtCodigo3);
-        }
-
-        private void txtCodigo3_TextChanged(object sender, EventArgs e)
-        {
-            Mover_Siguiente(txtCodigo3, txtCodigo4);
-        }
-
-        private void txtCodigo4_TextChanged(object sender, EventArgs e)
-        {
-            Mover_Siguiente(txtCodigo4 , txtCodigo5);
-        }
-
-        private void txtCodigo5_TextChanged(object sender, EventArgs e)
-        {
-            Mover_Siguiente(txtCodigo5, txtCodigo6);
-        }
-
-        private void btnValidar_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtCodigo1.Text) || string.IsNullOrWhiteSpace(txtCodigo2.Text) ||
-               string.IsNullOrWhiteSpace(txtCodigo3.Text) || string.IsNullOrWhiteSpace(txtCodigo4.Text) ||
-               string.IsNullOrWhiteSpace(txtCodigo5.Text) || string.IsNullOrWhiteSpace(txtCodigo6.Text))
-            {
-                MessageBox.Show("Por favor, completa todos los campos del código.", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LimpiarCamposCodigo();
                 return;
             }
 
-            string codigoIngresado = txtCodigo1.Text + txtCodigo2.Text + txtCodigo3.Text + txtCodigo4.Text +
-                txtCodigo5.Text + txtCodigo6.Text;
+            MostrarInformacion(
+                "Código correcto. Continúe para cambiar su contraseña.",
+                "Código confirmado");
 
-            if (codigoIngresado == codigoCorrecto)
-            {
-                MessageBox.Show("Código correcto. Continua para cambiar tu contraseña.", "Confirmado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                frmCambioContraseña frmCambio = new frmCambioContraseña(correoUsuario);
-                frmCambio.Show();
-                this.Close();
+            AbrirCambioContraseña();
+        }
 
-            }
-            else
+        private void btnVolverEnviar_Click(
+            object sender,
+            EventArgs e)
+        {
+            ReenviarCodigo();
+        }
+
+        private void btncancelar_Click(
+            object sender,
+            EventArgs e)
+        {
+            RegresarAlLogin();
+        }
+
+        // ================================================================
+        // CONFIGURACIÓN DE CAMPOS
+        // ================================================================
+
+        private void ConfigurarCamposCodigo()
+        {
+            TextBox[] camposCodigo = ObtenerCamposCodigo();
+
+            foreach (TextBox campo in camposCodigo)
             {
-                MessageBox.Show("Código incorrecto. Intenta nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                campo.MaxLength = 1;
+                campo.TextAlign = HorizontalAlignment.Center;
             }
         }
 
-        private void btnVolverEnviar_Click(object sender, EventArgs e)
+        private TextBox[] ObtenerCamposCodigo()
         {
-            codigoCorrecto = new Random().Next(100000, 999999).ToString();
+            return new[]
+            {
+                txtCodigo1,
+                txtCodigo2,
+                txtCodigo3,
+                txtCodigo4,
+                txtCodigo5,
+                txtCodigo6
+            };
+        }
+
+        // ================================================================
+        // VALIDACIÓN DEL CÓDIGO
+        // ================================================================
+
+        private bool ValidarCamposCodigo()
+        {
+            TextBox campoVacio = ObtenerPrimerCampoVacio();
+
+            if (campoVacio == null)
+                return true;
+
+            MostrarAdvertencia(
+                "Por favor, complete todos los campos del código.",
+                "Campos incompletos");
+
+            campoVacio.Focus();
+            return false;
+        }
+
+        private TextBox ObtenerPrimerCampoVacio()
+        {
+            foreach (TextBox campo in ObtenerCamposCodigo())
+            {
+                if (string.IsNullOrWhiteSpace(campo.Text))
+                    return campo;
+            }
+
+            return null;
+        }
+
+        private string ObtenerCodigoIngresado()
+        {
+            return string.Concat(
+                txtCodigo1.Text,
+                txtCodigo2.Text,
+                txtCodigo3.Text,
+                txtCodigo4.Text,
+                txtCodigo5.Text,
+                txtCodigo6.Text);
+        }
+
+        private bool CodigoEsCorrecto(string codigoIngresado)
+        {
+            return string.Equals(
+                codigoIngresado,
+                codigoCorrecto,
+                StringComparison.Ordinal);
+        }
+
+        // ================================================================
+        // REENVÍO DEL CÓDIGO
+        // ================================================================
+
+        private void ReenviarCodigo()
+        {
+            string nuevoCodigo = GenerarCodigoVerificacion();
 
             try
             {
-                EnviarCodigoCorreo(correoUsuario, codigoCorrecto);
+                EnviarCodigoCorreo(
+                    correoUsuario,
+                    nuevoCodigo);
 
-                MessageBox.Show("El código ha sido enviado nuevamente a su correo", "Codigo enviado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                /*
+                 * El código correcto se reemplaza solamente después
+                 * de confirmar que el correo fue enviado correctamente.
+                 */
+                codigoCorrecto = nuevoCodigo;
+
+                LimpiarCamposCodigo();
+
+                MostrarInformacion(
+                    "El código fue enviado nuevamente a su correo.",
+                    "Código enviado");
+            }
+            catch (SmtpException ex)
+            {
+                MostrarError(
+                    $"No se pudo enviar el código por correo.\n\n{ex.Message}",
+                    "Error de envío");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al reenviar el código: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MostrarError(
+                    $"Ocurrió un error al reenviar el código.\n\n{ex.Message}",
+                    "Error");
             }
         }
 
-        private void btncancelar_Click(object sender, EventArgs e)
+        private static string GenerarCodigoVerificacion()
         {
-            Login log = new Login();
-            log.Show();
-            this.Close();
+            /*
+             * Next(100000, 1000000) genera códigos
+             * desde 100000 hasta 999999.
+             */
+            return new Random()
+                .Next(100000, 1000000)
+                .ToString();
         }
 
-        private void frmCodigoVerificacion_Load(object sender, EventArgs e)
+        private void EnviarCodigoCorreo(
+            string destino,
+            string codigo)
         {
-            CentrarGroupBox();
+            string correoOrigen =
+                ConfigurationManager.AppSettings["CorreoSoporte"];
+
+            string claveAplicacion =
+                ConfigurationManager.AppSettings["ClaveAppCorreo"];
+
+            ValidarConfiguracionCorreo(
+                correoOrigen,
+                claveAplicacion);
+
+            using (MailMessage mensaje = CrearMensajeCorreo(
+                       correoOrigen,
+                       destino,
+                       codigo))
+            using (SmtpClient smtp = CrearClienteSmtp(
+                       correoOrigen,
+                       claveAplicacion))
+            {
+                smtp.Send(mensaje);
+            }
         }
 
-        private void frmCodigoVerificacion_Resize(object sender, EventArgs e)
+        private static MailMessage CrearMensajeCorreo(
+            string correoOrigen,
+            string destino,
+            string codigo)
         {
-            CentrarGroupBox();
+            MailMessage mensaje = new MailMessage
+            {
+                From = new MailAddress(
+                    correoOrigen,
+                    "Soporte Loboru Sublima"),
+
+                Subject =
+                    "Código de recuperación - Loboru Sublima",
+
+                Body =
+                    $"Tu código de recuperación es: {codigo}",
+
+                IsBodyHtml = false
+            };
+
+            mensaje.To.Add(destino);
+
+            return mensaje;
+        }
+
+        private static SmtpClient CrearClienteSmtp(
+            string correoOrigen,
+            string claveAplicacion)
+        {
+            return new SmtpClient(
+                "smtp.gmail.com",
+                587)
+            {
+                Credentials = new NetworkCredential(
+                    correoOrigen,
+                    claveAplicacion),
+
+                EnableSsl = true
+            };
+        }
+
+        private static void ValidarConfiguracionCorreo(
+            string correoOrigen,
+            string claveAplicacion)
+        {
+            if (string.IsNullOrWhiteSpace(correoOrigen))
+            {
+                throw new ConfigurationErrorsException(
+                    "No se encontró la configuración CorreoSoporte.");
+            }
+
+            if (string.IsNullOrWhiteSpace(claveAplicacion))
+            {
+                throw new ConfigurationErrorsException(
+                    "No se encontró la configuración ClaveAppCorreo.");
+            }
+        }
+
+        // ================================================================
+        // CONTROL DE LOS TEXTBOX
+        // ================================================================
+
+        private void SoloNumeros_KeyPress(
+            object sender,
+            KeyPressEventArgs e)
+        {
+            bool esNumero = char.IsDigit(e.KeyChar);
+            bool esControl = char.IsControl(e.KeyChar);
+
+            if (!esNumero && !esControl)
+                e.Handled = true;
+        }
+
+        private static void MoverAlSiguienteCampo(
+            TextBox campoActual,
+            TextBox campoSiguiente)
+        {
+            if (campoActual.Text.Length == 1)
+                campoSiguiente.Focus();
+        }
+
+        private void txtCodigo1_KeyPress(
+            object sender,
+            KeyPressEventArgs e)
+        {
+            SoloNumeros_KeyPress(sender, e);
+        }
+
+        private void txtCodigo2_KeyPress(
+            object sender,
+            KeyPressEventArgs e)
+        {
+            SoloNumeros_KeyPress(sender, e);
+        }
+
+        private void txtCodigo3_KeyPress(
+            object sender,
+            KeyPressEventArgs e)
+        {
+            SoloNumeros_KeyPress(sender, e);
+        }
+
+        private void txtCodigo4_KeyPress(
+            object sender,
+            KeyPressEventArgs e)
+        {
+            SoloNumeros_KeyPress(sender, e);
+        }
+
+        private void txtCodigo5_KeyPress(
+            object sender,
+            KeyPressEventArgs e)
+        {
+            SoloNumeros_KeyPress(sender, e);
+        }
+
+        private void txtCodigo6_KeyPress(
+            object sender,
+            KeyPressEventArgs e)
+        {
+            SoloNumeros_KeyPress(sender, e);
+        }
+
+        private void txtCodigo1_TextChanged(
+            object sender,
+            EventArgs e)
+        {
+            MoverAlSiguienteCampo(
+                txtCodigo1,
+                txtCodigo2);
+        }
+
+        private void txtCodigo2_TextChanged(
+            object sender,
+            EventArgs e)
+        {
+            MoverAlSiguienteCampo(
+                txtCodigo2,
+                txtCodigo3);
+        }
+
+        private void txtCodigo3_TextChanged(
+            object sender,
+            EventArgs e)
+        {
+            MoverAlSiguienteCampo(
+                txtCodigo3,
+                txtCodigo4);
+        }
+
+        private void txtCodigo4_TextChanged(
+            object sender,
+            EventArgs e)
+        {
+            MoverAlSiguienteCampo(
+                txtCodigo4,
+                txtCodigo5);
+        }
+
+        private void txtCodigo5_TextChanged(
+            object sender,
+            EventArgs e)
+        {
+            MoverAlSiguienteCampo(
+                txtCodigo5,
+                txtCodigo6);
+        }
+
+        // ================================================================
+        // LIMPIEZA
+        // ================================================================
+
+        private void LimpiarCamposCodigo()
+        {
+            foreach (TextBox campo in ObtenerCamposCodigo())
+                campo.Clear();
+
+            txtCodigo1.Focus();
+        }
+
+        // ================================================================
+        // NAVEGACIÓN
+        // ================================================================
+
+        private void AbrirCambioContraseña()
+        {
+            frmCambioContraseña formularioCambio =
+                new frmCambioContraseña(correoUsuario);
+
+            formularioCambio.Show();
+            Close();
+        }
+
+        private void RegresarAlLogin()
+        {
+            Login formularioLogin = new Login();
+
+            formularioLogin.Show();
+            Close();
+        }
+
+        // ================================================================
+        // INTERFAZ
+        // ================================================================
+
+        private void CentrarGroupBox()
+        {
+            groupBox1.Left =
+                (ClientSize.Width - groupBox1.Width) / 2;
+
+            groupBox1.Top =
+                (ClientSize.Height - groupBox1.Height) / 2;
+        }
+
+        // ================================================================
+        // MENSAJES
+        // ================================================================
+
+        private static void MostrarAdvertencia(
+            string mensaje,
+            string titulo)
+        {
+            MessageBox.Show(
+                mensaje,
+                titulo,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+        }
+
+        private static void MostrarInformacion(
+            string mensaje,
+            string titulo)
+        {
+            MessageBox.Show(
+                mensaje,
+                titulo,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
+
+        private static void MostrarError(
+            string mensaje,
+            string titulo)
+        {
+            MessageBox.Show(
+                mensaje,
+                titulo,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
         }
     }
 }
