@@ -292,8 +292,8 @@ namespace Proyecto_G4
         {
             if (dgvdata.Columns[e.ColumnIndex].Name == "btnSeleccionar")
             {
-                txtclave.Enabled = false;
-                txtconfirmarclave.Enabled = false;
+                txtclave.Enabled = true;
+                txtconfirmarclave.Enabled = true;
 
                 int indice = e.RowIndex;
 
@@ -375,11 +375,6 @@ namespace Proyecto_G4
         private void btnlimpiar_Click(object sender, EventArgs e)
         {
             Limpiar();
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void txtdocumento_KeyPress(object sender, KeyPressEventArgs e)
