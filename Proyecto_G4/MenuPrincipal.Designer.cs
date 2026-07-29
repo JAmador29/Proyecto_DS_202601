@@ -47,6 +47,7 @@ namespace Proyecto_G4
             this.menureportes = new FontAwesome.Sharp.IconMenuItem();
             this.submenureportecompras = new System.Windows.Forms.ToolStripMenuItem();
             this.submenureporteventas = new System.Windows.Forms.ToolStripMenuItem();
+            this.menubitacora = new FontAwesome.Sharp.IconMenuItem();
             this.menuacercade = new FontAwesome.Sharp.IconMenuItem();
             this.menutitulo = new System.Windows.Forms.MenuStrip();
             this.label1 = new System.Windows.Forms.Label();
@@ -71,6 +72,7 @@ namespace Proyecto_G4
             this.menuclientes,
             this.menuproveedores,
             this.menureportes,
+            this.menubitacora,
             this.menuacercade});
             this.menu.Location = new System.Drawing.Point(0, 87);
             this.menu.Name = "menu";
@@ -88,7 +90,7 @@ namespace Proyecto_G4
             this.menuusuarios.IconSize = 55;
             this.menuusuarios.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menuusuarios.Name = "menuusuarios";
-            this.menuusuarios.Size = new System.Drawing.Size(90, 74);
+            this.menuusuarios.Size = new System.Drawing.Size(100, 74);
             this.menuusuarios.Text = "Usuarios";
             this.menuusuarios.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.menuusuarios.Click += new System.EventHandler(this.menuusuarios_Click);
@@ -106,7 +108,7 @@ namespace Proyecto_G4
             this.menuventas.IconSize = 55;
             this.menuventas.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menuventas.Name = "menuventas";
-            this.menuventas.Size = new System.Drawing.Size(90, 74);
+            this.menuventas.Size = new System.Drawing.Size(100, 74);
             this.menuventas.Text = "Ventas";
             this.menuventas.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -143,7 +145,7 @@ namespace Proyecto_G4
             this.menucompras.IconSize = 55;
             this.menucompras.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menucompras.Name = "menucompras";
-            this.menucompras.Size = new System.Drawing.Size(122, 74);
+            this.menucompras.Size = new System.Drawing.Size(100, 74);
             this.menucompras.Text = "Compras";
             this.menucompras.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -181,7 +183,7 @@ namespace Proyecto_G4
             this.menugestor.IconSize = 55;
             this.menugestor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menugestor.Name = "menugestor";
-            this.menugestor.Size = new System.Drawing.Size(90, 74);
+            this.menugestor.Size = new System.Drawing.Size(100, 74);
             this.menugestor.Text = "Gestor";
             this.menugestor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -222,7 +224,7 @@ namespace Proyecto_G4
             this.menuclientes.IconSize = 55;
             this.menuclientes.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menuclientes.Name = "menuclientes";
-            this.menuclientes.Size = new System.Drawing.Size(90, 74);
+            this.menuclientes.Size = new System.Drawing.Size(100, 74);
             this.menuclientes.Text = "Clientes";
             this.menuclientes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.menuclientes.Click += new System.EventHandler(this.menuclientes_Click);
@@ -237,7 +239,7 @@ namespace Proyecto_G4
             this.menuproveedores.IconSize = 55;
             this.menuproveedores.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menuproveedores.Name = "menuproveedores";
-            this.menuproveedores.Size = new System.Drawing.Size(90, 74);
+            this.menuproveedores.Size = new System.Drawing.Size(100, 74);
             this.menuproveedores.Text = "Proveedores";
             this.menuproveedores.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.menuproveedores.Click += new System.EventHandler(this.menuproveedores_Click);
@@ -255,7 +257,7 @@ namespace Proyecto_G4
             this.menureportes.IconSize = 55;
             this.menureportes.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menureportes.Name = "menureportes";
-            this.menureportes.Size = new System.Drawing.Size(90, 74);
+            this.menureportes.Size = new System.Drawing.Size(100, 74);
             this.menureportes.Text = "Reportes";
             this.menureportes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -273,6 +275,21 @@ namespace Proyecto_G4
             this.submenureporteventas.Text = "Reporte Ventas";
             this.submenureporteventas.Click += new System.EventHandler(this.submenureporteventas_Click_1);
             // 
+            // menubitacora
+            // 
+            this.menubitacora.AutoSize = false;
+            this.menubitacora.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(81)))), ((int)(((byte)(181)))));
+            this.menubitacora.IconChar = FontAwesome.Sharp.IconChar.BookOpen;
+            this.menubitacora.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(110)))), ((int)(((byte)(81)))), ((int)(((byte)(181)))));
+            this.menubitacora.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.menubitacora.IconSize = 50;
+            this.menubitacora.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.menubitacora.Name = "menubitacora";
+            this.menubitacora.Size = new System.Drawing.Size(100, 74);
+            this.menubitacora.Text = "Bitacora";
+            this.menubitacora.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.menubitacora.Click += new System.EventHandler(this.menubitacora_Click);
+            // 
             // menuacercade
             // 
             this.menuacercade.AutoSize = false;
@@ -283,7 +300,7 @@ namespace Proyecto_G4
             this.menuacercade.IconSize = 55;
             this.menuacercade.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.menuacercade.Name = "menuacercade";
-            this.menuacercade.Size = new System.Drawing.Size(90, 74);
+            this.menuacercade.Size = new System.Drawing.Size(100, 74);
             this.menuacercade.Text = "Acerca de ";
             this.menuacercade.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.menuacercade.Click += new System.EventHandler(this.menuacercade_Click);
@@ -439,5 +456,6 @@ namespace Proyecto_G4
         private ToolStripMenuItem submenureporteventas;
         private FontAwesome.Sharp.IconButton btnsalir;
         private PictureBox pblogo;
+        private FontAwesome.Sharp.IconMenuItem menubitacora;
     }
 }

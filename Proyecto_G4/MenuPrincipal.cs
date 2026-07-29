@@ -1,143 +1,113 @@
 ﻿using Capa_Entidad;
 using Capa_Negocio;
 using FontAwesome.Sharp;
-using Microsoft.Diagnostics.Tracing.Parsers.IIS_Trace;
 using Proyecto_G4.Modales;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Linq;
-using System.Net.Http;
 using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
     public partial class MenuPrincipal : Form
     {
+        // Se remueven los modificadores 'static' para evitar fugas de memoria e interferencia entre sesiones
+        private readonly Usuario _usuarioActual;
+        private IconMenuItem _menuActivo = null;
+        private Form _formularioActivo = null;
 
-        private static Usuario usuarioActual;
-        private static IconMenuItem menuActivo = null;
-        private static Form FormularioActivo = null;
-        
         public MenuPrincipal(Usuario objusuario)
         {
             InitializeComponent();
-            usuarioActual = objusuario;
-        }
-
-        //Evento para mostrar el respectivo formulario por menu
-        private void AbrirFormulario(IconMenuItem menu, Form Fromulario)
-        {
-            if(menuActivo != null)
-            {
-                menuActivo.BackColor = Color.FromArgb(34, 36, 52);
-                menuActivo.IconColor = Color.FromArgb(110, 81, 181);
-                menuActivo.ForeColor = Color.FromArgb(110, 81, 181);
-            }
-            menu.BackColor = Color.FromArgb(66, 55, 105);
-            menu.IconColor = Color.White;
-            menu.ForeColor = Color.White;
-            menuActivo = menu;
-
-            if(FormularioActivo != null)
-            {
-                FormularioActivo.Close();
-            }
-
-            FormularioActivo = Fromulario;
-            Fromulario.TopLevel = false;
-            Fromulario.FormBorderStyle = FormBorderStyle.None;
-            Fromulario.Dock = DockStyle.Fill;
-            Fromulario.BackColor = Color.FromArgb(28, 25, 44);
-            //Activar los Formularios en el panel contenedor
-            contenedor.Controls.Add(Fromulario);
-            Fromulario.Show();
+            _usuarioActual = objusuario;
         }
 
         private void MenuPrincipal_Load(object sender, EventArgs e)
         {
-
             HacerCircular(pblogo);
 
-            //Para poder determianr que tipo de permisos tendra el usuario que se loguea al sistema.
-            List<Permiso> listaPermisos = new CN_Permiso().Listar(usuarioActual.IdUsuario);
-            foreach (IconMenuItem iconmenu in menu.Items)
+            if (_usuarioActual != null)
             {
+                lblUsuario.Text = _usuarioActual.NombreCompleto;
 
-                bool encontrado = listaPermisos.Any(m => m.NombreMenu == iconmenu.Name);
+                // Filtrar permisos de usuario
+                List<Permiso> listaPermisos = new CN_Permiso().Listar(_usuarioActual.IdUsuario);
 
-                if (encontrado == false)
+                foreach (IconMenuItem iconmenu in menu.Items)
                 {
-                    iconmenu.Visible = false;
-                }
+                    bool encontrado = listaPermisos.Any(m => m.NombreMenu == iconmenu.Name);
 
+                    if (!encontrado)
+                    {
+                        iconmenu.Visible = false;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gestiona la apertura de los formularios dentro del panel contenedor
+        /// y el cambio de estilos visuales en el menú activo.
+        /// </summary>
+        private void AbrirFormulario(IconMenuItem menuSeleccionado, Form formulario)
+        {
+            if (_menuActivo != null)
+            {
+                _menuActivo.BackColor = Color.FromArgb(34, 36, 52);
+                _menuActivo.IconColor = Color.FromArgb(110, 81, 181);
+                _menuActivo.ForeColor = Color.FromArgb(110, 81, 181);
             }
 
-            lblUsuario.Text = usuarioActual.NombreCompleto;
+            menuSeleccionado.BackColor = Color.FromArgb(66, 55, 105);
+            menuSeleccionado.IconColor = Color.White;
+            menuSeleccionado.ForeColor = Color.White;
+            _menuActivo = menuSeleccionado;
+
+            if (_formularioActivo != null)
+            {
+                _formularioActivo.Close();
+            }
+
+            _formularioActivo = formulario;
+            formulario.TopLevel = false;
+            formulario.FormBorderStyle = FormBorderStyle.None;
+            formulario.Dock = DockStyle.Fill;
+            formulario.BackColor = Color.FromArgb(28, 25, 44);
+
+            contenedor.Controls.Add(formulario);
+            formulario.Show();
         }
 
         private void HacerCircular(PictureBox pictureBox)
         {
-            GraphicsPath path = new GraphicsPath();
-            path.AddEllipse(0, 0, pictureBox.Width, pictureBox.Height);
+            if (pictureBox == null || pictureBox.Width <= 0 || pictureBox.Height <= 0) return;
 
-            pictureBox.Region = new Region(path);
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                path.AddEllipse(0, 0, pictureBox.Width - 1, pictureBox.Height - 1);
+                pictureBox.Region = new Region(path);
+            }
         }
 
-        //MenuStrip con botones para aperturar formularios
-        //Formulario de Usuarios
+        // ==========================================
+        // Eventos de Menús y Submenús
+        // ==========================================
+
         private void menuusuarios_Click(object sender, EventArgs e)
         {
-            AbrirFormulario((IconMenuItem)sender,new frmUsuario());
+            AbrirFormulario((IconMenuItem)sender, new frmUsuario());
         }
-        //Formulario de Categorias
+
         private void subMenuCategory_Click(object sender, EventArgs e)
         {
-            AbrirFormulario((menugestor), new frmCategoria());
+            AbrirFormulario(menugestor, new frmCategoria());
         }
-        //Formulario de Productos
+
         private void SubMenuProducts_Click(object sender, EventArgs e)
         {
-            AbrirFormulario((menugestor), new frmProductos());
-        }
-        //Formularios de Ventas/Registrar Ventas
-        private void SubMenuRegistrar_Click(object sender, EventArgs e)
-        {
-            AbrirFormulario((menuventas), new frmVentas(usuarioActual));
-        }
-        //Submenu de Detalle de Ventas
-        private void SubMenuDV_Click(object sender, EventArgs e)
-        {
-            AbrirFormulario((menuventas), new frmDetalle_Venta());
-        }
-        //Formularios de Compras/Registrar Compras
-        private void SubmenuRegistrarC_Click(object sender, EventArgs e)
-        {
-            AbrirFormulario((menucompras), new frmCompras(usuarioActual));
-        }
-        //Submenu de Detalle de Compras
-        private void SubMenuDC_Click(object sender, EventArgs e)
-        {
-            AbrirFormulario((menucompras), new frmDetalle_Compra());
-        }
-        //Formulario de Proveedores
-        private void menuproveedores_Click(object sender, EventArgs e)
-        {
-            AbrirFormulario((IconMenuItem)sender, new frmProveedores());
-        }
-        //Formulario de Clientes
-        private void menuclientes_Click(object sender, EventArgs e)
-        {
-            AbrirFormulario((IconMenuItem)sender, new frmClientes());
-        }
-        
-        //Formulario de acerca de
-        private void menuacercade_Click(object sender, EventArgs e)
-        {
-            mdAcercade md = new mdAcercade();
-            md.ShowDialog();
+            AbrirFormulario(menugestor, new frmProductos());
         }
 
         private void submenunegocio_Click(object sender, EventArgs e)
@@ -145,14 +115,57 @@ namespace Proyecto_G4
             AbrirFormulario(menugestor, new frmNegocio());
         }
 
+        private void SubMenuRegistrar_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(menuventas, new frmVentas(_usuarioActual));
+        }
+
+        private void SubMenuDV_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(menuventas, new frmDetalle_Venta());
+        }
+
+        private void SubmenuRegistrarC_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(menucompras, new frmCompras(_usuarioActual));
+        }
+
+        private void SubMenuDC_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(menucompras, new frmDetalle_Compra());
+        }
+
+        private void menuproveedores_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((IconMenuItem)sender, new frmProveedores());
+        }
+
+        private void menuclientes_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((IconMenuItem)sender, new frmClientes());
+        }
+
         private void submenureportecompras_Click(object sender, EventArgs e)
         {
-            AbrirFormulario((menureportes), new frmReporteCompras());
+            AbrirFormulario(menureportes, new frmReporteCompras());
         }
 
         private void submenureporteventas_Click_1(object sender, EventArgs e)
         {
-            AbrirFormulario((menureportes), new frmReporteVentas());
+            AbrirFormulario(menureportes, new frmReporteVentas());
+        }
+
+        private void menubitacora_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(menubitacora, new frmbitacora());
+        }
+
+        private void menuacercade_Click(object sender, EventArgs e)
+        {
+            using (mdAcercade md = new mdAcercade())
+            {
+                md.ShowDialog();
+            }
         }
 
         private void btnsalir_Click(object sender, EventArgs e)
@@ -165,11 +178,16 @@ namespace Proyecto_G4
 
         private void MenuPrincipal_FormClosing(object sender, FormClosingEventArgs e)
         {
-            string mensajeBitacora;
-
-            CN_Usuario objCNUsuario = new CN_Usuario();
-
-            objCNUsuario.Registrar_Bitacora(usuarioActual.IdUsuario, "LOGOUT", $"IdUsuario={usuarioActual.IdUsuario}, Nombre={usuarioActual.NombreCompleto}", out mensajeBitacora);
+            if (_usuarioActual != null)
+            {
+                CN_Usuario objCNUsuario = new CN_Usuario();
+                objCNUsuario.Registrar_Bitacora(
+                    _usuarioActual.IdUsuario,
+                    "LOGOUT",
+                    $"IdUsuario={_usuarioActual.IdUsuario}, Nombre={_usuarioActual.NombreCompleto}",
+                    out string mensajeBitacora
+                );
+            }
         }
     }
-}
+}  

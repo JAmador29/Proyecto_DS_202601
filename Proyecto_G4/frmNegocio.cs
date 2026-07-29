@@ -1,129 +1,65 @@
 ﻿using Capa_Entidad;
 using Capa_Negocio;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
     public partial class frmNegocio : Form
     {
+        private readonly CN_Negocio _cnNegocio = new CN_Negocio();
+
         public frmNegocio()
         {
             InitializeComponent();
         }
 
-        public Image ByteToImage(byte[] imageBytes)
-        {
-            MemoryStream ms = new MemoryStream();
-            ms.Write(imageBytes,0,imageBytes.Length);
-            Image image = new Bitmap(ms);
-
-            return image;
-        }
-
         private void frmNegocio_Load(object sender, EventArgs e)
         {
-            bool obtenido = true;
-            byte[] byteimage = new CN_Negocio().ObtenerLogo(out obtenido);
-
-            if (obtenido)
-                picLogo.Image = ByteToImage(byteimage);
-
-            Negocio datos = new CN_Negocio().ObtenerDatos();
-
-            txtNombre.Text = datos.Nombre;
-            txtRTN.Text = datos.RTN;
-            txtDireccion.Text = datos.Direccion;
-
+            CargarLogo();
+            CargarDatosNegocio();
         }
 
         private void btnSubir_Click(object sender, EventArgs e)
         {
-            string mensaje = string.Empty;
-
-            OpenFileDialog oOpenFileDialog = new OpenFileDialog();
-            oOpenFileDialog.FileName = "Files|*.jpg;*.jpeg;*.png";
-
-            if (oOpenFileDialog.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog dialog = new OpenFileDialog { Filter = "Archivos de Imagen|*.jpg;*.jpeg;*.png" })
             {
-                byte[] byteimage = File.ReadAllBytes(oOpenFileDialog.FileName);
-                bool respuesta = new CN_Negocio().ActualizarLogo(byteimage, out mensaje);
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
 
-                if (respuesta)
+                byte[] byteImage = File.ReadAllBytes(dialog.FileName);
+
+                if (_cnNegocio.ActualizarLogo(byteImage, out string mensaje))
                 {
-                    picLogo.Image = ByteToImage(byteimage);
+                    ActualizarLogoEnPantalla(byteImage);
                 }
-                else 
+                else
                 {
-                    MessageBox.Show(mensaje, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MostrarMensaje(mensaje, "Error", MessageBoxIcon.Exclamation);
                 }
             }
-        }
-
-        private bool ValidarLongitudCampos()
-        {
-
-            if (txtNombre.Text.Trim().Length > 60)
-            {
-                MessageBox.Show("El campo 'Nombre' no puede superar los 60 caracteres.",
-                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNombre.Focus();
-                return false;
-            }
-
-            if (txtRTN.Text.Trim().Length > 14)
-            {
-                MessageBox.Show("El campo 'RTN' es demasiado largo. El máximo permitido son 14 caracteres.",
-                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtRTN.Focus();
-                return false;
-            }
-
-            if (txtDireccion.Text.Trim().Length > 200)
-            {
-                MessageBox.Show("El campo 'Dirección' es demasiado largo. El máximo permitido son 200 caracteres.",
-                                "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtDireccion.Focus();
-                return false;
-            }
-
-            return true; // Todos los campos cumplen con la longitud permitida
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            string mensaje = string.Empty;
-
-            // Validación de Longitudes (Llamada a la nueva función externa)
-            if (!ValidarLongitudCampos())
+            Negocio obj = new Negocio
             {
-                return; // Se detiene porque la función interna ya mostró el MessageBox y dio Focus
-            }
-
-            Negocio obj = new Negocio()
-            {
-                Nombre = txtNombre.Text,
-                RTN = txtRTN.Text,
-                Direccion = txtDireccion.Text
+                Nombre = txtNombre.Text.Trim(),
+                RTN = txtRTN.Text.Trim(),
+                Direccion = txtDireccion.Text.Trim()
             };
 
-            bool respuesta = new CN_Negocio().GuardarDatos(obj, out mensaje);
-
-            if (respuesta)
+            // Intentar guardar (CN_Negocio valida y retorna la respuesta)
+            if (_cnNegocio.GuardarDatos(obj, out string mensaje, out string campoConError))
             {
-                MessageBox.Show("Los cambios fueron guardados", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MostrarMensaje("Los cambios fueron guardados exitosamente.", "Mensaje", MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("No se pudo guardar los cambios", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MostrarMensaje(mensaje, "Validación", MessageBoxIcon.Warning);
+                EnfocarCampo(campoConError);
             }
         }
 
@@ -134,5 +70,74 @@ namespace Proyecto_G4
                 e.Handled = true;
             }
         }
+
+        #region Métodos Auxiliares de Interfaz
+
+        private void CargarLogo()
+        {
+            byte[] byteImage = _cnNegocio.ObtenerLogo(out bool obtenido);
+            if (obtenido)
+            {
+                ActualizarLogoEnPantalla(byteImage);
+            }
+        }
+
+        private void CargarDatosNegocio()
+        {
+            Negocio datos = _cnNegocio.ObtenerDatos();
+            if (datos == null)
+                return;
+
+            txtNombre.Text = datos.Nombre;
+            txtRTN.Text = datos.RTN;
+            txtDireccion.Text = datos.Direccion;
+        }
+
+        private void ActualizarLogoEnPantalla(byte[] byteImage)
+        {
+            Image logo = ByteToImage(byteImage);
+            if (logo != null)
+            {
+                picLogo.Image?.Dispose(); // Liberar memoria de la imagen anterior
+                picLogo.Image = logo;
+            }
+        }
+
+        private Image ByteToImage(byte[] imageBytes)
+        {
+            if (imageBytes == null || imageBytes.Length == 0)
+                return null;
+
+            using (MemoryStream ms = new MemoryStream(imageBytes))
+            {
+                using (Image tempImage = Image.FromStream(ms))
+                {
+                    return new Bitmap(tempImage);
+                }
+            }
+        }
+
+        private void EnfocarCampo(string nombreCampo)
+        {
+            switch (nombreCampo)
+            {
+                case "Nombre":
+                    txtNombre.Focus();
+                    break;
+                case "RTN":
+                    txtRTN.Focus();
+                    break;
+                case "Direccion":
+                    txtDireccion.Focus();
+                    break;
+            }
+        }
+
+        private void MostrarMensaje(string mensaje, string titulo, MessageBoxIcon icono)
+        {
+            MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, icono);
+        }
+
+        #endregion
     }
 }

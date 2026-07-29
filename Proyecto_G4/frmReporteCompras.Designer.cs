@@ -387,7 +387,6 @@
             this.txtbusqueda.Name = "txtbusqueda";
             this.txtbusqueda.Size = new System.Drawing.Size(141, 27);
             this.txtbusqueda.TabIndex = 228;
-            this.txtbusqueda.TextChanged += new System.EventHandler(this.txtbusqueda_TextChanged);
             // 
             // btnlimpiarbuscador
             // 
@@ -442,7 +441,6 @@
             this.cbobusqueda.Name = "cbobusqueda";
             this.cbobusqueda.Size = new System.Drawing.Size(153, 28);
             this.cbobusqueda.TabIndex = 225;
-            this.cbobusqueda.SelectedIndexChanged += new System.EventHandler(this.cbobusqueda_SelectedIndexChanged);
             // 
             // label11
             // 
@@ -456,7 +454,6 @@
             this.label11.Size = new System.Drawing.Size(96, 23);
             this.label11.TabIndex = 224;
             this.label11.Text = "Buscar por:";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // btnexportar
             // 

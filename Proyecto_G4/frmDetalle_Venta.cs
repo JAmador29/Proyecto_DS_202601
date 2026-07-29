@@ -315,10 +315,10 @@ namespace Proyecto_G4
                     "@numerodocumento",
                     CodificarHtml(txtnumerodocumento.Text))
                 .Replace(
-                    "@docproveedor",
+                    "@doccliente",       
                     CodificarHtml(txtdoccliente.Text))
                 .Replace(
-                    "@nombreproveedor",
+                    "@nombrecliente",    
                     CodificarHtml(txtnombrecliente.Text))
                 .Replace(
                     "@fecharegistro",

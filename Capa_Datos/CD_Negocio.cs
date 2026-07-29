@@ -63,12 +63,25 @@ namespace Capa_Datos
                 {
                     conexion.Open();
 
+                    // CORRECCIÓN: antes solo se hacía UPDATE, y si la fila
+                    // IdNegocio = 1 no existía todavía en la tabla NEGOCIO,
+                    // la instrucción afectaba 0 filas y el guardado fallaba
+                    // en silencio. Ahora se hace UPSERT: si la fila existe
+                    // se actualiza, si no existe se inserta.
                     StringBuilder query = new StringBuilder();
-                    query.AppendLine("UPDATE NEGOCIO SET");
-                    query.AppendLine("Nombre = @nombre,");
-                    query.AppendLine("RTN = @rtn,");
-                    query.AppendLine("Direccion = @direccion");
-                    query.AppendLine("WHERE IdNegocio = 1");
+                    query.AppendLine("IF EXISTS (SELECT 1 FROM NEGOCIO WHERE IdNegocio = 1)");
+                    query.AppendLine("BEGIN");
+                    query.AppendLine("    UPDATE NEGOCIO SET");
+                    query.AppendLine("    Nombre = @nombre,");
+                    query.AppendLine("    RTN = @rtn,");
+                    query.AppendLine("    Direccion = @direccion");
+                    query.AppendLine("    WHERE IdNegocio = 1");
+                    query.AppendLine("END");
+                    query.AppendLine("ELSE");
+                    query.AppendLine("BEGIN");
+                    query.AppendLine("    INSERT INTO NEGOCIO (IdNegocio, Nombre, RTN, Direccion)");
+                    query.AppendLine("    VALUES (1, @nombre, @rtn, @direccion)");
+                    query.AppendLine("END");
 
                     SqlCommand cmd = new SqlCommand(query.ToString(), conexion);
 
@@ -87,7 +100,7 @@ namespace Capa_Datos
                     }
                     else
                     {
-                        mensaje = "No se encontró el negocio con IdNegocio = 1.";
+                        mensaje = "No se pudo guardar los datos del negocio.";
                     }
                 }
             }
@@ -102,7 +115,11 @@ namespace Capa_Datos
 
         public byte[] ObtenerLogo(out bool obtenido) //El out es para verificar si realmente estamos obteniendo la imagen
         {
-            obtenido = true;
+            // CORRECCIÓN: antes se inicializaba en 'true' y solo se ponía en 'false'
+            // dentro del catch. Si la fila no tenía logo (NULL o vacío), el método
+            // seguía reportando obtenido = true con un arreglo de 0 bytes, lo cual
+            // provocaba el ArgumentException al construir el Bitmap en frmNegocio.
+            obtenido = false;
             byte[] LogoBytes = new byte[0];
 
             try
@@ -119,17 +136,25 @@ namespace Capa_Datos
                     {
                         while (dr.Read())
                         {
-                            LogoBytes = (byte[])dr["Logo"];
+                            // El campo puede venir NULL (DBNull) si nunca se ha
+                            // subido un logo; en ese caso no se debe intentar el cast.
+                            if (dr["Logo"] != DBNull.Value)
+                            {
+                                LogoBytes = (byte[])dr["Logo"];
+                            }
                         }
                     }
-
                 }
             }
             catch (Exception ex)
             {
                 obtenido = false;
                 LogoBytes = new byte[0];
+                return LogoBytes;
             }
+
+            // Solo se reporta 'obtenido = true' si realmente hay bytes de imagen.
+            obtenido = LogoBytes != null && LogoBytes.Length > 0;
 
             return LogoBytes;
         }
@@ -145,9 +170,19 @@ namespace Capa_Datos
                 {
                     conexion.Open();
 
+                    // Mismo criterio de UPSERT que en GuardarDatos: si la fila
+                    // IdNegocio = 1 no existe todavía, se crea con el logo
+                    // recibido en lugar de fallar con "0 filas afectadas".
                     StringBuilder query = new StringBuilder();
-                    query.AppendLine("update NEGOCIO set Logo = @imagen");
-                    query.AppendLine("where IdNegocio = 1");
+                    query.AppendLine("IF EXISTS (SELECT 1 FROM NEGOCIO WHERE IdNegocio = 1)");
+                    query.AppendLine("BEGIN");
+                    query.AppendLine("    UPDATE NEGOCIO SET Logo = @imagen WHERE IdNegocio = 1");
+                    query.AppendLine("END");
+                    query.AppendLine("ELSE");
+                    query.AppendLine("BEGIN");
+                    query.AppendLine("    INSERT INTO NEGOCIO (IdNegocio, Nombre, RTN, Direccion, Logo)");
+                    query.AppendLine("    VALUES (1, '', '', '', @imagen)");
+                    query.AppendLine("END");
 
                     SqlCommand cmd = new SqlCommand(query.ToString(), conexion);
                     cmd.Parameters.AddWithValue("@imagen", image);

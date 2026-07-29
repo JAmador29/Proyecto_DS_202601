@@ -1,77 +1,68 @@
 ﻿using Capa_Datos;
 using Capa_Entidad;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Capa_Negocio
 {
+    /// <summary>
+    /// Capa de Negocio encargada de gestionar el flujo y validaciones operativas de Ventas.
+    /// </summary>
     public class CN_Venta
     {
-        private CD_Venta objcd_venta = new CD_Venta();
+        private readonly CD_Venta _objcdVenta = new CD_Venta();
 
         public bool RestarStock(int idproducto, int cantidad)
         {
-            return objcd_venta.RestarStock(idproducto, cantidad);
+            return _objcdVenta.RestarStock(idproducto, cantidad);
         }
 
         public bool SumarStock(int idproducto, int cantidad)
         {
-            return objcd_venta.SumarStock(idproducto, cantidad);
+            return _objcdVenta.SumarStock(idproducto, cantidad);
         }
 
         public int ObtenerCorrelativo()
         {
-            return objcd_venta.ObtenerCorrelativo();
+            return _objcdVenta.ObtenerCorrelativo();
         }
 
-        public bool Registrar(Venta obj,DataTable DetalleVenta,out string Mensaje)
+        public bool Registrar(Venta obj, DataTable detalleVenta, out string mensaje)
         {
-            Mensaje = string.Empty;
+            mensaje = string.Empty;
+
+            if (obj == null)
+            {
+                mensaje = "El objeto de venta no puede ser nulo.";
+                return false;
+            }
 
             if (obj.MontoPago < obj.MontoTotal)
             {
-                Mensaje =
-                    "El monto pagado no puede ser menor que el total de la venta.";
-
+                mensaje = "El monto pagado no puede ser menor que el total de la venta.";
                 return false;
             }
 
-            if (DetalleVenta == null || DetalleVenta.Rows.Count == 0)
+            if (detalleVenta == null || detalleVenta.Rows.Count == 0)
             {
-                Mensaje = "Debe ingresar productos en la venta.";
+                mensaje = "Debe ingresar al menos un producto en la venta.";
                 return false;
             }
 
+            // Asignación explícita del cambio
             obj.MontoCambio = obj.MontoPago - obj.MontoTotal;
 
-            return objcd_venta.Registrar(
-                obj,
-                DetalleVenta,
-                out Mensaje
-            );
+            return _objcdVenta.Registrar(obj, detalleVenta, out mensaje);
         }
 
         public Venta ObtenerVenta(string numero)
         {
-            Venta oVenta = objcd_venta.ObtenerVenta(numero);
-
-            if (oVenta == null)
-            {
-                oVenta = new Venta();
-            }
+            Venta oVenta = _objcdVenta.ObtenerVenta(numero) ?? new Venta();
 
             if (oVenta.IdVenta != 0)
             {
-                List<Detalle_Venta> detalles =
-                    objcd_venta.ObtenerDetalleVenta(oVenta.IdVenta);
-
-                oVenta.DetalleVenta =
-                    detalles ?? new List<Detalle_Venta>();
+                List<Detalle_Venta> detalles = _objcdVenta.ObtenerDetalleVenta(oVenta.IdVenta);
+                oVenta.DetalleVenta = detalles ?? new List<Detalle_Venta>();
             }
             else
             {
@@ -82,4 +73,3 @@ namespace Capa_Negocio
         }
     }
 }
-

@@ -280,9 +280,9 @@ namespace Proyecto_G4
                     CodificarHtml(direccion));
         }
 
-        private string ReemplazarDatosCompra(string textoHtml)
+        private string ReemplazarDatosCompra(string contenidoHtml)
         {
-            return textoHtml
+            return contenidoHtml
                 .Replace(
                     "@tipodocumento",
                     CodificarHtml(
@@ -348,42 +348,34 @@ namespace Proyecto_G4
             return CodificarHtml(valor);
         }
 
-        private void CrearArchivoPdf(
-            string rutaArchivo,
-            string textoHtml)
+        private void CrearArchivoPdf(string rutaArchivo, string textoHtml)
         {
-            using (FileStream stream = new FileStream(
-                       rutaArchivo,
-                       FileMode.Create,
-                       FileAccess.Write,
-                       FileShare.None))
-            {
-                using (Document documento = new Document(
-                           PageSize.A4,
-                           25,
-                           25,
-                           25,
-                           25))
-                {
-                    PdfWriter escritor =
-                        PdfWriter.GetInstance(
-                            documento,
-                            stream);
+            // 1. REGISTRAR ENCODINGS
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
+            // 2. PARCHE CONTRA EL NULLREFERENCEEXCEPTION EN Version.GetInstance()
+            // Forzamos la inicialización de la versión del producto para iTextSharp
+            iTextSharp.text.Version.GetInstance(); // Si revienta aquí, usamos el bloque try a continuación
+
+            using (FileStream stream = new FileStream(rutaArchivo, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                using (Document documento = new Document(PageSize.A4, 25, 25, 25, 25))
+                {
+                    PdfWriter escritor = PdfWriter.GetInstance(documento, stream);
                     documento.Open();
 
                     AgregarLogo(documento);
 
-                    using (StringReader lectorHtml =
-                           new StringReader(textoHtml))
+                    using (StringReader lector = new StringReader(textoHtml))
                     {
-                        XMLWorkerHelper
-                            .GetInstance()
-                            .ParseXHtml(
-                                escritor,
-                                documento,
-                                lectorHtml);
+                        XMLWorkerHelper.GetInstance().ParseXHtml(
+                            escritor,
+                            documento,
+                            lector
+                        );
                     }
+
+                    documento.Close();
                 }
             }
         }

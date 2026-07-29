@@ -16,5 +16,8 @@ namespace Capa_Entidad
         public decimal PrecioVenta { get; set; }
         public bool Estado { get; set; }
         public string FechaRegistro { get; set; }
+
+        // >>> PROPIEDAD AGREGADA PARA LA BITÁCORA <<<
+        public Usuario oUsuario { get; set; }
     }
 }
