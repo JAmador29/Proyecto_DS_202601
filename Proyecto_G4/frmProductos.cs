@@ -14,11 +14,8 @@ namespace Proyecto_G4
     {
         private readonly CN_Producto _cnProducto = new CN_Producto();
         private readonly CN_Categoria _cnCategoria = new CN_Categoria();
-
-        // Variable de instancia para almacenar la sesión del usuario actual
         private readonly Usuario _usuarioActual;
 
-        // Constructor que recibe el objeto Usuario que inició sesión
         public frmProductos(Usuario oUsuario = null)
         {
             InitializeComponent();
@@ -69,18 +66,16 @@ namespace Proyecto_G4
 
         private void dgvdata_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dgvdata.Columns[e.ColumnIndex].Name != "btnSeleccionar")
+            if (e.RowIndex < 0 || dgvdata.Columns[e.ColumnIndex].Name != "btnSeleccionar")
                 return;
 
             int indice = e.RowIndex;
-            if (indice < 0)
-                return;
 
             txtIndice.Text = indice.ToString();
-            txtid.Text = dgvdata.Rows[indice].Cells["Id"].Value.ToString();
-            txtcodigo.Text = dgvdata.Rows[indice].Cells["Codigo"].Value.ToString();
-            txtnombre.Text = dgvdata.Rows[indice].Cells["Nombre"].Value.ToString();
-            txtdescripcion.Text = dgvdata.Rows[indice].Cells["Descripcion"].Value.ToString();
+            txtid.Text = dgvdata.Rows[indice].Cells["Id"].Value?.ToString() ?? "0";
+            txtcodigo.Text = dgvdata.Rows[indice].Cells["Codigo"].Value?.ToString() ?? "";
+            txtnombre.Text = dgvdata.Rows[indice].Cells["Nombre"].Value?.ToString() ?? "";
+            txtdescripcion.Text = dgvdata.Rows[indice].Cells["Descripcion"].Value?.ToString() ?? "";
 
             SeleccionarComboPorValor(cmbcategoria, dgvdata.Rows[indice].Cells["IdCategoria"].Value);
             SeleccionarComboPorValor(cmbestado, dgvdata.Rows[indice].Cells["EstadoValor"].Value);
@@ -88,6 +83,8 @@ namespace Proyecto_G4
 
         private void btnbuscar_Click(object sender, EventArgs e)
         {
+            if (cmbbusqueda.SelectedItem == null) return;
+
             string columnaFiltro = ((OpcionCombo)cmbbusqueda.SelectedItem).Valor.ToString();
             string textoBusqueda = txtbusqueda.Text.Trim().ToUpper();
             bool seEncontroCoincidencia = false;
@@ -135,26 +132,30 @@ namespace Proyecto_G4
 
             DataTable dt = new DataTable();
 
+            // Agregar columnas visibles que tengan título
             foreach (DataGridViewColumn columna in dgvdata.Columns)
             {
-                if (!string.IsNullOrEmpty(columna.HeaderText) && columna.Visible)
+                if (!string.IsNullOrEmpty(columna.HeaderText) && columna.Visible && columna.Name != "btnSeleccionar")
+                {
                     dt.Columns.Add(columna.HeaderText, typeof(string));
+                }
             }
 
+            // Mapeo dinámico por NOMBRE de columna (evita desfasamiento de datos por índices estáticos)
             foreach (DataGridViewRow row in dgvdata.Rows)
             {
                 if (row.Visible)
                 {
                     dt.Rows.Add(new object[]
                     {
-                        row.Cells[2].Value.ToString(),
-                        row.Cells[3].Value.ToString(),
-                        row.Cells[4].Value.ToString(),
-                        row.Cells[6].Value.ToString(),
-                        row.Cells[7].Value.ToString(),
-                        row.Cells[8].Value.ToString(),
-                        row.Cells[9].Value.ToString(),
-                        row.Cells[11].Value.ToString(),
+                        row.Cells["Codigo"].Value?.ToString() ?? "",
+                        row.Cells["Nombre"].Value?.ToString() ?? "",
+                        row.Cells["Descripcion"].Value?.ToString() ?? "",
+                        row.Cells["Categoria"].Value?.ToString() ?? "",
+                        row.Cells["Stock"].Value?.ToString() ?? "0",
+                        row.Cells["PrecioCompra"].Value?.ToString() ?? "0.00",
+                        row.Cells["PrecioVenta"].Value?.ToString() ?? "0.00",
+                        row.Cells["Estado"].Value?.ToString() ?? ""
                     });
                 }
             }
@@ -176,9 +177,9 @@ namespace Proyecto_G4
                             MostrarMensaje("Reporte Generado con éxito", "Mensaje", MessageBoxIcon.Information);
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        MostrarMensaje("Error al generar el reporte", "Mensaje", MessageBoxIcon.Exclamation);
+                        MostrarMensaje("Error al generar el reporte: " + ex.Message, "Mensaje", MessageBoxIcon.Exclamation);
                     }
                 }
             }
@@ -213,18 +214,18 @@ namespace Proyecto_G4
             }
         }
 
-        #region Métodos Auxiliares de Interfaz (Clean Code)
+        #region Métodos Auxiliares de Interfaz
 
         private void CargarCombos()
         {
-            // Combo Estado
+            cmbestado.Items.Clear();
             cmbestado.Items.Add(new OpcionCombo() { Valor = 1, Texto = "Activo" });
             cmbestado.Items.Add(new OpcionCombo() { Valor = 0, Texto = "No Activo" });
             cmbestado.DisplayMember = "Texto";
             cmbestado.ValueMember = "Valor";
             cmbestado.SelectedIndex = 0;
 
-            // Combo Categorías
+            cmbcategoria.Items.Clear();
             List<Categoria> listaCategoria = _cnCategoria.Listar();
             foreach (Categoria item in listaCategoria)
             {
@@ -234,7 +235,7 @@ namespace Proyecto_G4
             cmbcategoria.ValueMember = "Valor";
             if (cmbcategoria.Items.Count > 0) cmbcategoria.SelectedIndex = 0;
 
-            // Combo Búsqueda
+            cmbbusqueda.Items.Clear();
             foreach (DataGridViewColumn columna in dgvdata.Columns)
             {
                 if (columna.Visible && columna.Name != "btnSeleccionar")
@@ -249,6 +250,7 @@ namespace Proyecto_G4
 
         private void CargarProductosEnGrilla()
         {
+            dgvdata.Rows.Clear();
             List<Producto> listaProducto = _cnProducto.Listar();
 
             foreach (Producto item in listaProducto)
@@ -275,17 +277,17 @@ namespace Proyecto_G4
             OpcionCombo catSeleccionada = (OpcionCombo)cmbcategoria.SelectedItem;
             OpcionCombo estSeleccionado = (OpcionCombo)cmbestado.SelectedItem;
 
+            int.TryParse(txtid.Text, out int idProducto);
+
             return new Producto()
             {
-                IdProducto = Convert.ToInt32(txtid.Text),
+                IdProducto = idProducto,
                 Codigo = txtcodigo.Text.Trim(),
                 Nombre = txtnombre.Text.Trim(),
                 Descripcion = txtdescripcion.Text.Trim(),
-                oCategoria = new Categoria() { IdCategoria = Convert.ToInt32(catSeleccionada.Valor) },
-                Estado = Convert.ToInt32(estSeleccionado.Valor) == 1,
-
-                // ASIGNACIÓN DEL USUARIO LOGUEADO PARA LA BITÁCORA
-                oUsuario = _usuarioActual
+                oCategoria = new Categoria() { IdCategoria = Convert.ToInt32(catSeleccionada?.Valor ?? 0) },
+                Estado = Convert.ToInt32(estSeleccionado?.Valor ?? 0) == 1,
+                oUsuario = _usuarioActual // Preserva la auditoría de sesión para la Bitácora
             };
         }
 
@@ -300,19 +302,20 @@ namespace Proyecto_G4
                 prod.Codigo,
                 prod.Nombre,
                 prod.Descripcion,
-                catSeleccionada.Valor.ToString(),
-                catSeleccionada.Texto,
+                catSeleccionada?.Valor.ToString(),
+                catSeleccionada?.Texto,
                 "0",
                 "0.00",
                 "0.00",
-                estSeleccionado.Valor.ToString(),
-                estSeleccionado.Texto
+                estSeleccionado?.Valor.ToString(),
+                estSeleccionado?.Texto
             });
         }
 
         private void ActualizarFilaGrilla(Producto prod)
         {
-            int indice = Convert.ToInt32(txtIndice.Text);
+            if (!int.TryParse(txtIndice.Text, out int indice) || indice < 0) return;
+
             OpcionCombo catSeleccionada = (OpcionCombo)cmbcategoria.SelectedItem;
             OpcionCombo estSeleccionado = (OpcionCombo)cmbestado.SelectedItem;
 
@@ -321,10 +324,10 @@ namespace Proyecto_G4
             row.Cells["Codigo"].Value = prod.Codigo;
             row.Cells["Nombre"].Value = prod.Nombre;
             row.Cells["Descripcion"].Value = prod.Descripcion;
-            row.Cells["IdCategoria"].Value = catSeleccionada.Valor.ToString();
-            row.Cells["Categoria"].Value = catSeleccionada.Texto;
-            row.Cells["EstadoValor"].Value = estSeleccionado.Valor.ToString();
-            row.Cells["Estado"].Value = estSeleccionado.Texto;
+            row.Cells["IdCategoria"].Value = catSeleccionada?.Valor.ToString();
+            row.Cells["Categoria"].Value = catSeleccionada?.Texto;
+            row.Cells["EstadoValor"].Value = estSeleccionado?.Valor.ToString();
+            row.Cells["Estado"].Value = estSeleccionado?.Texto;
         }
 
         private void Limpiar()
@@ -342,6 +345,8 @@ namespace Proyecto_G4
 
         private void SeleccionarComboPorValor(ComboBox combo, object valorBusqueda)
         {
+            if (valorBusqueda == null) return;
+
             foreach (OpcionCombo oc in combo.Items)
             {
                 if (Convert.ToInt32(oc.Valor) == Convert.ToInt32(valorBusqueda))

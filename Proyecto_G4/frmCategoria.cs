@@ -8,21 +8,34 @@ using Capa_Negocio;
 
 namespace Proyecto_G4
 {
+    /// <summary>
+    /// Formulario de gestión y mantenimiento de Categorías.
+    /// Aplica principios SOLID, encapsulamiento defensivo y validación visual.
+    /// </summary>
     public partial class frmCategoria : Form
     {
         private const int LongitudMaximaDescripcion = 100;
 
-        private readonly CN_Categoria categoriaNegocio;
+        private readonly CN_Categoria _categoriaNegocio;
+        private readonly Usuario _usuarioActual;
 
-        public frmCategoria()
+        #region Constructores
+
+        /// <summary>
+        /// Inicializa una nueva instancia de la clase <see cref="frmCategoria"/>.
+        /// Compatible con el diseñador visual de WinForms y soporta inyección de sesión de usuario.
+        /// </summary>
+        /// <param name="usuario">Usuario con la sesión activa.</param>
+        public frmCategoria(Usuario usuario = null)
         {
             InitializeComponent();
-            categoriaNegocio = new CN_Categoria();
+            _categoriaNegocio = new CN_Categoria();
+            _usuarioActual = usuario;
         }
 
-        // ================================================================
-        // CARGA DEL FORMULARIO
-        // ================================================================
+        #endregion
+
+        #region Carga del Formulario
 
         private void frmCategoria_Load(object sender, EventArgs e)
         {
@@ -36,17 +49,8 @@ namespace Proyecto_G4
         {
             cmbestado.Items.Clear();
 
-            cmbestado.Items.Add(new OpcionCombo
-            {
-                Valor = 1,
-                Texto = "Activo"
-            });
-
-            cmbestado.Items.Add(new OpcionCombo
-            {
-                Valor = 0,
-                Texto = "No Activo"
-            });
+            cmbestado.Items.Add(new OpcionCombo { Valor = 1, Texto = "Activo" });
+            cmbestado.Items.Add(new OpcionCombo { Valor = 0, Texto = "No Activo" });
 
             ConfigurarCombo(cmbestado);
         }
@@ -57,9 +61,7 @@ namespace Proyecto_G4
 
             foreach (DataGridViewColumn columna in dgvdata.Columns)
             {
-                bool sePuedeBuscar =
-                    columna.Visible &&
-                    columna.Name != "btnSeleccionar";
+                bool sePuedeBuscar = columna.Visible && columna.Name != "btnSeleccionar";
 
                 if (!sePuedeBuscar)
                     continue;
@@ -83,18 +85,20 @@ namespace Proyecto_G4
                 combo.SelectedIndex = 0;
         }
 
-        // ================================================================
-        // CARGA DE CATEGORÍAS
-        // ================================================================
+        #endregion
+
+        #region Carga de Categorías
 
         private void CargarCategorias()
         {
             dgvdata.Rows.Clear();
 
-            List<Categoria> categorias = categoriaNegocio.Listar();
+            List<Categoria> categorias = _categoriaNegocio.Listar();
 
             foreach (Categoria categoria in categorias)
+            {
                 AgregarCategoriaAlGrid(categoria);
+            }
         }
 
         private void AgregarCategoriaAlGrid(Categoria categoria)
@@ -108,9 +112,9 @@ namespace Proyecto_G4
             );
         }
 
-        // ================================================================
-        // GUARDAR Y EDITAR
-        // ================================================================
+        #endregion
+
+        #region Guardar y Editar
 
         private void btnguardar_Click(object sender, EventArgs e)
         {
@@ -120,9 +124,13 @@ namespace Proyecto_G4
             Categoria categoria = CrearCategoriaDesdeFormulario();
 
             if (categoria.IdCategoria == 0)
+            {
                 RegistrarCategoria(categoria);
+            }
             else
+            {
                 EditarCategoria(categoria);
+            }
         }
 
         private Categoria CrearCategoriaDesdeFormulario()
@@ -131,15 +139,14 @@ namespace Proyecto_G4
             {
                 IdCategoria = ObtenerIdCategoria(),
                 Descripcion = txtdescripcion.Text.Trim(),
-                Estado = ObtenerValorEstado() == 1
+                Estado = ObtenerValorEstado() == 1,
+                oUsuario = _usuarioActual // Se adjunta la sesión para el registro de auditoría/bitácora
             };
         }
 
         private int ObtenerIdCategoria()
         {
-            return int.TryParse(txtid.Text, out int idCategoria)
-                ? idCategoria
-                : 0;
+            return int.TryParse(txtid.Text, out int idCategoria) ? idCategoria : 0;
         }
 
         private int ObtenerValorEstado()
@@ -160,9 +167,7 @@ namespace Proyecto_G4
 
         private void RegistrarCategoria(Categoria categoria)
         {
-            int idCategoria = categoriaNegocio.Registrar(
-                categoria,
-                out string mensaje);
+            int idCategoria = _categoriaNegocio.Registrar(categoria, out string mensaje);
 
             if (idCategoria == 0)
             {
@@ -171,21 +176,15 @@ namespace Proyecto_G4
             }
 
             categoria.IdCategoria = idCategoria;
-
             AgregarCategoriaAlGrid(categoria);
 
-            MostrarInformacion(
-                "La categoría se registró correctamente.",
-                "Categoría registrada");
-
+            MostrarInformacion("La categoría se registró correctamente.", "Categoría registrada");
             LimpiarFormulario();
         }
 
         private void EditarCategoria(Categoria categoria)
         {
-            bool resultado = categoriaNegocio.Editar(
-                categoria,
-                out string mensaje);
+            bool resultado = _categoriaNegocio.Editar(categoria, out string mensaje);
 
             if (!resultado)
             {
@@ -195,10 +194,7 @@ namespace Proyecto_G4
 
             ActualizarFilaSeleccionada(categoria);
 
-            MostrarInformacion(
-                "La categoría se editó correctamente.",
-                "Categoría editada");
-
+            MostrarInformacion("La categoría se editó correctamente.", "Categoría editada");
             LimpiarFormulario();
         }
 
@@ -218,12 +214,15 @@ namespace Proyecto_G4
             fila.Cells["Estado"].Value = ObtenerTextoEstado();
         }
 
-        // ================================================================
-        // VALIDACIONES
-        // ================================================================
+        #endregion
+
+        #region Validaciones
 
         private bool ValidarFormulario()
         {
+            if (!ValidarUsuarioSesion())
+                return false;
+
             if (!ValidarDescripcionObligatoria())
                 return false;
 
@@ -236,15 +235,21 @@ namespace Proyecto_G4
             return true;
         }
 
+        private bool ValidarUsuarioSesion()
+        {
+            if (_usuarioActual != null && _usuarioActual.IdUsuario > 0)
+                return true;
+
+            MostrarAdvertencia("No se pudo identificar una sesión de usuario válida para realizar la operación.", "Sesión requerida");
+            return false;
+        }
+
         private bool ValidarDescripcionObligatoria()
         {
             if (!string.IsNullOrWhiteSpace(txtdescripcion.Text))
                 return true;
 
-            MostrarAdvertencia(
-                "El campo descripción es obligatorio.",
-                "Campo obligatorio");
-
+            MostrarAdvertencia("El campo descripción es obligatorio.", "Campo obligatorio");
             txtdescripcion.Focus();
             return false;
         }
@@ -254,18 +259,14 @@ namespace Proyecto_G4
             if (!TieneEspacioInicial(txtdescripcion.Text))
                 return true;
 
-            MostrarAdvertencia(
-                "La descripción no puede comenzar con espacios en blanco.",
-                "Espacios no permitidos");
-
+            MostrarAdvertencia("La descripción no puede comenzar con espacios en blanco.", "Espacios no permitidos");
             txtdescripcion.Focus();
             return false;
         }
 
         private static bool TieneEspacioInicial(string texto)
         {
-            return !string.IsNullOrEmpty(texto) &&
-                   char.IsWhiteSpace(texto[0]);
+            return !string.IsNullOrEmpty(texto) && char.IsWhiteSpace(texto[0]);
         }
 
         private bool ValidarLongitudDescripcion()
@@ -273,22 +274,16 @@ namespace Proyecto_G4
             if (txtdescripcion.Text.Trim().Length <= LongitudMaximaDescripcion)
                 return true;
 
-            MostrarAdvertencia(
-                $"El campo descripción no puede superar los " +
-                $"{LongitudMaximaDescripcion} caracteres.",
-                "Validación de longitud");
-
+            MostrarAdvertencia($"El campo descripción no puede superar los {LongitudMaximaDescripcion} caracteres.", "Validación de longitud");
             txtdescripcion.Focus();
             return false;
         }
 
-        // ================================================================
-        // SELECCIÓN DEL DATAGRIDVIEW
-        // ================================================================
+        #endregion
 
-        private void dgvdata_CellContentClick(
-            object sender,
-            DataGridViewCellEventArgs e)
+        #region Eventos de DataGridView y Selección
+
+        private void dgvdata_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
@@ -307,16 +302,12 @@ namespace Proyecto_G4
             txtid.Text = ObtenerValorCelda(fila, "Id");
             txtdescripcion.Text = ObtenerValorCelda(fila, "Descripcion");
 
-            SeleccionarEstado(
-                ObtenerValorCelda(fila, "EstadoValor"));
+            SeleccionarEstado(ObtenerValorCelda(fila, "EstadoValor"));
         }
 
-        private static string ObtenerValorCelda(
-            DataGridViewRow fila,
-            string nombreColumna)
+        private static string ObtenerValorCelda(DataGridViewRow fila, string nombreColumna)
         {
-            return fila.Cells[nombreColumna].Value?.ToString()
-                   ?? string.Empty;
+            return fila.Cells[nombreColumna].Value?.ToString() ?? string.Empty;
         }
 
         private void SeleccionarEstado(string valorEstado)
@@ -326,45 +317,33 @@ namespace Proyecto_G4
                 if (opcion.Valor.ToString() != valorEstado)
                     continue;
 
-                cmbestado.SelectedIndex =
-                    cmbestado.Items.IndexOf(opcion);
-
+                cmbestado.SelectedIndex = cmbestado.Items.IndexOf(opcion);
                 return;
             }
         }
 
-        // ================================================================
-        // BÚSQUEDA
-        // ================================================================
+        #endregion
+
+        #region Búsqueda y Filtros
 
         private void btnbuscar_Click(object sender, EventArgs e)
         {
             if (!(cmbbusqueda.SelectedItem is OpcionCombo opcionBusqueda))
                 return;
 
-            string columnaFiltro =
-                opcionBusqueda.Valor.ToString();
+            string columnaFiltro = opcionBusqueda.Valor.ToString();
+            string textoBusqueda = txtbusqueda.Text.Trim();
 
-            string textoBusqueda =
-                txtbusqueda.Text.Trim();
-
-            bool encontrado = FiltrarCategorias(
-                columnaFiltro,
-                textoBusqueda);
+            bool encontrado = FiltrarCategorias(columnaFiltro, textoBusqueda);
 
             if (encontrado)
                 return;
 
-            MostrarInformacion(
-                "No se encontraron resultados para su búsqueda.",
-                "Sin resultados");
-
+            MostrarInformacion("No se encontraron resultados para su búsqueda.", "Sin resultados");
             MostrarTodasLasFilas();
         }
 
-        private bool FiltrarCategorias(
-            string columnaFiltro,
-            string textoBusqueda)
+        private bool FiltrarCategorias(string columnaFiltro, string textoBusqueda)
         {
             bool encontrado = false;
 
@@ -373,13 +352,9 @@ namespace Proyecto_G4
                 if (fila.IsNewRow)
                     continue;
 
-                string valorCelda =
-                    fila.Cells[columnaFiltro].Value?.ToString()
-                    ?? string.Empty;
+                string valorCelda = fila.Cells[columnaFiltro].Value?.ToString() ?? string.Empty;
 
-                bool coincide = valorCelda.IndexOf(
-                    textoBusqueda,
-                    StringComparison.OrdinalIgnoreCase) >= 0;
+                bool coincide = valorCelda.IndexOf(textoBusqueda, StringComparison.OrdinalIgnoreCase) >= 0;
 
                 fila.Visible = coincide;
 
@@ -390,9 +365,7 @@ namespace Proyecto_G4
             return encontrado;
         }
 
-        private void btnlimpiarbuscador_Click(
-            object sender,
-            EventArgs e)
+        private void btnlimpiarbuscador_Click(object sender, EventArgs e)
         {
             txtbusqueda.Clear();
             MostrarTodasLasFilas();
@@ -407,9 +380,9 @@ namespace Proyecto_G4
             }
         }
 
-        // ================================================================
-        // LIMPIAR FORMULARIO
-        // ================================================================
+        #endregion
+
+        #region Limpiar Formulario
 
         private void btnlimpiar_Click(object sender, EventArgs e)
         {
@@ -428,13 +401,11 @@ namespace Proyecto_G4
             txtdescripcion.Focus();
         }
 
-        // ================================================================
-        // FORMATO DEL DATAGRIDVIEW
-        // ================================================================
+        #endregion
 
-        private void dgvdata_CellFormatting(
-            object sender,
-            DataGridViewCellFormattingEventArgs e)
+        #region Formato Visual de DataGridView
+
+        private void dgvdata_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
@@ -447,74 +418,46 @@ namespace Proyecto_G4
             FormatearEstado(e, estado);
         }
 
-        private static void FormatearEstado(
-            DataGridViewCellFormattingEventArgs e,
-            string estado)
+        private static void FormatearEstado(DataGridViewCellFormattingEventArgs e, string estado)
         {
             if (estado == "Activo")
             {
-                AplicarFormatoEstado(
-                    e,
-                    Color.FromArgb(39, 174, 96),
-                    Color.FromArgb(46, 204, 113));
-
+                AplicarFormatoEstado(e, Color.FromArgb(39, 174, 96), Color.FromArgb(46, 204, 113));
                 return;
             }
 
             if (estado == "No Activo")
             {
-                AplicarFormatoEstado(
-                    e,
-                    Color.FromArgb(192, 57, 43),
-                    Color.FromArgb(231, 76, 60));
+                AplicarFormatoEstado(e, Color.FromArgb(192, 57, 43), Color.FromArgb(231, 76, 60));
             }
         }
 
-        private static void AplicarFormatoEstado(
-            DataGridViewCellFormattingEventArgs e,
-            Color colorTexto,
-            Color colorSeleccion)
+        private static void AplicarFormatoEstado(DataGridViewCellFormattingEventArgs e, Color colorTexto, Color colorSeleccion)
         {
             e.CellStyle.ForeColor = colorTexto;
             e.CellStyle.SelectionBackColor = colorSeleccion;
             e.CellStyle.SelectionForeColor = Color.White;
         }
 
-        // ================================================================
-        // MENSAJES
-        // ================================================================
+        #endregion
 
-        private static void MostrarAdvertencia(
-            string mensaje,
-            string titulo)
+        #region Notificaciones y Diálogos
+
+        private static void MostrarAdvertencia(string mensaje, string titulo)
         {
-            MessageBox.Show(
-                mensaje,
-                titulo,
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+            MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        private static void MostrarInformacion(
-            string mensaje,
-            string titulo)
+        private static void MostrarInformacion(string mensaje, string titulo)
         {
-            MessageBox.Show(
-                mensaje,
-                titulo,
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private static void MostrarError(
-            string mensaje,
-            string titulo)
+        private static void MostrarError(string mensaje, string titulo)
         {
-            MessageBox.Show(
-                mensaje,
-                titulo,
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error);
+            MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
+        #endregion
     }
 }

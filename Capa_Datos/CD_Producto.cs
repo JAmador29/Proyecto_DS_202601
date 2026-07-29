@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
-using System.Windows.Forms;
 
 namespace Capa_Datos
 {
@@ -44,17 +43,16 @@ namespace Capa_Datos
                                     IdCategoria = Convert.ToInt32(dr["IdCategoria"]),
                                     Descripcion = dr["DescripcionCategoria"].ToString()
                                 },
-                                Stock = Convert.ToInt32(dr["Stock"].ToString()),
-                                PrecioCompra = Convert.ToDecimal(dr["PrecioCompra"].ToString()),
-                                PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"].ToString()),
+                                Stock = Convert.ToInt32(dr["Stock"]),
+                                PrecioCompra = Convert.ToDecimal(dr["PrecioCompra"]),
+                                PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"]),
                                 Estado = Convert.ToBoolean(dr["Estado"])
                             });
                         }
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show("ERROR REAL: " + ex.Message, "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     lista = new List<Producto>();
                 }
             }
@@ -81,7 +79,7 @@ namespace Capa_Datos
                     cmd.Parameters.AddWithValue("IdCategoria", obj.oCategoria.IdCategoria);
                     cmd.Parameters.AddWithValue("Estado", obj.Estado);
 
-                    // >>> PARÁMETRO PARA LA BITÁCORA <<<
+                    // Mantiene la inyección de auditoría para la bitácora en la BD
                     cmd.Parameters.AddWithValue("IdUsuario", obj.oUsuario != null ? obj.oUsuario.IdUsuario : (object)DBNull.Value);
 
                     cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;
@@ -123,7 +121,7 @@ namespace Capa_Datos
                     cmd.Parameters.AddWithValue("IdCategoria", obj.oCategoria.IdCategoria);
                     cmd.Parameters.AddWithValue("Estado", obj.Estado);
 
-                    // >>> PARÁMETRO PARA LA BITÁCORA <<<
+                    // Mantiene la inyección de auditoría para la bitácora en la BD
                     cmd.Parameters.AddWithValue("IdUsuario", obj.oUsuario != null ? obj.oUsuario.IdUsuario : (object)DBNull.Value);
 
                     cmd.Parameters.Add("Resultado", SqlDbType.Int).Direction = ParameterDirection.Output;

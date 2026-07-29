@@ -11,48 +11,102 @@ using System.Windows.Forms;
 
 namespace Proyecto_G4
 {
+    /// <summary>
+    /// Formulario Principal: Contenedor y orquestador de la navegación del sistema.
+    /// Aplica el principio SRP coordinando la interfaz visual y manteniendo el estado de sesión activa.
+    /// </summary>
     public partial class MenuPrincipal : Form
     {
-        // Se remueven los modificadores 'static' para evitar fugas de memoria e interferencia entre sesiones
+        #region Campos Privados (Encapsulamiento)
+
         private readonly Usuario _usuarioActual;
         private IconMenuItem _menuActivo = null;
         private Form _formularioActivo = null;
 
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Inicializa el formulario principal asignando la sesión del usuario autenticado.
+        /// </summary>
+        /// <param name="objusuario">Instancia de la entidad Usuario con la sesión activa.</param>
         public MenuPrincipal(Usuario objusuario)
         {
             InitializeComponent();
             _usuarioActual = objusuario;
         }
 
+        #endregion
+
+        #region Eventos del Ciclo de Vida del Formulario (SRP)
+
         private void MenuPrincipal_Load(object sender, EventArgs e)
         {
             HacerCircular(pblogo);
+            CargarDatosUsuarioYPermisos();
+        }
 
-            if (_usuarioActual != null)
+        private void MenuPrincipal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            RegistrarSalidaBitacora();
+        }
+
+        #endregion
+
+        #region Métodos Privados Auxiliares y Lógica Interna (Clean Code)
+
+        /// <summary>
+        /// Muestra la información del usuario en pantalla y filtra las opciones de menú según sus permisos.
+        /// </summary>
+        private void CargarDatosUsuarioYPermisos()
+        {
+            if (_usuarioActual == null) return;
+
+            lblUsuario.Text = _usuarioActual.NombreCompleto;
+
+            // Obtención de permisos desde la capa de negocio
+            CN_Permiso cnPermiso = new CN_Permiso();
+            List<Permiso> listaPermisos = cnPermiso.Listar(_usuarioActual.IdUsuario);
+
+            // Ocultar menús cuyo nombre no figure en la lista de permisos otorgados
+            foreach (IconMenuItem iconmenu in menu.Items)
             {
-                lblUsuario.Text = _usuarioActual.NombreCompleto;
-
-                // Filtrar permisos de usuario
-                List<Permiso> listaPermisos = new CN_Permiso().Listar(_usuarioActual.IdUsuario);
-
-                foreach (IconMenuItem iconmenu in menu.Items)
+                bool tienePermiso = listaPermisos.Any(m => m.NombreMenu == iconmenu.Name);
+                if (!tienePermiso)
                 {
-                    bool encontrado = listaPermisos.Any(m => m.NombreMenu == iconmenu.Name);
-
-                    if (!encontrado)
-                    {
-                        iconmenu.Visible = false;
-                    }
+                    iconmenu.Visible = false;
                 }
             }
         }
 
         /// <summary>
-        /// Gestiona la apertura de los formularios dentro del panel contenedor
-        /// y el cambio de estilos visuales en el menú activo.
+        /// Asigna y registra el evento de cierre de sesión (LOGOUT) en la bitácora de auditoría.
         /// </summary>
+        private void RegistrarSalidaBitacora()
+        {
+            if (_usuarioActual == null) return;
+
+            CN_Usuario objCNUsuario = new CN_Usuario();
+            objCNUsuario.Registrar_Bitacora(
+                _usuarioActual.IdUsuario,
+                "LOGOUT",
+                $"IdUsuario={_usuarioActual.IdUsuario}, Nombre={_usuarioActual.NombreCompleto}",
+                out string _
+            );
+        }
+
+        /// <summary>
+        /// Gestiona la apertura dinámica de formularios dentro del contenedor principal,
+        /// aplicando los estilos visuales al menú seleccionado y liberando memoria del formulario anterior.
+        /// </summary>
+        /// <param name="menuSeleccionado">El botón de menú seleccionado.</param>
+        /// <param name="formulario">La instancia del formulario a embeber.</param>
         private void AbrirFormulario(IconMenuItem menuSeleccionado, Form formulario)
         {
+            if (menuSeleccionado == null || formulario == null) return;
+
+            // Restablecer colores del botón previamente activo
             if (_menuActivo != null)
             {
                 _menuActivo.BackColor = Color.FromArgb(34, 36, 52);
@@ -60,16 +114,20 @@ namespace Proyecto_G4
                 _menuActivo.ForeColor = Color.FromArgb(110, 81, 181);
             }
 
+            // Aplicar resaltado al nuevo menú activo
             menuSeleccionado.BackColor = Color.FromArgb(66, 55, 105);
             menuSeleccionado.IconColor = Color.White;
             menuSeleccionado.ForeColor = Color.White;
             _menuActivo = menuSeleccionado;
 
+            // Liberar recursos del formulario anterior
             if (_formularioActivo != null)
             {
                 _formularioActivo.Close();
+                _formularioActivo.Dispose();
             }
 
+            // Configurar el nuevo formulario hijo en el panel contenedor
             _formularioActivo = formulario;
             formulario.TopLevel = false;
             formulario.FormBorderStyle = FormBorderStyle.None;
@@ -80,6 +138,9 @@ namespace Proyecto_G4
             formulario.Show();
         }
 
+        /// <summary>
+        /// Renderiza una máscara circular sobre la caja de imagen enviada.
+        /// </summary>
         private void HacerCircular(PictureBox pictureBox)
         {
             if (pictureBox == null || pictureBox.Width <= 0 || pictureBox.Height <= 0) return;
@@ -91,9 +152,9 @@ namespace Proyecto_G4
             }
         }
 
-        // ==========================================
-        // Eventos de Menús y Submenús
-        // ==========================================
+        #endregion
+
+        #region Eventos de Menú y Submenús (Navegación UI)
 
         private void menuusuarios_Click(object sender, EventArgs e)
         {
@@ -102,12 +163,13 @@ namespace Proyecto_G4
 
         private void subMenuCategory_Click(object sender, EventArgs e)
         {
-            AbrirFormulario(menugestor, new frmCategoria());
+            AbrirFormulario(menugestor, new frmCategoria(_usuarioActual));
         }
 
         private void SubMenuProducts_Click(object sender, EventArgs e)
         {
-            AbrirFormulario(menugestor, new frmProductos());
+            // Inyección explícita de _usuarioActual requerida para la Bitácora
+            AbrirFormulario(menugestor, new frmProductos(_usuarioActual));
         }
 
         private void submenunegocio_Click(object sender, EventArgs e)
@@ -176,18 +238,6 @@ namespace Proyecto_G4
             }
         }
 
-        private void MenuPrincipal_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (_usuarioActual != null)
-            {
-                CN_Usuario objCNUsuario = new CN_Usuario();
-                objCNUsuario.Registrar_Bitacora(
-                    _usuarioActual.IdUsuario,
-                    "LOGOUT",
-                    $"IdUsuario={_usuarioActual.IdUsuario}, Nombre={_usuarioActual.NombreCompleto}",
-                    out string mensajeBitacora
-                );
-            }
-        }
+        #endregion
     }
-}  
+}
