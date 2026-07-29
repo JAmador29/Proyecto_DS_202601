@@ -134,7 +134,7 @@ namespace Proyecto_G4
         {
             if (dgvdata.Rows.Count < 1)
             {
-                MessageBox.Show("No hay datos en la bitácora para exportar.", "Mensaje", (MessageBoxButtons)MessageBoxIcon.Exclamation);
+                MessageBox.Show("No hay datos en la bitácora para exportar.", "Mensaje", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -180,12 +180,12 @@ namespace Proyecto_G4
                             var hoja = wb.Worksheets.Add(dt, "Bitacora");
                             hoja.ColumnsUsed().AdjustToContents();
                             wb.SaveAs(savefile.FileName);
-                            MessageBox.Show("Reporte de bitácora exportado exitosamente.", "Éxito", (MessageBoxButtons)MessageBoxIcon.Information);
+                            MessageBox.Show("Reporte de bitácora exportado exitosamente.", "Éxito", MessageBoxButtons.OK,MessageBoxIcon.Information);
                         }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al generar el archivo de Excel: " + ex.Message, "Error", (MessageBoxButtons)MessageBoxIcon.Error);
+                        MessageBox.Show("Error al generar el archivo de Excel: " + ex.Message, "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
                     }
                 }
             }
